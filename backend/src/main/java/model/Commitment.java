@@ -38,7 +38,7 @@ public class Commitment {
             nullable = false,
             columnDefinition = "TEXT"
     )
-    private String staus;
+    private String status;
     @Column(
             name = "deadline",
             nullable = false,
@@ -84,12 +84,12 @@ public class Commitment {
         this.points = points;
     }
 
-    public String getStaus() {
-        return staus;
+    public String getStatus() {
+        return status;
     }
 
-    public void setStaus(String staus) {
-        this.staus = staus;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public LocalDate getDeadline() {
