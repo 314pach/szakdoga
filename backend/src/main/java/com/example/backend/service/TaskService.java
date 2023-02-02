@@ -16,9 +16,6 @@ import java.util.stream.Collectors;
 @Transactional
 public class TaskService {
     @Autowired
-    private ModulService modulService;
-
-    @Autowired
     private ModulRepository modulRepository;
 
     private final TaskRepository taskRepository;

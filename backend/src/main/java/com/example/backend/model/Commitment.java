@@ -66,6 +66,18 @@ public class Commitment {
                     @JoinColumn(name = "commitment_id")
     )
     private Set<ApplicationUser> students = new HashSet<>();
+    @ManyToMany(
+            fetch = FetchType.LAZY,
+            cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}
+    )
+    @JoinTable(
+            name = "awards",
+            inverseJoinColumns =
+            @JoinColumn(name = "badge_id"),
+            joinColumns =
+            @JoinColumn(name = "commitment_id")
+    )
+    private Set<Badge> badges = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -113,5 +125,13 @@ public class Commitment {
 
     public void setStudents(Set<ApplicationUser> students) {
         this.students = students;
+    }
+
+    public Set<Badge> getBadges() {
+        return badges;
+    }
+
+    public void setBadges(Set<Badge> badges) {
+        this.badges = badges;
     }
 }

@@ -8,7 +8,6 @@ import com.example.backend.repository.ApplicationUserRepository;
 import com.example.backend.repository.ClassroomRepository;
 import com.example.backend.repository.ModulRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,16 +19,8 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class ClassroomService {
-    @Lazy
-    @Autowired
-    private ApplicationUserService applicationUserService;
-
     @Autowired
     private ApplicationUserRepository applicationUserRepository;
-
-    @Lazy
-    @Autowired
-    private ModulService modulService;
 
     @Autowired
     private ModulRepository modulRepository;

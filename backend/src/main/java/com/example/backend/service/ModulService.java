@@ -19,13 +19,7 @@ import java.util.stream.Collectors;
 @Transactional
 public class ModulService {
     @Autowired
-    private ClassroomService classroomService;
-
-    @Autowired
     private ClassroomRepository classroomRepository;
-
-    @Autowired
-    private ApplicationUserService applicationUserService;
 
     @Autowired
     ApplicationUserRepository applicationUserRepository;

@@ -11,6 +11,8 @@ public class ApplicationUserDTO {
     private Boolean role;
     private Set<Long> classroomIds = new HashSet<>();
 
+    private Set<Long> commitmentIds = new HashSet<>();
+
     public Long getId() {
         return id;
     }
@@ -57,5 +59,13 @@ public class ApplicationUserDTO {
 
     public void setClassroomIds(Set<Long> classroomIds) {
         this.classroomIds = classroomIds;
+    }
+
+    public Set<Long> getCommitmentIds() {
+        return commitmentIds;
+    }
+
+    public void setCommitmentIds(Set<Long> commitmentIds) {
+        this.commitmentIds = commitmentIds;
     }
 }

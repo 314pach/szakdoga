@@ -16,9 +16,6 @@ import java.util.stream.Collectors;
 @Transactional
 public class MessageService {
     @Autowired
-    private ApplicationUserService applicationUserService;
-
-    @Autowired
     private ApplicationUserRepository applicationUserRepository;
 
     private final MessageRepository messageRepository;

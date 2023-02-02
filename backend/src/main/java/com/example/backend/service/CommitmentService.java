@@ -1,9 +1,11 @@
 package com.example.backend.service;
 
 import com.example.backend.model.ApplicationUser;
+import com.example.backend.model.Badge;
 import com.example.backend.model.Commitment;
 import com.example.backend.model.dto.CommitmentDTO;
 import com.example.backend.repository.ApplicationUserRepository;
+import com.example.backend.repository.BadgeRepository;
 import com.example.backend.repository.CommitmentRepository;
 import com.example.backend.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,16 +21,13 @@ import java.util.stream.Collectors;
 @Transactional
 public class CommitmentService {
     @Autowired
-    private TaskService taskService;
-
-    @Autowired
     private TaskRepository taskRepository;
 
     @Autowired
-    private ApplicationUserService applicationUserService;
+    private ApplicationUserRepository applicationUserRepository;
 
     @Autowired
-    private ApplicationUserRepository applicationUserRepository;
+    private BadgeRepository badgeRepository;
     private final CommitmentRepository commitmentRepository;
 
     public CommitmentService(CommitmentRepository commitmentRepository) {
@@ -70,6 +69,9 @@ public class CommitmentService {
         commitmentDTO.setStudentIds(commitment.getStudents()
                 .stream().map(ApplicationUser::getId)
                 .collect(Collectors.toSet()));
+        commitmentDTO.setBadgeIds(commitment.getBadges()
+                .stream().map(Badge::getId)
+                .collect(Collectors.toSet()));
 
         return commitmentDTO;
     }
@@ -91,6 +93,13 @@ public class CommitmentService {
         commitment.setStudents(
                 commitmentDTO.getStudentIds().stream()
                         .map(id -> applicationUserRepository.findById(id))
+                        .filter(Optional::isPresent)
+                        .map(Optional::get)
+                        .collect(Collectors.toSet())
+        );
+        commitment.setBadges(
+                commitmentDTO.getBadgeIds().stream()
+                        .map(id -> badgeRepository.findById(id))
                         .filter(Optional::isPresent)
                         .map(Optional::get)
                         .collect(Collectors.toSet())

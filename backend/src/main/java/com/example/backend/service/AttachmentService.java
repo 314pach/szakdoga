@@ -17,12 +17,7 @@ import java.util.stream.Collectors;
 @Transactional
 public class AttachmentService {
     @Autowired
-    private ApplicationUserService applicationUserService;
-
-    @Autowired
     private ApplicationUserRepository applicationUserRepository;
-    @Autowired
-    private TaskService taskService;
 
     @Autowired
     private TaskRepository taskRepository;

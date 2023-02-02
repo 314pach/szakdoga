@@ -50,15 +50,15 @@ public class Classroom {
     )
     private Set<Modul> moduls = new HashSet<>();
     @ManyToMany(
-            fetch = FetchType.LAZY,
-            cascade = {CascadeType.MERGE, CascadeType.REFRESH}
+            cascade = {CascadeType.MERGE, CascadeType.REFRESH},
+            fetch = FetchType.LAZY
     )
     @JoinTable(
             name = "attends",
             inverseJoinColumns =
-                    @JoinColumn(name = "user_id"),
+            @JoinColumn(name = "user_id"),
             joinColumns =
-                    @JoinColumn(name = "classroom_id")
+            @JoinColumn(name = "classroom_id")
     )
     private Set<ApplicationUser> users = new HashSet<>();
 

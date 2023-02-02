@@ -2,9 +2,11 @@ package com.example.backend.service;
 
 import com.example.backend.model.ApplicationUser;
 import com.example.backend.model.Classroom;
+import com.example.backend.model.Commitment;
 import com.example.backend.model.dto.ApplicationUserDTO;
 import com.example.backend.repository.ApplicationUserRepository;
 import com.example.backend.repository.ClassroomRepository;
+import com.example.backend.repository.CommitmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,12 +19,12 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class ApplicationUserService {
-
-    @Autowired
-    private ClassroomService classroomService;
-
     @Autowired
     private ClassroomRepository classroomRepository;
+
+    @Autowired
+    private CommitmentRepository commitmentRepository;
+
     private final ApplicationUserRepository applicationUserRepository;
 
     public ApplicationUserService(ApplicationUserRepository applicationUserRepository) {
@@ -64,6 +66,9 @@ public class ApplicationUserService {
         applicationUserDTO.setClassroomIds(applicationUser.getClassrooms()
                 .stream().map(Classroom::getId)
                 .collect(Collectors.toSet()));
+        applicationUserDTO.setCommitmentIds(applicationUser.getCommitments()
+                .stream().map(Commitment::getId)
+                .collect(Collectors.toSet()));
 
         return applicationUserDTO;
     }
@@ -85,6 +90,14 @@ public class ApplicationUserService {
         applicationUser.setClassrooms(
                 applicationUserDTO.getClassroomIds().stream()
                         .map(id -> classroomRepository.findById(id))
+                        .filter(Optional::isPresent)
+                        .map(Optional::get)
+                        .collect(Collectors.toSet())
+        );
+
+        applicationUser.setCommitments(
+                applicationUserDTO.getCommitmentIds().stream()
+                        .map(id -> commitmentRepository.findById(id))
                         .filter(Optional::isPresent)
                         .map(Optional::get)
                         .collect(Collectors.toSet())

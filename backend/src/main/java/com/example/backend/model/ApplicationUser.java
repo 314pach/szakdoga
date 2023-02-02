@@ -49,10 +49,30 @@ public class ApplicationUser {
     )
     private Boolean role;
     @ManyToMany(
-            mappedBy = "users",
+            cascade = {CascadeType.MERGE, CascadeType.REFRESH},
             fetch = FetchType.LAZY
     )
+    @JoinTable(
+            name = "attends",
+            joinColumns =
+            @JoinColumn(name = "user_id"),
+            inverseJoinColumns =
+            @JoinColumn(name = "classroom_id")
+    )
     private Set<Classroom> classrooms = new HashSet<>();
+
+    @ManyToMany(
+            fetch = FetchType.LAZY,
+            cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}
+    )
+    @JoinTable(
+            name = "commits",
+            joinColumns =
+            @JoinColumn(name = "student_id"),
+            inverseJoinColumns =
+            @JoinColumn(name = "commitment_id")
+    )
+    private Set<Commitment> commitments = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -100,5 +120,13 @@ public class ApplicationUser {
 
     public void setClassrooms(Set<Classroom> classrooms) {
         this.classrooms = classrooms;
+    }
+
+    public Set<Commitment> getCommitments() {
+        return commitments;
+    }
+
+    public void setCommitments(Set<Commitment> commitments) {
+        this.commitments = commitments;
     }
 }
