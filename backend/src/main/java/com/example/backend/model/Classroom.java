@@ -8,7 +8,7 @@ import java.util.Set;
 import static jakarta.persistence.GenerationType.SEQUENCE;
 
 @Table
-@Entity(name = "Classroom")
+@Entity
 public class Classroom {
     @Id
     @SequenceGenerator(

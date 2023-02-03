@@ -8,7 +8,7 @@ import java.util.Set;
 import static jakarta.persistence.GenerationType.SEQUENCE;
 
 @Table
-@Entity(name = "Application_user")
+@Entity
 public class ApplicationUser {
     @Id
     @SequenceGenerator(
@@ -59,7 +59,7 @@ public class ApplicationUser {
             inverseJoinColumns =
             @JoinColumn(name = "classroom_id")
     )
-    private Set<Classroom> classrooms = new HashSet<>();
+    private Set<Classroom> classRooms = new HashSet<>();
 
     @ManyToMany(
             fetch = FetchType.LAZY,
@@ -114,12 +114,12 @@ public class ApplicationUser {
         this.role = role;
     }
 
-    public Set<Classroom> getClassrooms() {
-        return classrooms;
+    public Set<Classroom> getClassRooms() {
+        return classRooms;
     }
 
-    public void setClassrooms(Set<Classroom> classrooms) {
-        this.classrooms = classrooms;
+    public void setClassRooms(Set<Classroom> classRooms) {
+        this.classRooms = classRooms;
     }
 
     public Set<Commitment> getCommitments() {

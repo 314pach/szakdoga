@@ -63,7 +63,7 @@ public class ApplicationUserService {
         applicationUserDTO.setEmail(applicationUser.getEmail());
         applicationUserDTO.setPassword(applicationUser.getPassword());
         applicationUserDTO.setRole(applicationUser.getRole());
-        applicationUserDTO.setClassroomIds(applicationUser.getClassrooms()
+        applicationUserDTO.setClassRoomIds(applicationUser.getClassRooms()
                 .stream().map(Classroom::getId)
                 .collect(Collectors.toSet()));
         applicationUserDTO.setCommitmentIds(applicationUser.getCommitments()
@@ -87,8 +87,8 @@ public class ApplicationUserService {
         applicationUser.setEmail(applicationUserDTO.getEmail());
         applicationUser.setPassword(applicationUserDTO.getPassword());
         applicationUser.setRole(applicationUserDTO.getRole());
-        applicationUser.setClassrooms(
-                applicationUserDTO.getClassroomIds().stream()
+        applicationUser.setClassRooms(
+                applicationUserDTO.getClassRoomIds().stream()
                         .map(id -> classroomRepository.findById(id))
                         .filter(Optional::isPresent)
                         .map(Optional::get)

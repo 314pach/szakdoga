@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import static jakarta.persistence.GenerationType.SEQUENCE;
 
 @Table
-@Entity(name = "Badge")
+@Entity
 public class Badge {
     @Id
     @SequenceGenerator(

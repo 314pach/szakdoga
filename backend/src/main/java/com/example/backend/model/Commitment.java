@@ -11,7 +11,7 @@ import java.util.Set;
 import static jakarta.persistence.GenerationType.SEQUENCE;
 
 @Table
-@Entity(name = "Commitment")
+@Entity
 public class Commitment {
     @Id
     @SequenceGenerator(

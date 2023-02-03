@@ -9,7 +9,7 @@ public class ApplicationUserDTO {
     private String email;
     private String password;
     private Boolean role;
-    private Set<Long> classroomIds = new HashSet<>();
+    private Set<Long> classRoomIds = new HashSet<>();
 
     private Set<Long> commitmentIds = new HashSet<>();
 
@@ -53,12 +53,12 @@ public class ApplicationUserDTO {
         this.role = role;
     }
 
-    public Set<Long> getClassroomIds() {
-        return classroomIds;
+    public Set<Long> getClassRoomIds() {
+        return classRoomIds;
     }
 
-    public void setClassroomIds(Set<Long> classroomIds) {
-        this.classroomIds = classroomIds;
+    public void setClassRoomIds(Set<Long> classRoomIds) {
+        this.classRoomIds = classRoomIds;
     }
 
     public Set<Long> getCommitmentIds() {

@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import static jakarta.persistence.GenerationType.SEQUENCE;
 
 @Table
-@Entity(name = "Handin")
+@Entity
 public class Handin {
     @Id
     @SequenceGenerator(

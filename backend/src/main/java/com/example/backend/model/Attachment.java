@@ -7,7 +7,7 @@ import org.hibernate.annotations.OnDeleteAction;
 import static jakarta.persistence.GenerationType.SEQUENCE;
 
 @Table
-@Entity(name = "Attachment")
+@Entity
 public class Attachment {
     @Id
     @SequenceGenerator(
