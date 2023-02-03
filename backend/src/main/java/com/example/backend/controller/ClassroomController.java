@@ -29,7 +29,7 @@ public class ClassroomController {
         return new ResponseEntity<>(classroomDTO, HttpStatus.OK);
     }
 
-    @PostMapping("/add")
+    @PostMapping("/create")
     public ResponseEntity<ClassroomDTO> addClassroom(@RequestBody() ClassroomDTO classroomDTO){
         ClassroomDTO newClassroom = classroomService.save(classroomDTO);
         return new ResponseEntity<>(newClassroom, HttpStatus.CREATED);

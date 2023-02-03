@@ -29,7 +29,7 @@ public class BadgeController {
         return new ResponseEntity<>(badgeDTO, HttpStatus.OK);
     }
 
-    @PostMapping("/add")
+    @PostMapping("/create")
     public ResponseEntity<BadgeDTO> addBadge(@RequestBody() BadgeDTO badgeDTO){
         BadgeDTO newBadge = badgeService.save(badgeDTO);
         return new ResponseEntity<>(newBadge, HttpStatus.CREATED);

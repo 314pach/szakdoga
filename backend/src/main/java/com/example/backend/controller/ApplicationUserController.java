@@ -29,7 +29,7 @@ public class ApplicationUserController {
         return new ResponseEntity<>(applicationUserDTO, HttpStatus.OK);
     }
 
-    @PostMapping("/add")
+    @PostMapping("/create")
     public ResponseEntity<ApplicationUserDTO> addUser(@RequestBody() ApplicationUserDTO applicationUserDTO){
         ApplicationUserDTO newApplicationUser = applicationUserService.save(applicationUserDTO);
         return new ResponseEntity<>(newApplicationUser, HttpStatus.CREATED);

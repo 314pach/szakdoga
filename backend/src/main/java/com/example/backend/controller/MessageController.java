@@ -29,7 +29,7 @@ public class MessageController {
         return new ResponseEntity<>(messageDTO, HttpStatus.OK);
     }
 
-    @PostMapping("/add")
+    @PostMapping("/create")
     public ResponseEntity<MessageDTO> addMessage(@RequestBody() MessageDTO messageDTO){
         MessageDTO newMessage = messageService.save(messageDTO);
         return new ResponseEntity<>(newMessage, HttpStatus.CREATED);

@@ -29,7 +29,7 @@ public class AttachmentController {
         return new ResponseEntity<>(attachmentDTO, HttpStatus.OK);
     }
 
-    @PostMapping("/add")
+    @PostMapping("/create")
     public ResponseEntity<AttachmentDTO> addAttachment(@RequestBody() AttachmentDTO attachmentDTO){
         AttachmentDTO newAttachment = attachmentService.save(attachmentDTO);
         return new ResponseEntity<>(newAttachment, HttpStatus.CREATED);

@@ -29,7 +29,7 @@ public class ModulController {
         return new ResponseEntity<>(modulDTO, HttpStatus.OK);
     }
 
-    @PostMapping("/add")
+    @PostMapping("/create")
     public ResponseEntity<ModulDTO> addModul(@RequestBody() ModulDTO modulDTO){
         ModulDTO newModul = modulService.save(modulDTO);
         return new ResponseEntity<>(newModul, HttpStatus.CREATED);

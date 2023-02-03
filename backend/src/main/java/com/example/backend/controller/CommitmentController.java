@@ -29,7 +29,7 @@ public class CommitmentController {
         return new ResponseEntity<>(commitmentDTO, HttpStatus.OK);
     }
 
-    @PostMapping("/add")
+    @PostMapping("/create")
     public ResponseEntity<CommitmentDTO> addCommitment(@RequestBody() CommitmentDTO commitmentDTO){
         CommitmentDTO newCommitment = commitmentService.save(commitmentDTO);
         return new ResponseEntity<>(newCommitment, HttpStatus.CREATED);

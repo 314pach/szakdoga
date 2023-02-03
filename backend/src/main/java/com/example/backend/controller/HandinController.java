@@ -29,7 +29,7 @@ public class HandinController {
         return new ResponseEntity<>(handinDTO, HttpStatus.OK);
     }
 
-    @PostMapping("/add")
+    @PostMapping("/create")
     public ResponseEntity<HandinDTO> addHandin(@RequestBody() HandinDTO handinDTO){
         HandinDTO newHandin = handinService.save(handinDTO);
         return new ResponseEntity<>(newHandin, HttpStatus.CREATED);
