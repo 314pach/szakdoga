@@ -35,7 +35,7 @@ public class BadgeController {
         return new ResponseEntity<>(newBadge, HttpStatus.CREATED);
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public ResponseEntity<BadgeDTO> updateBadge(@RequestBody() BadgeDTO badgeDTO){
         BadgeDTO updatedBadge = badgeService.save(badgeDTO);
         return new ResponseEntity<>(updatedBadge, HttpStatus.OK);

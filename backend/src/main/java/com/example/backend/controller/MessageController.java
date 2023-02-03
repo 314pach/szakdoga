@@ -35,7 +35,7 @@ public class MessageController {
         return new ResponseEntity<>(newMessage, HttpStatus.CREATED);
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public ResponseEntity<MessageDTO> updateMessage(@RequestBody() MessageDTO messageDTO){
         MessageDTO updatedMessage = messageService.update(messageDTO);
         return new ResponseEntity<>(updatedMessage, HttpStatus.OK);

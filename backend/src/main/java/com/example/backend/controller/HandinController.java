@@ -35,7 +35,7 @@ public class HandinController {
         return new ResponseEntity<>(newHandin, HttpStatus.CREATED);
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public ResponseEntity<HandinDTO> updateHandin(@RequestBody() HandinDTO handinDTO){
         HandinDTO updatedHandin = handinService.save(handinDTO);
         return new ResponseEntity<>(updatedHandin, HttpStatus.OK);

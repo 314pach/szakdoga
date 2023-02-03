@@ -35,7 +35,7 @@ public class AttachmentController {
         return new ResponseEntity<>(newAttachment, HttpStatus.CREATED);
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public ResponseEntity<AttachmentDTO> updateAttachment(@RequestBody() AttachmentDTO attachmentDTO){
         AttachmentDTO updatedAttachment = attachmentService.update(attachmentDTO);
         return new ResponseEntity<>(updatedAttachment, HttpStatus.OK);

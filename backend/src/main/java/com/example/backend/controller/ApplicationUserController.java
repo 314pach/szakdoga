@@ -35,7 +35,7 @@ public class ApplicationUserController {
         return new ResponseEntity<>(newApplicationUser, HttpStatus.CREATED);
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public ResponseEntity<ApplicationUserDTO> updateUser(@RequestBody() ApplicationUserDTO applicationUserDTO){
         ApplicationUserDTO updatedApplicationUser = applicationUserService.update(applicationUserDTO);
         return new ResponseEntity<>(updatedApplicationUser, HttpStatus.OK);

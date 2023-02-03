@@ -35,7 +35,7 @@ public class ModulController {
         return new ResponseEntity<>(newModul, HttpStatus.CREATED);
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public ResponseEntity<ModulDTO> updateModul(@RequestBody() ModulDTO modulDTO){
         ModulDTO updatedModul = modulService.update(modulDTO);
         return new ResponseEntity<>(updatedModul, HttpStatus.OK);

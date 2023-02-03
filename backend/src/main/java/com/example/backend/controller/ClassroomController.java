@@ -35,7 +35,7 @@ public class ClassroomController {
         return new ResponseEntity<>(newClassroom, HttpStatus.CREATED);
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public ResponseEntity<ClassroomDTO> updateClassroom(@RequestBody() ClassroomDTO classroomDTO){
         ClassroomDTO updatedClassroom = classroomService.update(classroomDTO);
         return new ResponseEntity<>(updatedClassroom, HttpStatus.OK);

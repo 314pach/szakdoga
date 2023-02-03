@@ -35,7 +35,7 @@ public class CommitmentController {
         return new ResponseEntity<>(newCommitment, HttpStatus.CREATED);
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public ResponseEntity<CommitmentDTO> updateCommitment(@RequestBody() CommitmentDTO commitmentDTO){
         CommitmentDTO updatedCommitment = commitmentService.update(commitmentDTO);
         return new ResponseEntity<>(updatedCommitment, HttpStatus.OK);
