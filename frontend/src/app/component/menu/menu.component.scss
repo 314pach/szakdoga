@@ -1,0 +1,23 @@
+.profile-picture {
+  border: 10px solid white;
+  border-radius: 90px;
+  width: 150px;
+  height: 150px;
+  display: block;
+  margin: 30px auto 10px auto;
+}
+
+.username {
+  text-align: center;
+  font-weight: bold;
+  font-size: medium;
+}
+
+mat-list {
+  padding-left: 25px;
+  margin-top: 25px;
+}
+
+mat-list-item:hover {
+  background-color: #e6f2f8;
+}
