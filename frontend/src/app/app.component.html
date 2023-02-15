@@ -6,8 +6,8 @@
 <!--    <app-content></app-content>-->
 <!--  </div>-->
 <!--</div>-->
-<mat-drawer-container class="hello">
-  <mat-drawer #drawer class="menu" mode="side" opened>
+<mat-drawer-container class="container">
+  <mat-drawer #drawer class="menu" [mode]="mode" [opened]="mode==='side'">
     <app-menu></app-menu>
   </mat-drawer>
 

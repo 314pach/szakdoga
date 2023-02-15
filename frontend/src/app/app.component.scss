@@ -1,27 +1,29 @@
-.hello {
+.container {
   display: flex;
   height: 100%;
   width: 100%;
 }
 
 .menu {
-  // ez lehet ki kell szedni
-  width: 15%;
+  width: 200px;
   background-color: cornflowerblue;
+  box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.5);
 }
 
 .drawer-content {
-  //display: flex;
   height: 100%;
   width: 100%;
-  //height: 100%;
   background-color: azure;
+  display: flex;
+  flex-direction: column;
 }
 
 .content {
   display: block;
   height: 100%;
   width: 100%;
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
 
 .menu-toggle {
@@ -44,6 +46,9 @@
 }
 
 .toolbar {
+  //z-index: 100;
   display: flex;
   align-items: center;
+  height: 56px;
+  box-shadow: 0px 0px 15px 2px #c2c2c2;
 }

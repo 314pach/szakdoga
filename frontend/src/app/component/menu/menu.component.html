@@ -1,13 +1,18 @@
-<div class="profile-picture-container">
-  <img alt="profile picture" class="profile-picture" src="../../../assets/temp-resources/gizsgugya.jpg">
-</div>
-<div class="username">{{ username }}</div>
-<div>
-  <mat-list role="list">
-    <mat-list-item role="listitem" routerLink="/profile">Profil</mat-list-item>
-    <mat-list-item role="listitem" routerLink="/classroom">Osztályok</mat-list-item>
-    <mat-list-item role="listitem" routerLink="/modul">Témakörök</mat-list-item>
-    <mat-list-item role="listitem">Üzenetek</mat-list-item>
-  </mat-list>
+<div class="container">
+  <div class="upper">
+    <div class="profile-picture-container">
+      <img alt="profile picture" class="profile-picture" src="../../../assets/temp-resources/gizsgugya.jpg">
+    </div>
+    <div class="username">{{ username }}</div>
+    <div class="list">
+      <div class="list-item" routerLink="/profile">Profil</div>
+      <div class="list-item" routerLink="/classroom">Osztályok</div>
+      <div class="list-item" routerLink="/modul">Témakörök</div>
+      <div class="list-item">Üzenetek</div>
+    </div>
+  </div>
+  <div class="logout">
+    <mat-icon>logout</mat-icon>
+  </div>
 </div>
 
