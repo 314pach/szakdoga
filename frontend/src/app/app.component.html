@@ -1,8 +1,27 @@
-<div class="hello">
-  <div class="menu">
+<!--<div class="hello">-->
+<!--  <div class="menu">-->
+<!--    <app-menu></app-menu>-->
+<!--  </div>-->
+<!--  <div class="content">-->
+<!--    <app-content></app-content>-->
+<!--  </div>-->
+<!--</div>-->
+<mat-drawer-container class="hello">
+  <mat-drawer #drawer class="menu" mode="side" opened>
     <app-menu></app-menu>
-  </div>
-  <div class="content">
-    <app-content></app-content>
-  </div>
-</div>
+  </mat-drawer>
+
+  <mat-drawer-content class="drawer-content">
+    <mat-toolbar class="toolbar">
+      <div *ngIf="drawer.opened" (click)="drawer.close()" class="menu-toggle">
+        <mat-icon class="toggle-icon">arrow_back_ios</mat-icon>
+      </div>
+      <div *ngIf="!drawer.opened" (click)="drawer.open()" class="menu-toggle">
+        <mat-icon class="toggle-icon">arrow_forward_ios</mat-icon>
+      </div>
+      <span>Az irodalom birodalma</span>
+    </mat-toolbar>
+    <app-content class="content"></app-content>
+  </mat-drawer-content>
+
+</mat-drawer-container>

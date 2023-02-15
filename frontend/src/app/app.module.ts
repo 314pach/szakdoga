@@ -11,6 +11,9 @@ import {RouterModule} from "@angular/router";
 import { ProfileComponent } from './component/content/profile/profile.component';
 import { ClassroomComponent } from './component/content/classroom/classroom.component';
 import { ModulComponent } from './component/content/modul/modul.component';
+import {MatSidenavModule} from "@angular/material/sidenav";
+import {MatToolbarModule} from "@angular/material/toolbar";
+import {MatIconModule} from "@angular/material/icon";
 
 @NgModule({
   declarations: [
@@ -21,13 +24,16 @@ import { ModulComponent } from './component/content/modul/modul.component';
     ClassroomComponent,
     ModulComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    SharedModule,
-    BrowserAnimationsModule,
-    RouterModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        SharedModule,
+        BrowserAnimationsModule,
+        RouterModule,
+        MatSidenavModule,
+        MatToolbarModule,
+        MatIconModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

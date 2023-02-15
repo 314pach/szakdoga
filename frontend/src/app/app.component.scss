@@ -5,11 +5,45 @@
 }
 
 .menu {
+  // ez lehet ki kell szedni
   width: 15%;
   background-color: cornflowerblue;
 }
 
-.content {
-  width: 85%;
+.drawer-content {
+  //display: flex;
+  height: 100%;
+  width: 100%;
+  //height: 100%;
   background-color: azure;
+}
+
+.content {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+.menu-toggle {
+  cursor: pointer;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 15px;
+}
+
+.menu-toggle:hover{
+  border-radius: 25px;
+  background-color: darkgrey;
+}
+
+.toggle-icon {
+  margin-left: 7px;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
 }
