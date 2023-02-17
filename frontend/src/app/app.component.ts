@@ -13,7 +13,7 @@ export class AppComponent {
 
   mode: MatDrawerMode = "side";
 
-  threshold: number = 600;
+  threshold: number = 1000;
 
   getScreenWidth(): number {
     return window.innerWidth;

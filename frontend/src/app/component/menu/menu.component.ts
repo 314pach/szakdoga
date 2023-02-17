@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {ApplicationUserDto} from "../../shared/dto/application-user.dto";
+import {ApplicationUserService} from "../../shared/service/application-user.service";
 
 @Component({
   selector: 'app-menu',
@@ -6,11 +8,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent implements OnInit {
-    readonly username: string = "sir bumi";
+  loggedInUser: ApplicationUserDto = {} as ApplicationUserDto;
 
-  constructor() {
-    this.username = "sir bumi";
-    console.log(this.username)
+  constructor(private applicationUserService: ApplicationUserService) {
+    applicationUserService.loggedInUserSubject.subscribe(user => {
+      console.log(user);
+      this.loggedInUser = user;
+    })
   }
 
   ngOnInit(): void {
