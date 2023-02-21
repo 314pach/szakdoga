@@ -12,7 +12,7 @@ export class ApplicationUserService {
 
   constructor(private applicationUserWebService: ApplicationUserWebService) {
     this.getAllUsers();
-    this.getUserById(3)
+    this.getUserById(4)
   }
 
   getAllUsers() {
@@ -30,9 +30,10 @@ export class ApplicationUserService {
   }
 
   updateUser(user: ApplicationUserDto){
-    this.applicationUserWebService.updateUser(user)
-      .subscribe(
-        user => this.loggedInUserSubject.next(user)
-      )
+    return this.applicationUserWebService.updateUser(user)
+  }
+
+  deleteUser(userId: number){
+    return this.applicationUserWebService.deleteUser(userId);
   }
 }

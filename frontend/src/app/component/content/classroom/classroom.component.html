@@ -1,1 +1,23 @@
-<p>classroom works!</p>
+<div fxLayout="row wrap" fxLayoutGap="20px grid" class="container">
+  <div fxFlex="20%"  fxFlex.xs="50%" fxFlex.sm="33%" *ngFor="let classroom of classrooms">
+    <mat-card class="class-card">
+      <mat-card-header>
+        <div>{{classroom.name}}</div>
+        <div class="truncate">{{classroom.subject}}</div>
+      </mat-card-header>
+      <mat-card-actions class="control" >
+        <div class="button" (click)="update(classroom)">
+          <mat-icon>edit</mat-icon>
+        </div>
+        <div class="button">
+          <mat-icon class="warning" (click)="delete(classroom.id!)">delete</mat-icon>
+        </div>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>
+<div class="add" (click)="create()">
+  <button mat-fab color="primary">
+    <mat-icon>add</mat-icon>
+  </button>
+</div>

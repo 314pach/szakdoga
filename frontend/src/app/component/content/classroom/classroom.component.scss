@@ -1,0 +1,53 @@
+.container {
+  padding: 25px;
+}
+
+.class-card {
+  background-color: #c4e1c4;
+}
+
+.truncate {
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+mat-card-header {
+  display: flex;
+  flex-direction: column;
+}
+
+mat-card-header div {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.control {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+}
+
+.button:hover {
+  cursor: pointer;
+  border-radius: 18px;
+  background-color: #e6f2f8;
+}
+
+.warning {
+  color: red;
+}
+
+.add {
+  position: absolute;
+  right: 35px;
+  bottom: 35px;
+}

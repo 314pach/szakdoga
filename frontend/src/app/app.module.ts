@@ -18,9 +18,17 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from '@angular/material/button';
 import {MatDialogModule} from '@angular/material/dialog';
-import { PasswordChangeComponent } from './component/content/profile/password-change/password-change.component';
-import { DeleteProfileComponent } from './component/content/profile/delete-profile/delete-profile.component';
-import { ProfilePictureChangeComponent } from './component/content/profile/profile-picture-change/profile-picture-change.component';
+import {PasswordChangeComponent} from './component/content/profile/password-change/password-change.component';
+import {DeleteProfileComponent} from './component/content/profile/delete-profile/delete-profile.component';
+import {ProfilePictureChangeComponent} from './component/content/profile/profile-picture-change/profile-picture-change.component';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {ReactiveFormsModule, FormsModule} from "@angular/forms";
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatCardModule} from '@angular/material/card';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import { CreateClassroomComponent } from './component/content/classroom/create-classroom/create-classroom.component';
+import { UpdateClassroomComponent } from './component/content/classroom/update-classroom/update-classroom.component';
+import { DeleteClassroomComponent } from './component/content/classroom/delete-classroom/delete-classroom.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +40,10 @@ import { ProfilePictureChangeComponent } from './component/content/profile/profi
     ModulComponent,
     PasswordChangeComponent,
     DeleteProfileComponent,
-    ProfilePictureChangeComponent
+    ProfilePictureChangeComponent,
+    CreateClassroomComponent,
+    UpdateClassroomComponent,
+    DeleteClassroomComponent
   ],
   imports: [
     BrowserModule,
@@ -47,6 +58,12 @@ import { ProfilePictureChangeComponent } from './component/content/profile/profi
     MatInputModule,
     MatButtonModule,
     MatDialogModule,
+    MatTooltipModule,
+    ReactiveFormsModule,
+    FormsModule,
+    MatSnackBarModule,
+    MatCardModule,
+    FlexLayoutModule
   ],
   providers: [],
   bootstrap: [AppComponent]

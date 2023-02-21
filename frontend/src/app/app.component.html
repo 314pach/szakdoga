@@ -13,10 +13,10 @@
 
   <mat-drawer-content class="drawer-content">
     <mat-toolbar class="toolbar">
-      <div *ngIf="drawer.opened" (click)="drawer.close()" class="menu-toggle">
+      <div *ngIf="drawer.opened" (click)="drawer.close()" class="menu-toggle" matTooltip="Menü bezárása">
         <mat-icon class="toggle-icon">arrow_back_ios</mat-icon>
       </div>
-      <div *ngIf="!drawer.opened" (click)="drawer.open()" class="menu-toggle">
+      <div *ngIf="!drawer.opened" (click)="drawer.open()" class="menu-toggle" matTooltip="Menü megjelenítése">
         <mat-icon class="toggle-icon">arrow_forward_ios</mat-icon>
       </div>
       <span>Az irodalom birodalma</span>
