@@ -37,6 +37,7 @@ public class ApplicationUser implements UserDetails {
     )
     private String name;
     @Column(
+            unique = true,
             name = "email",
             nullable = false,
             columnDefinition = "TEXT"
@@ -50,7 +51,8 @@ public class ApplicationUser implements UserDetails {
     private String password;
     @Column(
             name = "role",
-            nullable = false
+            nullable = false,
+            columnDefinition = "TEXT"
     )
     @Enumerated(EnumType.STRING)
     private Role role;
