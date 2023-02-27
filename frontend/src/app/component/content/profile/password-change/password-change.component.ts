@@ -47,7 +47,11 @@ export class PasswordChangeComponent {
 
   update() {
     if (this.oldPasswordControl.value !== this.loggedInUser.password){
-      this._snackBar.open("Helytelen jelszó", "Ok");
+      this._snackBar.open(
+        "Helytelen jelszó",
+        "Ok",
+        {duration: 5000}
+      );
       return;
     }
     if (!this.isDisabled()) {

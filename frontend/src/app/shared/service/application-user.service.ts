@@ -12,7 +12,7 @@ export class ApplicationUserService {
 
   constructor(private applicationUserWebService: ApplicationUserWebService) {
     this.getAllUsers();
-    this.getUserById(4)
+    this.getUserById(1)
   }
 
   getAllUsers() {

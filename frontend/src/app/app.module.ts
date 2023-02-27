@@ -29,6 +29,8 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import { CreateClassroomComponent } from './component/content/classroom/create-classroom/create-classroom.component';
 import { UpdateClassroomComponent } from './component/content/classroom/update-classroom/update-classroom.component';
 import { DeleteClassroomComponent } from './component/content/classroom/delete-classroom/delete-classroom.component';
+import {MatSelectModule} from '@angular/material/select';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
@@ -63,7 +65,9 @@ import { DeleteClassroomComponent } from './component/content/classroom/delete-c
     FormsModule,
     MatSnackBarModule,
     MatCardModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    MatSelectModule,
+    MatCheckboxModule
   ],
   providers: [],
   bootstrap: [AppComponent]

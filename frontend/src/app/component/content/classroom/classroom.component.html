@@ -1,23 +1,38 @@
-<div fxLayout="row wrap" fxLayoutGap="20px grid" class="container">
-  <div fxFlex="20%"  fxFlex.xs="50%" fxFlex.sm="33%" *ngFor="let classroom of classrooms">
+<div *ngIf="!classrooms.length" class="no-data">
+  <div class="icon">
+    <mat-icon>info_outlined</mat-icon>
+  </div>
+  <div class="info">
+    Jelenleg nincs megjeleníthető osztály
+  </div>
+</div>
+<div fxLayout="row wrap" fxLayoutGap="20px grid" class="container" *ngIf="classrooms.length">
+  <div fxFlex="20%" fxFlex.xs="50%" fxFlex.sm="33%" *ngFor="let classroom of classrooms">
     <mat-card class="class-card">
       <mat-card-header>
         <div>{{classroom.name}}</div>
         <div class="truncate">{{classroom.subject}}</div>
       </mat-card-header>
-      <mat-card-actions class="control" >
-        <div class="button" (click)="update(classroom)">
+      <mat-card-actions class="control">
+        <div class="button" (click)="update(classroom)" matTooltip="Szerkesztés">
           <mat-icon>edit</mat-icon>
         </div>
+        <div *ngIf="!classroom.archived" class="button" (click)="archive(classroom)" matTooltip="Archiválás">
+          <mat-icon>archive</mat-icon>
+        </div>
+        <div *ngIf="classroom.archived" class="button" (click)="unarchive(classroom)"
+             matTooltip="Archiválás visszavonása">
+          <mat-icon>unarchive</mat-icon>
+        </div>
         <div class="button">
-          <mat-icon class="warning" (click)="delete(classroom.id!)">delete</mat-icon>
+          <mat-icon class="warning" (click)="delete(classroom)" matTooltip="Törlés">delete</mat-icon>
         </div>
       </mat-card-actions>
     </mat-card>
   </div>
 </div>
 <div class="add" (click)="create()">
-  <button mat-fab color="primary">
+  <button mat-fab color="primary" matTooltip="Osztály létrehozása" matTooltipPosition="before">
     <mat-icon>add</mat-icon>
   </button>
 </div>

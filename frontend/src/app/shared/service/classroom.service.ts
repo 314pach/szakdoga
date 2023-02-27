@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {ClassroomWebService} from "./api/classroom-web.service";
 import {BehaviorSubject} from "rxjs";
 import {ClassroomDto} from "../dto/classroom.dto";
@@ -19,5 +19,17 @@ export class ClassroomService {
       .subscribe(
         classrooms => this.allClassRoomsSubject.next(classrooms)
       );
+  }
+
+  createClassRoom(classRoom: ClassroomDto) {
+    return this.classroomWebService.createClassRoom(classRoom);
+  }
+
+  updateClassRoom(classRoom: ClassroomDto) {
+    return this.classroomWebService.updateClassRoom(classRoom);
+  }
+
+  deleteClassRoom(classRoomId: number) {
+    return this.classroomWebService.deleteClassRoom(classRoomId);
   }
 }
