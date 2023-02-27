@@ -37,6 +37,11 @@ public class Classroom {
             columnDefinition = "TEXT"
     )
     private String subject;
+    @Column(
+            name = "archived",
+            nullable = false
+    )
+    private Boolean archived;
     @ManyToMany(
             fetch = FetchType.LAZY,
             cascade = {CascadeType.MERGE, CascadeType.REFRESH}
@@ -84,6 +89,14 @@ public class Classroom {
 
     public void setSubject(String subject) {
         this.subject = subject;
+    }
+
+    public Boolean getArchived() {
+        return archived;
+    }
+
+    public void setArchived(Boolean archived) {
+        this.archived = archived;
     }
 
     public Set<Modul> getModuls() {

@@ -63,6 +63,7 @@ public class ClassroomService {
         classroomDTO.setId(classroom.getId());
         classroomDTO.setName(classroom.getName());
         classroomDTO.setSubject(classroom.getSubject());
+        classroomDTO.setArchived(classroom.getArchived());
         classroomDTO.setModulIds(classroom.getModuls()
                 .stream().map(Modul::getId)
                 .collect(Collectors.toSet()));
@@ -85,6 +86,7 @@ public class ClassroomService {
         classroom.setId(classroomDTO.getId());
         classroom.setName(classroomDTO.getName());
         classroom.setSubject(classroomDTO.getSubject());
+        classroom.setArchived(classroomDTO.getArchived());
         classroom.setModuls(
                 classroomDTO.getModulIds().stream()
                         .map(id -> modulRepository.findById(id))

@@ -6,6 +6,7 @@ public class ClassroomDTO {
     private Long id;
     private String name;
     private String subject;
+    private Boolean archived;
     private Set<Long> modulIds;
     private Set<Long> applicationUserIds;
 
@@ -31,6 +32,14 @@ public class ClassroomDTO {
 
     public void setSubject(String subject) {
         this.subject = subject;
+    }
+
+    public Boolean getArchived() {
+        return archived;
+    }
+
+    public void setArchived(Boolean archived) {
+        this.archived = archived;
     }
 
     public Set<Long> getModulIds() {
