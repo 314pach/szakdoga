@@ -1,0 +1,79 @@
+<div class="title">Témakör létrehozása</div>
+<div class="container">
+  <div class="form">
+    <div class="title-dates">
+      <mat-form-field appearance="outline" class="field">
+        <mat-label>Cím</mat-label>
+        <input matInput type="text" [formControl]="titleControl">
+        <mat-error *ngIf="titleControl.invalid">Cím megadása kötelező</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="field">
+        <mat-label>Időtartam</mat-label>
+        <mat-date-range-input [rangePicker]="picker">
+          <input matStartDate placeholder="Kezdete" [formControl]="dateControl1">
+          <input matEndDate placeholder="Vége" [formControl]="dateControl2">
+        </mat-date-range-input>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+        <mat-error *ngIf="dateControl1.invalid || dateControl2.invalid">Kezdő- és végdátum megadása kötelező</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="points">
+      <div class="label">
+        Ponthatárok:
+      </div>
+      <div class="half" [ngStyle]='{"flex-direction": getScreenWidth() >= 1000 ? "row" : "column" }'>
+        <div class="point">
+          <div class="number-label">
+            2:
+          </div>
+          <mat-form-field appearance="outline" class="field">
+            <mat-label>Pontszám</mat-label>
+            <input matInput type="number" [formControl]="grade2Control">
+            <mat-error *ngIf="grade2Control.errors?.['required']">Pontszám megadása kötelező</mat-error>
+            <mat-error *ngIf="grade2Control.errors?.['min']">A pontszám nem lehet negatív</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="point">
+          <div class="number-label">
+            3:
+          </div>
+          <mat-form-field appearance="outline" class="field">
+            <mat-label>Pontszám</mat-label>
+            <input matInput type="number" [formControl]="grade3Control">
+            <mat-error *ngIf="grade3Control.errors?.['required']">Pontszám megadása kötelező</mat-error>
+            <mat-error *ngIf="grade3Control.errors?.['min']">A pontszám nem lehet negatív</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="half" [ngStyle]='{"flex-direction": getScreenWidth() >= 1000 ? "row" : "column" }'>
+        <div class="point">
+          <div class="number-label">
+            4:
+          </div>
+          <mat-form-field appearance="outline" class="field">
+            <mat-label>Pontszám</mat-label>
+            <input matInput type="number" [formControl]="grade4Control">
+            <mat-error *ngIf="grade4Control.errors?.['required']">Pontszám megadása kötelező</mat-error>
+            <mat-error *ngIf="grade4Control.errors?.['min']">A pontszám nem lehet negatív</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="point">
+          <div class="number-label">
+            5:
+          </div>
+          <mat-form-field appearance="outline" class="field">
+            <mat-label>Pontszám</mat-label>
+            <input matInput type="number" [formControl]="grade5Control">
+            <mat-error *ngIf="grade5Control.errors?.['required']">Pontszám megadása kötelező</mat-error>
+            <mat-error *ngIf="grade5Control.errors?.['min']">A pontszám nem lehet negatív</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="button-container">
+    <button mat-raised-button color="primary" class="control" [disabled]="isDisabled()" (click)="save()">Mentés</button>
+    <button mat-raised-button class="control" mat-dialog-close="true">Mégse</button>
+  </div>
+</div>

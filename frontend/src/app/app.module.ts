@@ -31,6 +31,12 @@ import { UpdateClassroomComponent } from './component/content/classroom/update-c
 import { DeleteClassroomComponent } from './component/content/classroom/delete-classroom/delete-classroom.component';
 import {MatSelectModule} from '@angular/material/select';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import { CreateModulComponent } from './component/content/modul/create-modul/create-modul.component';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {DateAdapter, MAT_DATE_LOCALE, MatNativeDateModule} from '@angular/material/core';
+import {CustomDateAdapter} from "./shared/adapter/custom-date-adapter";
+import { DeleteModulComponent } from './component/content/modul/delete-modul/delete-modul.component';
+import { UpdateModulComponent } from './component/content/modul/update-modul/update-modul.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +51,10 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     ProfilePictureChangeComponent,
     CreateClassroomComponent,
     UpdateClassroomComponent,
-    DeleteClassroomComponent
+    DeleteClassroomComponent,
+    CreateModulComponent,
+    DeleteModulComponent,
+    UpdateModulComponent
   ],
   imports: [
     BrowserModule,
@@ -67,9 +76,14 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     MatCardModule,
     FlexLayoutModule,
     MatSelectModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
-  providers: [],
+  providers: [
+    {provide: MAT_DATE_LOCALE, useValue: "hu-HU"},
+    {provide: DateAdapter, useClass: CustomDateAdapter}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

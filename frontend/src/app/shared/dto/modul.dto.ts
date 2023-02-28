@@ -9,7 +9,7 @@ export class ModulDto {
   public readonly pointsFor5: number;
   public readonly bannerPath: string;
   public readonly creatorId: number;
-  public readonly classRoomIds: Set<number>;
+  public readonly classRoomIds: number[];
 
   constructor(
     id: number | null,
@@ -22,7 +22,7 @@ export class ModulDto {
     pointsFor5: number,
     bannerPath: string,
     creatorId: number,
-    classRoomIds: Set<number>
+    classRoomIds: number[]
   ) {
     this.id = id;
     this.title = title;

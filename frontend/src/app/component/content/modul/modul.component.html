@@ -1,1 +1,31 @@
-<p>modul works!</p>
+<div *ngIf="!moduls.length" class="no-data">
+  <div class="icon">
+    <mat-icon>info_outlined</mat-icon>
+  </div>
+  <div class="info">
+    Jelenleg nincs megjeleníthető témakör
+  </div>
+</div>
+<div fxLayout="row wrap" fxLayoutGap="20px grid" class="container" *ngIf="moduls.length">
+  <div fxFlex="20%" fxFlex.xs="50%" fxFlex.sm="33%" *ngFor="let modul of moduls">
+    <mat-card class="class-card">
+      <mat-card-header>
+        <div class="truncate">{{modul.title}}</div>
+      </mat-card-header>
+      <mat-card-actions class="control">
+        <div class="button" (click)="update(modul)" matTooltip="Szerkesztés">
+          <mat-icon>edit</mat-icon>
+        </div>
+        <div class="button">
+          <mat-icon class="warning" (click)="delete(modul)" matTooltip="Törlés">delete</mat-icon>
+        </div>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>
+<div class="add" (click)="create()">
+  <button mat-fab color="primary" matTooltip="Témakör létrehozása" matTooltipPosition="before">
+    <mat-icon>add</mat-icon>
+  </button>
+</div>
+
