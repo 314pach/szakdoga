@@ -14,7 +14,7 @@ public class ModulDTO {
     private Integer pointsFor5;
     private String bannerPath;
     private Long creatorId;
-    private Set<Long> classroomIds;
+    private Set<Long> classRoomIds;
 
     public Long getId() {
         return id;
@@ -96,11 +96,11 @@ public class ModulDTO {
         this.creatorId = creatorId;
     }
 
-    public Set<Long> getClassroomIds() {
-        return classroomIds;
+    public Set<Long> getClassRoomIds() {
+        return classRoomIds;
     }
 
-    public void setClassroomIds(Set<Long> classroomIds) {
-        this.classroomIds = classroomIds;
+    public void setClassRoomIds(Set<Long> classRoomIds) {
+        this.classRoomIds = classRoomIds;
     }
 }

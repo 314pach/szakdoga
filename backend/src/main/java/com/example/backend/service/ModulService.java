@@ -67,7 +67,7 @@ public class ModulService {
         modulDTO.setPointsFor4(modul.getPointsFor4());
         modulDTO.setPointsFor5(modul.getPointsFor5());
         modulDTO.setCreatorId(modul.getCreator().getId());
-        modulDTO.setClassroomIds(modul.getClasses()
+        modulDTO.setClassRoomIds(modul.getClasses()
                 .stream().map(Classroom::getId)
                 .collect(Collectors.toSet()));
 
@@ -94,7 +94,7 @@ public class ModulService {
         modul.setPointsFor5(modulDTO.getPointsFor5());
         applicationUserRepository.findById(modulDTO.getCreatorId()).ifPresent(modul::setCreator);
         modul.setClasses(
-                modulDTO.getClassroomIds().stream()
+                modulDTO.getClassRoomIds().stream()
                 .map(id -> classroomRepository.findById(id))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
