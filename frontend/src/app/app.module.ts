@@ -37,6 +37,7 @@ import {DateAdapter, MAT_DATE_LOCALE, MatNativeDateModule} from '@angular/materi
 import {CustomDateAdapter} from "./shared/adapter/custom-date-adapter";
 import { DeleteModulComponent } from './component/content/modul/delete-modul/delete-modul.component';
 import { UpdateModulComponent } from './component/content/modul/update-modul/update-modul.component';
+import { MessageComponent } from './component/content/message/message.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { UpdateModulComponent } from './component/content/modul/update-modul/upd
     DeleteClassroomComponent,
     CreateModulComponent,
     DeleteModulComponent,
-    UpdateModulComponent
+    UpdateModulComponent,
+    MessageComponent
   ],
   imports: [
     BrowserModule,

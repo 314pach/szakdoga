@@ -24,7 +24,7 @@ export class DeleteModulComponent {
       {
         this.modulService.getAllModuls();
         this._snackBar.open(
-          "A témekör törlése sikeres",
+          "A témakör törlése sikeres",
           "Ok",
           {duration: 5000});
       });
