@@ -4,6 +4,7 @@ import {RouterModule, Routes} from "@angular/router";
 import {ProfileComponent} from "./component/content/profile/profile.component";
 import {ClassroomComponent} from "./component/content/classroom/classroom.component";
 import {ModulComponent} from "./component/content/modul/modul.component";
+import {MessageComponent} from "./component/content/message/message.component";
 
 const routes: Routes = [
   {
@@ -17,6 +18,10 @@ const routes: Routes = [
   {
     path: "modul",
     component: ModulComponent
+  },
+  {
+    path: "message",
+    component: MessageComponent
   }
 ];
 
