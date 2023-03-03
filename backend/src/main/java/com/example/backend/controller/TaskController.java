@@ -23,6 +23,12 @@ public class TaskController {
         return new ResponseEntity<>(taskDTOS, HttpStatus.OK);
     }
 
+    @GetMapping("/findTaskByModul/{modulId}")
+    public ResponseEntity<Set<TaskDTO>> getTasksByModul(@PathVariable("modulId") Long modulId){
+        Set<TaskDTO> taskDTOS = taskService.findAllByModulId(modulId);
+        return new ResponseEntity<>(taskDTOS, HttpStatus.OK);
+    }
+
     @GetMapping("/find/{id}")
     public ResponseEntity<TaskDTO> getTaskById(@PathVariable("id") Long id){
         TaskDTO taskDTO = taskService.findById(id);
