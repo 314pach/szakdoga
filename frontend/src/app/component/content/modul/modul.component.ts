@@ -6,6 +6,7 @@ import {ModulService} from "../../../shared/service/modul.service";
 import {CreateModulComponent} from "./create-modul/create-modul.component";
 import {DeleteModulComponent} from "./delete-modul/delete-modul.component";
 import {UpdateModulComponent} from "./update-modul/update-modul.component";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-modul',
@@ -20,6 +21,7 @@ export class ModulComponent implements OnInit {
     private modulService: ModulService,
     private dialog: MatDialog,
     private _snackBar: MatSnackBar,
+    private router: Router
   ) {
     this.modulService.allModulsSubject.subscribe(
       moduls => {
@@ -61,4 +63,8 @@ export class ModulComponent implements OnInit {
       });
   }
 
+  open(modul: ModulDto) {
+    this.router.navigateByUrl("modul/task");
+    this.modulService.setSelectedModulSubject(modul);
+  }
 }

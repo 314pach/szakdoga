@@ -3,5 +3,6 @@ export enum ApiPathEnum {
   FindById = "find/",
   Create = "create",
   Update = "update",
-  Delete = "delete/"
+  Delete = "delete/",
+  FindTaskByModul = "findTaskByModul/"
 }

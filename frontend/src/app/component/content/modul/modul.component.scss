@@ -31,6 +31,10 @@
   background-color: #c4e1c4;
 }
 
+.class-card mat-card-header:hover {
+  cursor: pointer;
+}
+
 .truncate {
   width: 100%;
   text-overflow: ellipsis;

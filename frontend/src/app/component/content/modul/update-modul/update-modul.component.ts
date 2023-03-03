@@ -102,7 +102,7 @@ export class UpdateModulComponent {
         this.data.modul.creatorId,
         this.data.modul.classRoomIds
       );
-      this.modulService.createModul(modul)
+      this.modulService.updateModul(modul)
         .subscribe(
           modul => {
             this._snackBar.open(

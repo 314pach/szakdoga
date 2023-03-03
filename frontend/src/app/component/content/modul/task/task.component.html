@@ -1,0 +1,17 @@
+<div *ngIf="!tasks.length" class="no-data">
+  <div>{{this.modul.title}}</div>
+  <div class="icon">
+    <mat-icon>info_outlined</mat-icon>
+  </div>
+  <div class="info">
+    Jelenleg nincs megjeleníthető feladat
+  </div>
+</div>
+<div *ngIf="tasks.length">
+
+</div>
+<div class="add" (click)="create()">
+  <button mat-fab color="primary" matTooltip="Feladat létrehozása" matTooltipPosition="before">
+    <mat-icon>add</mat-icon>
+  </button>
+</div>

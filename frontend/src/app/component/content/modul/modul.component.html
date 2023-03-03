@@ -9,7 +9,7 @@
 <div fxLayout="row wrap" fxLayoutGap="20px grid" class="container" *ngIf="moduls.length">
   <div fxFlex="20%" fxFlex.xs="50%" fxFlex.sm="33%" *ngFor="let modul of moduls">
     <mat-card class="class-card">
-      <mat-card-header>
+      <mat-card-header (click)="open(modul)">
         <div class="truncate">{{modul.title}}</div>
       </mat-card-header>
       <mat-card-actions class="control">

@@ -1,0 +1,47 @@
+<div class="title">Feladat létrehozása</div>
+<div class="container">
+  <div class="form">
+    <mat-form-field appearance="outline" class="field">
+      <mat-label>Cím</mat-label>
+      <input matInput type="text">
+<!--      <mat-error *ngIf="titleControl.invalid">Cím megadása kötelező</mat-error>-->
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="field">
+      <mat-label>Rövid összefoglaló</mat-label>
+      <input matInput type="text">
+      <!--      <mat-error *ngIf="titleControl.invalid">Cím megadása kötelező</mat-error>-->
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Leírás</mat-label>
+      <textarea matInput></textarea>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="field">
+      <mat-label>Pontszám</mat-label>
+      <input matInput type="number">
+<!--      <mat-error *ngIf="grade2Control.errors?.['required']">Pontszám megadása kötelező</mat-error>-->
+<!--      <mat-error *ngIf="grade2Control.errors?.['min']">A pontszám nem lehet negatív</mat-error>-->
+    </mat-form-field>
+    <mat-checkbox (change)="checkTeamwork()">Csoportmunka</mat-checkbox>
+    <mat-form-field appearance="outline" class="field">
+      <mat-label>Létszám</mat-label>
+      <input matInput type="number" [disabled]="!teamwork">
+      <!--      <mat-error *ngIf="grade2Control.errors?.['required']">Pontszám megadása kötelező</mat-error>-->
+      <!--      <mat-error *ngIf="grade2Control.errors?.['min']">A pontszám nem lehet negatív</mat-error>-->
+    </mat-form-field>
+    <div>
+      Linkek
+      <mat-form-field appearance="outline" class="field">
+        <mat-label>URL</mat-label>
+        <input matInput type="url">
+        <!--      <mat-error *ngIf="titleControl.invalid">Cím megadása kötelező</mat-error>-->
+      </mat-form-field>
+    </div>
+    <div>
+      Csatolmányok
+    </div>
+  </div>
+  <div class="button-container">
+    <button mat-raised-button color="primary" class="control" [disabled]="isDisabled()" (click)="save()">Mentés</button>
+    <button mat-raised-button class="control" mat-dialog-close="true">Mégse</button>
+  </div>
+</div>

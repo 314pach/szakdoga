@@ -23,6 +23,11 @@ export class TaskWebService {
     return this.http.get<TaskDto[]>(fullPath);
   }
 
+  getTasksByModulId(modulId: number): Observable<TaskDto[]> {
+    let fullPath = this.buildFullPath(ApiPathEnum.FindTaskByModul) + modulId;
+    return this.http.get<TaskDto[]>(fullPath);
+  }
+
   getTaskById(taskId: number): Observable<TaskDto> {
     let fullPath = this.buildFullPath(ApiPathEnum.FindById) + taskId;
     return this.http.get<TaskDto>(fullPath)

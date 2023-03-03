@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {ModulWebService} from "./api/modul-web.service";
-import {BehaviorSubject} from "rxjs";
+import {BehaviorSubject, Observable} from "rxjs";
 import {ModulDto} from "../dto/modul.dto";
 
 @Injectable({
@@ -8,6 +8,8 @@ import {ModulDto} from "../dto/modul.dto";
 })
 export class ModulService {
   allModulsSubject: BehaviorSubject<ModulDto[]> = new BehaviorSubject<ModulDto[]>([]);
+
+  private _selectedModulSubject: BehaviorSubject<ModulDto> = new BehaviorSubject<ModulDto>({} as ModulDto);
 
   constructor(private modulWebService: ModulWebService) {
     this.getAllModuls();
@@ -30,5 +32,13 @@ export class ModulService {
 
   deleteModul(modulId: number) {
     return this.modulWebService.deleteModul(modulId);
+  }
+
+  getSelectedModulSubject(): Observable<ModulDto> {
+    return this._selectedModulSubject.asObservable();
+  }
+
+  setSelectedModulSubject(modul: ModulDto) {
+    this._selectedModulSubject.next(modul);
   }
 }
