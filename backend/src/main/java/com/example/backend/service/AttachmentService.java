@@ -38,8 +38,17 @@ public class AttachmentService {
         return toDto(attachmentRepository.findAll());
     }
 
+    @Transactional(readOnly = true)
+    public Set<AttachmentDTO> findAllByTaskId(Long taskId){
+        return toDto(attachmentRepository.getAttachmentsByTask_Id(taskId));
+    }
+
     public AttachmentDTO save(AttachmentDTO attachmentDTO){
         return toDto(attachmentRepository.save(toEntity(attachmentDTO)));
+    }
+
+    public Set<AttachmentDTO> saveAll(Set<AttachmentDTO> attachmentDTOSet) {
+        return toDto(attachmentRepository.saveAll(toEntity(attachmentDTOSet)));
     }
 
     public AttachmentDTO update(AttachmentDTO attachmentDTO){
@@ -49,6 +58,9 @@ public class AttachmentService {
     public void delete(Long id){
         attachmentRepository.deleteById(id);
     }
+    public void deleteAllById(Set<Long> ids){
+        attachmentRepository.deleteAllById(ids);
+    }
 
     public AttachmentDTO toDto(Attachment attachment){
         if(attachment == null) return null;
@@ -57,6 +69,7 @@ public class AttachmentService {
 
         attachmentDTO.setId(attachment.getId());
         attachmentDTO.setPath(attachment.getPath());
+        attachmentDTO.setType(attachment.getType());
         attachmentDTO.setTaskId(attachment.getTask().getId());
         attachmentDTO.setUploaderId(attachment.getUploader().getId());
 
@@ -74,9 +87,14 @@ public class AttachmentService {
 
         attachment.setId(attachmentDTO.getId());
         attachment.setPath(attachmentDTO.getPath());
+        attachment.setType(attachmentDTO.getType());
         taskRepository.findById(attachmentDTO.getTaskId()).ifPresent(attachment::setTask);
         applicationUserRepository.findById(attachmentDTO.getUploaderId()).ifPresent(attachment::setUploader);
 
         return attachment;
+    }
+
+    public Set<Attachment> toEntity(Set<AttachmentDTO> attachmentDtos){
+        return attachmentDtos.stream().map(this::toEntity).collect(Collectors.toSet());
     }
 }

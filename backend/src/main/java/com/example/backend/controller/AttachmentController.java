@@ -29,10 +29,22 @@ public class AttachmentController {
         return new ResponseEntity<>(attachmentDTO, HttpStatus.OK);
     }
 
+    @GetMapping("/findAttachmentsByTask/{taskId}")
+    public ResponseEntity<Set<AttachmentDTO>> getAttachmentByTask(@PathVariable("taskId") Long taskId){
+        Set<AttachmentDTO> attachmentDTOS = attachmentService.findAllByTaskId(taskId);
+        return new ResponseEntity<>(attachmentDTOS, HttpStatus.OK);
+    }
+
     @PostMapping("/create")
     public ResponseEntity<AttachmentDTO> addAttachment(@RequestBody() AttachmentDTO attachmentDTO){
         AttachmentDTO newAttachment = attachmentService.save(attachmentDTO);
         return new ResponseEntity<>(newAttachment, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/createAll")
+    public ResponseEntity<Set<AttachmentDTO>> addAttachments(@RequestBody() Set<AttachmentDTO> attachmentDTOSet){
+        Set<AttachmentDTO> newAttachments = attachmentService.saveAll(attachmentDTOSet);
+        return new ResponseEntity<>(newAttachments, HttpStatus.CREATED);
     }
 
     @PutMapping("/update")
@@ -44,6 +56,12 @@ public class AttachmentController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteAttachment(@PathVariable("id") Long id){
         attachmentService.delete(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/deleteAttachmentsById")
+    public ResponseEntity<?> deleteAttachmentsById(@RequestBody() Set<Long> ids){
+        attachmentService.deleteAllById(ids);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

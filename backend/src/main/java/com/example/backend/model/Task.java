@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import static jakarta.persistence.GenerationType.SEQUENCE;
 
 @Table
@@ -68,6 +71,12 @@ public class Task {
             action = OnDeleteAction.NO_ACTION
     )
     private Modul modul;
+
+    @OneToMany(
+            mappedBy = "task",
+            cascade = {CascadeType.REMOVE}
+    )
+    private Set<Attachment> attachments = new HashSet<>();
 
     public Long getId() {
         return id;

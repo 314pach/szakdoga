@@ -30,6 +30,14 @@ public class Attachment {
             columnDefinition = "TEXT"
     )
     private String path;
+
+    @Column(
+            name = "type",
+            nullable = false,
+            columnDefinition = "TEXT"
+    )
+    @Enumerated(EnumType.STRING)
+    private AttachmentType type;
     @ManyToOne(
             fetch = FetchType.LAZY
     )
@@ -65,6 +73,14 @@ public class Attachment {
 
     public void setPath(String path) {
         this.path = path;
+    }
+
+    public AttachmentType getType() {
+        return type;
+    }
+
+    public void setType(AttachmentType type) {
+        this.type = type;
     }
 
     public Task getTask() {

@@ -1,8 +1,11 @@
 package com.example.backend.model.dto;
 
+import com.example.backend.model.AttachmentType;
+
 public class AttachmentDTO {
     private Long id;
     private String path;
+    private AttachmentType type;
     private Long taskId;
     private Long uploaderId;
 
@@ -20,6 +23,14 @@ public class AttachmentDTO {
 
     public void setPath(String path) {
         this.path = path;
+    }
+
+    public AttachmentType getType() {
+        return type;
+    }
+
+    public void setType(AttachmentType type) {
+        this.type = type;
     }
 
     public Long getTaskId() {
