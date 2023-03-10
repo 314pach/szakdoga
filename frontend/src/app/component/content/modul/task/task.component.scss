@@ -1,3 +1,31 @@
+.navbar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 15px;
+  margin-left: 25px;
+}
+
+.breadcrumb {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.breadcrumb-label {
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0 5px 0 5px;
+}
+
+.breadcrumb-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .no-data {
   display: flex;
   flex-direction: row;
@@ -27,4 +55,12 @@
   position: absolute;
   right: 35px;
   bottom: 35px;
+}
+
+.warning {
+  color: red;
+}
+
+.table {
+  margin: 10px;
 }

@@ -2,7 +2,10 @@ export enum ApiPathEnum {
   FindAll = "findAll",
   FindById = "find/",
   Create = "create",
+  CreateAll = "createAll",
   Update = "update",
   Delete = "delete/",
-  FindTaskByModul = "findTaskByModul/"
+  FindTaskByModul = "findTasksByModul/",
+  FindAttachmentByTask = "findAttachmentsByTask/",
+  DeleteAttachmentsById = "deleteAttachmentsById"
 }

@@ -1,3 +1,28 @@
+.navbar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.breadcrumb {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.breadcrumb-label {
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0 5px 0 25px;
+}
+
+.action {
+  margin: 5px 20px 0 5px;
+}
+
 .no-data {
   display: flex;
   flex-direction: row;
@@ -24,7 +49,7 @@
 }
 
 .container {
-  padding: 25px;
+  padding: 10px 25px 25px 25px;
 }
 
 .class-card {

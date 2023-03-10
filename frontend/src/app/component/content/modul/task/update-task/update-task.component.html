@@ -1,4 +1,4 @@
-<div class="title">Feladat létrehozása</div>
+<div class="title">Feladat szerkesztése</div>
 <div class="container">
   <div class="form">
     <mat-form-field appearance="outline" class="field">
@@ -22,7 +22,7 @@
       <mat-error *ngIf="pointsControl.errors?.['required']">Pontszám megadása kötelező</mat-error>
       <mat-error *ngIf="pointsControl.errors?.['min']">A pontszám nem lehet negatív</mat-error>
     </mat-form-field>
-    <mat-checkbox (change)="checkTeamwork()">Csoportmunka</mat-checkbox>
+    <mat-checkbox (change)="checkTeamwork()" [checked]="teamwork">Csoportmunka</mat-checkbox>
     <mat-form-field appearance="outline" class="field">
       <mat-label>Létszám</mat-label>
       <input matInput type="number" [disabled]="!teamwork" [formControl]="headcountControl">
@@ -46,7 +46,7 @@
             <input matInput type="url" formControlName="url">
             <mat-error *ngIf="linkForm.invalid">URL megadása kötelező</mat-error>
           </mat-form-field>
-          <button mat-icon-button matTooltip="Eltávolítás" matTooltipPosition="after" (click)="removeLink(i)" class="link-remove">
+          <button mat-icon-button matTooltip="Eltávolítás" matTooltipPosition="after" (click)="removeLink(i, link)" class="link-remove">
             <mat-icon>remove</mat-icon>
           </button>
         </div>
@@ -59,8 +59,7 @@
     </div>
   </div>
   <div class="button-container">
-    <button mat-raised-button color="primary" class="control" [disabled]="isDisabled()" (click)="save()">Mentés
-    </button>
+    <button mat-raised-button color="primary" class="control" [disabled]="isDisabled()" (click)="save()">Mentés</button>
     <button mat-raised-button class="control" mat-dialog-close="true">Mégse</button>
   </div>
 </div>

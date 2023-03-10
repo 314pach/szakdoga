@@ -18,4 +18,16 @@ export class TaskService {
         tasks => this.tasksByModulIdSubject.next(tasks)
       );
   }
+
+  createTask(task: TaskDto) {
+    return this.taskWebService.createTask(task);
+  }
+
+  updateTask(task: TaskDto) {
+    return this.taskWebService.updateTask(task);
+  }
+
+  deleteTask(taskId: number) {
+    return this.taskWebService.deleteTask(taskId);
+  }
 }

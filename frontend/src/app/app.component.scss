@@ -7,7 +7,7 @@
 .menu {
   width: 200px;
   background-color: cornflowerblue;
-  box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.5);
+  box-shadow: 0 5px 10px 0 rgba(0,0,0,0.5);
 }
 
 .drawer-content {
@@ -46,9 +46,8 @@
 }
 
 .toolbar {
-  //z-index: 100;
   display: flex;
   align-items: center;
   height: 56px;
-  box-shadow: 0px 0px 15px 2px #c2c2c2;
+  box-shadow: 0 0 15px 2px #c2c2c2;
 }

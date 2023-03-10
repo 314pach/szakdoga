@@ -21,7 +21,6 @@ export class UpdateModulComponent {
   grade3Control: FormControl = new FormControl<number>(0, [Validators.required, Validators.min(0)]);
   grade4Control: FormControl = new FormControl<number>(0, [Validators.required, Validators.min(0)]);
   grade5Control: FormControl = new FormControl<number>(0, [Validators.required, Validators.min(0)]);
-
   constructor(
     private modulService: ModulService,
     private dialog: MatDialogRef<UpdateModulComponent>,

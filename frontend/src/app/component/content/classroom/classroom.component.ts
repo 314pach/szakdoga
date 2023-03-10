@@ -14,7 +14,9 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 })
 export class ClassroomComponent implements OnInit {
 
+  allClassrooms: ClassroomDto[] = [];
   classrooms: ClassroomDto[] = [];
+  archived: boolean = false;
 
   constructor(
     private classroomService: ClassroomService,
@@ -23,8 +25,12 @@ export class ClassroomComponent implements OnInit {
   ) {
     this.classroomService.allClassRoomsSubject.subscribe(
       classrooms => {
-        this.classrooms = classrooms.filter(classroom => !classroom.archived);
-        console.log(this.classrooms);
+        this.allClassrooms = classrooms;
+        if (this.archived) {
+          this.classrooms = classrooms.filter(classroom => classroom.archived);
+        } else {
+          this.classrooms = classrooms.filter(classroom => !classroom.archived);
+        }
       }
     );
 
@@ -96,12 +102,22 @@ export class ClassroomComponent implements OnInit {
       .subscribe(
         classroom => {
           this._snackBar.open(
-            "A(z) " + classroom.name + " " + classroom.subject + " osztály aktiválása sikeres sikeres",
+            "A(z) " + classroom.name + " " + classroom.subject + " osztály aktiválása sikeres",
             "Ok",
             {duration: 5000}
           );
           this.classroomService.getAllClassRooms();
         }
       );
+  }
+
+  openArchive() {
+    this.archived = !this.archived;
+    this.classrooms = this.allClassrooms.filter(classroom => classroom.archived);
+  }
+
+  closeArchive() {
+    this.archived = !this.archived;
+    this.classrooms = this.allClassrooms.filter(classroom => !classroom.archived);
   }
 }

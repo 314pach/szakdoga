@@ -28,9 +28,19 @@ export class AttachmentWebService {
     return this.http.get<AttachmentDto>(fullPath);
   }
 
+  getAttachmentsByTaskId(taskId: number): Observable<AttachmentDto[]> {
+    let fullPath = this.buildFullPath(ApiPathEnum.FindAttachmentByTask) + taskId;
+    return this.http.get<AttachmentDto[]>(fullPath);
+  }
+
   createAttachment(attachment: AttachmentDto): Observable<AttachmentDto> {
     let fullPath = this.buildFullPath(ApiPathEnum.Create);
     return this.http.post<AttachmentDto>(fullPath, attachment);
+  }
+
+  createAttachments(attachments: AttachmentDto[]): Observable<AttachmentDto[]> {
+    let fullPath = this.buildFullPath(ApiPathEnum.CreateAll);
+    return this.http.post<AttachmentDto[]>(fullPath, attachments);
   }
 
   updateAttachment(attachment: AttachmentDto): Observable<AttachmentDto> {
@@ -41,5 +51,10 @@ export class AttachmentWebService {
   deleteAttattachment(attachmentId: number): Observable<any> {
     let fullPath = this.buildFullPath(ApiPathEnum.Delete) + attachmentId;
     return this.http.delete<any>(fullPath);
+  }
+
+  deleteAttattachmentsById(attachmentIds: number[]): Observable<any> {
+    let fullPath = this.buildFullPath(ApiPathEnum.DeleteAttachmentsById);
+    return this.http.post<any>(fullPath, attachmentIds);
   }
 }

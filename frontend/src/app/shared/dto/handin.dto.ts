@@ -2,7 +2,7 @@ export class HandinDto {
   public readonly id: number | null;
   public readonly path: string;
   public readonly timestamp: Date;
-  public readonly commimentId: number;
+  public readonly commimentId: number; // todo elirtam
   public readonly uploaderId: number;
 
   constructor(

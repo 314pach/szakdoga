@@ -1,3 +1,14 @@
+<div class="navbar">
+  <div class="breadcrumb">
+    <div class="breadcrumb-label">Osztályok</div>
+  </div>
+  <div class="action" *ngIf="!archived">
+    <button mat-raised-button (click)="openArchive()">Archívum</button>
+  </div>
+  <div class="action" *ngIf="archived">
+    <button mat-raised-button (click)="closeArchive()">Archívum bezárása</button>
+  </div>
+</div>
 <div *ngIf="!classrooms.length" class="no-data">
   <div class="icon">
     <mat-icon>info_outlined</mat-icon>

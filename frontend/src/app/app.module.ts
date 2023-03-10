@@ -40,6 +40,13 @@ import { UpdateModulComponent } from './component/content/modul/update-modul/upd
 import { MessageComponent } from './component/content/message/message.component';
 import { TaskComponent } from './component/content/modul/task/task.component';
 import { CreateTaskComponent } from './component/content/modul/task/create-task/create-task.component';
+import {MatTableModule} from '@angular/material/table';
+import { DeleteTaskComponent } from './component/content/modul/task/delete-task/delete-task.component';
+import { UpdateTaskComponent } from './component/content/modul/task/update-task/update-task.component';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatPaginatorIntl} from "@angular/material/paginator";
+import {getHungarianPaginatorIntl} from "./shared/adapter/custom-paginator-language-adapter";
+import {MatDividerModule} from '@angular/material/divider';
 
 @NgModule({
   declarations: [
@@ -60,7 +67,9 @@ import { CreateTaskComponent } from './component/content/modul/task/create-task/
     UpdateModulComponent,
     MessageComponent,
     TaskComponent,
-    CreateTaskComponent
+    CreateTaskComponent,
+    DeleteTaskComponent,
+    UpdateTaskComponent
   ],
   imports: [
     BrowserModule,
@@ -84,11 +93,15 @@ import { CreateTaskComponent } from './component/content/modul/task/create-task/
     MatSelectModule,
     MatCheckboxModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatDividerModule
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: "hu-HU"},
-    {provide: DateAdapter, useClass: CustomDateAdapter}
+    {provide: DateAdapter, useClass: CustomDateAdapter},
+    { provide: MatPaginatorIntl, useValue: getHungarianPaginatorIntl() }
   ],
   bootstrap: [AppComponent]
 })
