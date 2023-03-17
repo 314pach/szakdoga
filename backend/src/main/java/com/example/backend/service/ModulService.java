@@ -40,6 +40,16 @@ public class ModulService {
         return toDto(modulRepository.findAll());
     }
 
+    @Transactional(readOnly = true)
+    public Set<ModulDTO> findAllByClassroomId(List<Long> classroomId) {
+        return toDto(modulRepository.findAllById(classroomId));
+    }
+
+    @Transactional(readOnly = true)
+    public Set<ModulDTO> findAllByCreatorId(Long creatorId) {
+        return toDto(modulRepository.findAllByCreator_Id(creatorId));
+    }
+
     public ModulDTO save(ModulDTO modulDTO) {
         return toDto(modulRepository.save(toEntity(modulDTO)));
     }
