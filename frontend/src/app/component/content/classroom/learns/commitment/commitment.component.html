@@ -1,0 +1,20 @@
+<div class="navbar">
+  <div class="breadcrumb">
+    <div class="breadcrumb-label">Osztályok</div>
+    <div class="breadcrumb-icon">
+      <mat-icon>arrow_right</mat-icon>
+    </div>
+    <div class="breadcrumb-label">{{this.classroom.name}} {{this.classroom.subject}}</div>
+    <div class="breadcrumb-icon">
+      <mat-icon>arrow_right</mat-icon>
+    </div>
+    <div class="breadcrumb-label">{{this.modul.title}}</div>
+  </div>
+</div>
+<div>
+  <mat-tab-group>
+    <mat-tab label="Vállalás"><app-create-commitment></app-create-commitment></mat-tab>
+    <mat-tab label="Feladatok"> Content 2 </mat-tab>
+    <mat-tab label="Third"> Content 3 </mat-tab>
+  </mat-tab-group>
+</div>

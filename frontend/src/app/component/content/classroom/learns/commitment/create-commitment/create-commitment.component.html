@@ -1,0 +1,21 @@
+<div class="container">
+  <div class="tasks">
+    <div class="list">
+      <div *ngFor="let task of this.tasks" class="item">
+        <button mat-icon-button>
+          <mat-icon>add</mat-icon>
+        </button>
+        <div matTooltip="{{task.summary}}">{{task.title}}</div>
+      </div>
+    </div>
+    <div class="list">
+      <div *ngFor="let task of this.tasks" class="item">
+        <button mat-icon-button>
+          <mat-icon>remove</mat-icon>
+        </button>
+        <div matTooltip="{{task.summary}}">{{task.title}}</div>
+      </div>
+    </div>
+  </div>
+
+</div>

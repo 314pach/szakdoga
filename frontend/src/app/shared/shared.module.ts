@@ -22,6 +22,8 @@ import {MatTableModule} from "@angular/material/table";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatDividerModule} from "@angular/material/divider";
 import {MatSortModule} from "@angular/material/sort";
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 
 @NgModule({
@@ -76,7 +78,9 @@ import {MatSortModule} from "@angular/material/sort";
     MatTableModule,
     MatPaginatorModule,
     MatDividerModule,
-    MatSortModule
+    MatSortModule,
+    MatTabsModule,
+    MatSlideToggleModule
   ]
 })
 export class SharedModule { }

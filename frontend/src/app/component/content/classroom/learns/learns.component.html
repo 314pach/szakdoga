@@ -24,9 +24,12 @@
       <mat-card-header (click)="open(modul)">
         <div class="truncate">{{modul.title}}</div>
         <div>
-          {{modul.beginning}} - {{modul.end}}
+          {{modul.beginning | date:"yyyy.MM.dd"}} - {{modul.end | date:"yyyy.MM.dd"}}
         </div>
       </mat-card-header>
+      <mat-card-actions class="control">
+        <mat-slide-toggle>Vállalási időszak</mat-slide-toggle>
+      </mat-card-actions>
     </mat-card>
   </div>
 </div>

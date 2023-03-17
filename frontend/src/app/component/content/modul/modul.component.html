@@ -17,7 +17,7 @@
       <mat-card-header (click)="open(modul)">
         <div class="truncate">{{modul.title}}</div>
         <div>
-          {{modul.beginning}} - {{modul.end}}
+          {{modul.beginning | date:"yyyy.MM.dd"}} - {{modul.end | date:"yyyy.MM.dd"}}
         </div>
       </mat-card-header>
       <mat-card-actions class="control">

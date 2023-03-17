@@ -49,6 +49,8 @@ import {getHungarianPaginatorIntl} from "./shared/adapter/custom-paginator-langu
 import {MatDividerModule} from '@angular/material/divider';
 import { LearnsComponent } from './component/content/classroom/learns/learns.component';
 import { EditLearnsComponent } from './component/content/classroom/learns/edit-learns/edit-learns.component';
+import { CommitmentComponent } from './component/content/classroom/learns/commitment/commitment.component';
+import { CreateCommitmentComponent } from './component/content/classroom/learns/commitment/create-commitment/create-commitment.component';
 
 @NgModule({
   declarations: [
@@ -73,7 +75,9 @@ import { EditLearnsComponent } from './component/content/classroom/learns/edit-l
     DeleteTaskComponent,
     UpdateTaskComponent,
     LearnsComponent,
-    EditLearnsComponent
+    EditLearnsComponent,
+    CommitmentComponent,
+    CreateCommitmentComponent
   ],
     imports: [
         BrowserModule,

@@ -7,6 +7,7 @@ import {ModulComponent} from "./component/content/modul/modul.component";
 import {MessageComponent} from "./component/content/message/message.component";
 import {TaskComponent} from "./component/content/modul/task/task.component";
 import {LearnsComponent} from "./component/content/classroom/learns/learns.component";
+import {CommitmentComponent} from "./component/content/classroom/learns/commitment/commitment.component";
 
 const routes: Routes = [
   {
@@ -37,6 +38,10 @@ const routes: Routes = [
     path: "classroom/modul",
     component: LearnsComponent
   },
+  {
+    path: "modul/commitment",
+    component: CommitmentComponent
+  }
 ];
 
 @NgModule({
