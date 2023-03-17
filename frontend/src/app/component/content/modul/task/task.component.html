@@ -16,13 +16,13 @@
   </div>
 </div>
 <div [ngStyle]='{"display": tasks.length ? "" : "none" }' class="table">
-  <table mat-table [dataSource]="dataSource">
+  <table mat-table [dataSource]="dataSource" matSort>
     <ng-container matColumnDef="title">
-      <th mat-header-cell *matHeaderCellDef> Cím</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name"> Cím</th>
       <td mat-cell *matCellDef="let task"> {{task.title}} </td>
     </ng-container>
     <ng-container matColumnDef="points">
-      <th mat-header-cell *matHeaderCellDef> Pontszám</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number"> Pontszám</th>
       <td mat-cell *matCellDef="let task"> {{task.points}} </td>
     </ng-container>
     <ng-container matColumnDef="actions">

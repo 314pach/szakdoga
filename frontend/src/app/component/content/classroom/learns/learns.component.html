@@ -1,6 +1,13 @@
 <div class="navbar">
   <div class="breadcrumb">
-    <div class="breadcrumb-label">Témakörök</div>
+    <div class="breadcrumb-label">Osztályok</div>
+    <div class="breadcrumb-icon">
+      <mat-icon>arrow_right</mat-icon>
+    </div>
+    <div class="breadcrumb-label">{{this.classroom.name}} {{this.classroom.subject}}</div>
+  </div>
+  <div class="action">
+    <button mat-raised-button (click)="edit()">Szerkesztés</button>
   </div>
 </div>
 <div *ngIf="!moduls.length" class="no-data">
@@ -20,20 +27,7 @@
           {{modul.beginning}} - {{modul.end}}
         </div>
       </mat-card-header>
-      <mat-card-actions class="control">
-        <div class="button" (click)="update(modul)" matTooltip="Szerkesztés">
-          <mat-icon>edit</mat-icon>
-        </div>
-        <div class="button">
-          <mat-icon class="warning" (click)="delete(modul)" matTooltip="Törlés">delete</mat-icon>
-        </div>
-      </mat-card-actions>
     </mat-card>
   </div>
-</div>
-<div class="add" (click)="create()">
-  <button mat-fab color="primary" matTooltip="Témakör létrehozása" matTooltipPosition="before">
-    <mat-icon>add</mat-icon>
-  </button>
 </div>
 

@@ -21,6 +21,10 @@ export class ClassroomService {
       );
   }
 
+  getClassroomById(id: number) {
+    return this.classroomWebService.getClassRoomById(id);
+  }
+
   createClassRoom(classRoom: ClassroomDto) {
     return this.classroomWebService.createClassRoom(classRoom);
   }

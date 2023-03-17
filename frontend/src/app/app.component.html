@@ -1,21 +1,21 @@
-<!--<mat-drawer-container class="container">-->
-<!--  <mat-drawer #drawer class="menu" [mode]="mode" [opened]="mode==='side'">-->
-<!--    <app-menu></app-menu>-->
-<!--  </mat-drawer>-->
+<mat-drawer-container class="container">
+  <mat-drawer #drawer class="menu" [mode]="mode" [opened]="mode==='side'">
+    <app-menu></app-menu>
+  </mat-drawer>
 
-<!--  <mat-drawer-content class="drawer-content">-->
-<!--    <mat-toolbar class="toolbar">-->
-<!--      <div *ngIf="drawer.opened" (click)="drawer.close()" class="menu-toggle" matTooltip="Menü bezárása">-->
-<!--        <mat-icon class="toggle-icon">arrow_back_ios</mat-icon>-->
-<!--      </div>-->
-<!--      <div *ngIf="!drawer.opened" (click)="drawer.open()" class="menu-toggle" matTooltip="Menü megjelenítése">-->
-<!--        <mat-icon class="toggle-icon">arrow_forward_ios</mat-icon>-->
-<!--      </div>-->
-<!--      <span>Az irodalom birodalma</span>-->
-<!--    </mat-toolbar>-->
-<!--    <app-content class="content"></app-content>-->
-<!--  </mat-drawer-content>-->
+  <mat-drawer-content class="drawer-content">
+    <mat-toolbar class="toolbar">
+      <div *ngIf="drawer.opened" (click)="drawer.close()" class="menu-toggle" matTooltip="Menü bezárása">
+        <mat-icon class="toggle-icon">arrow_back_ios</mat-icon>
+      </div>
+      <div *ngIf="!drawer.opened" (click)="drawer.open()" class="menu-toggle" matTooltip="Menü megjelenítése">
+        <mat-icon class="toggle-icon">arrow_forward_ios</mat-icon>
+      </div>
+      <span>Az irodalom birodalma</span>
+    </mat-toolbar>
+    <app-content class="content"></app-content>
+  </mat-drawer-content>
 
-<!--</mat-drawer-container>-->
+</mat-drawer-container>
 
-<router-outlet></router-outlet>
+<!--<router-outlet></router-outlet>-->

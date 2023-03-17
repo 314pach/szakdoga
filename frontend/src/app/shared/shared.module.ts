@@ -21,6 +21,7 @@ import {MatNativeDateModule} from "@angular/material/core";
 import {MatTableModule} from "@angular/material/table";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatDividerModule} from "@angular/material/divider";
+import {MatSortModule} from "@angular/material/sort";
 
 
 @NgModule({
@@ -48,7 +49,8 @@ import {MatDividerModule} from "@angular/material/divider";
     MatNativeDateModule,
     MatTableModule,
     MatPaginatorModule,
-    MatDividerModule
+    MatDividerModule,
+    MatSortModule
   ],
   exports: [
     CommonModule,
@@ -73,7 +75,8 @@ import {MatDividerModule} from "@angular/material/divider";
     MatNativeDateModule,
     MatTableModule,
     MatPaginatorModule,
-    MatDividerModule
+    MatDividerModule,
+    MatSortModule
   ]
 })
 export class SharedModule { }

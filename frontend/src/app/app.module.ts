@@ -47,6 +47,8 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatPaginatorIntl} from "@angular/material/paginator";
 import {getHungarianPaginatorIntl} from "./shared/adapter/custom-paginator-language-adapter";
 import {MatDividerModule} from '@angular/material/divider';
+import { LearnsComponent } from './component/content/classroom/learns/learns.component';
+import { EditLearnsComponent } from './component/content/classroom/learns/edit-learns/edit-learns.component';
 
 @NgModule({
   declarations: [
@@ -69,15 +71,17 @@ import {MatDividerModule} from '@angular/material/divider';
     TaskComponent,
     CreateTaskComponent,
     DeleteTaskComponent,
-    UpdateTaskComponent
+    UpdateTaskComponent,
+    LearnsComponent,
+    EditLearnsComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    SharedModule,
-    BrowserAnimationsModule,
-    RouterModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        SharedModule,
+        BrowserAnimationsModule,
+        RouterModule,
+    ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: "hu-HU"},
     {provide: DateAdapter, useClass: CustomDateAdapter},

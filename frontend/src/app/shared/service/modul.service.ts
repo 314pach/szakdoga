@@ -24,6 +24,14 @@ export class ModulService {
     return this.modulWebService.getModulById(modulId);
   }
 
+  getModulsByIds(ids: number[]) {
+    return this.modulWebService.getModulsByIds(ids);
+  }
+
+  getModulsByCreator(creatorId: number) {
+    return this.modulWebService.getModulsByCreator(creatorId);
+  }
+
   createModul(modul: ModulDto) {
     return this.modulWebService.createModul(modul);
   }

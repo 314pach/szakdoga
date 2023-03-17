@@ -4,6 +4,7 @@
   align-items: center;
   justify-content: space-between;
   margin-top: 15px;
+  margin-left: 25px;
 }
 
 .breadcrumb {
@@ -16,7 +17,7 @@
 .breadcrumb-label {
   font-size: 16px;
   font-weight: 500;
-  margin: 0 5px 0 25px;
+  margin: 0 5px 0 5px;
 }
 
 .action {
@@ -49,11 +50,12 @@
 }
 
 .container {
-  padding: 10px 25px 25px 25px;
+  padding: 25px;
 }
 
 .class-card {
   background-color: #c4e1c4;
+  padding-bottom: 15px;
 }
 
 .class-card mat-card-header:hover {

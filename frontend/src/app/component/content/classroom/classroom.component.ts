@@ -6,6 +6,7 @@ import {CreateClassroomComponent} from "./create-classroom/create-classroom.comp
 import {UpdateClassroomComponent} from "./update-classroom/update-classroom.component";
 import {DeleteClassroomComponent} from "./delete-classroom/delete-classroom.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-classroom',
@@ -22,6 +23,7 @@ export class ClassroomComponent implements OnInit {
     private classroomService: ClassroomService,
     private dialog: MatDialog,
     private _snackBar: MatSnackBar,
+    private router: Router
   ) {
     this.classroomService.allClassRoomsSubject.subscribe(
       classrooms => {
@@ -119,5 +121,9 @@ export class ClassroomComponent implements OnInit {
   closeArchive() {
     this.archived = !this.archived;
     this.classrooms = this.allClassrooms.filter(classroom => !classroom.archived);
+  }
+
+  open(classroom: ClassroomDto) {
+    this.router.navigate(["classroom/modul"], {queryParams: {classroomId: classroom.id}});
   }
 }

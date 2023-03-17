@@ -12,6 +12,7 @@ import {DeleteTaskComponent} from "./delete-task/delete-task.component";
 import {UpdateTaskComponent} from "./update-task/update-task.component";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatTableDataSource} from "@angular/material/table";
+import {MatSort} from "@angular/material/sort";
 
 @Component({
   selector: 'app-task',
@@ -26,6 +27,7 @@ export class TaskComponent implements OnInit, AfterViewInit{
   columnsToDisplay = ['title', 'points', 'actions'];
   dataSource : MatTableDataSource<any> = new MatTableDataSource<any>();
   @ViewChild('paginator') paginator!: any;
+  @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
     private modulService: ModulService,
@@ -56,10 +58,18 @@ export class TaskComponent implements OnInit, AfterViewInit{
           }
         );
     });
+    this.dataSource.sortingDataAccessor = (data: any, sortHeaderId: string): string => {
+      if (typeof data[sortHeaderId] === 'string') {
+        return data[sortHeaderId].toLocaleLowerCase();
+      }
+
+      return data[sortHeaderId];
+    };
   }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   create() {

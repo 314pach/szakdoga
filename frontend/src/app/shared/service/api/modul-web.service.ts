@@ -28,6 +28,16 @@ export class ModulWebService {
     return this.http.get<ModulDto>(fullPath);
   }
 
+  getModulsByIds(classroomIds: number[]): Observable<ModulDto[]> {
+    let fullPath = this.buildFullPath(ApiPathEnum.FindModulsByClassroom);
+    return this.http.post<ModulDto[]>(fullPath, classroomIds);
+  }
+
+  getModulsByCreator(creatorId: number): Observable<ModulDto[]> {
+    let fullPath = this.buildFullPath(ApiPathEnum.FindModulsByCreator) + creatorId;
+    return this.http.get<ModulDto[]>(fullPath);
+  }
+
   createModul(modul: ModulDto): Observable<ModulDto> {
     let fullPath = this.buildFullPath(ApiPathEnum.Create);
     return this.http.post<ModulDto>(fullPath, modul);
