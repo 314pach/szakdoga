@@ -1,21 +1,38 @@
 <div class="container">
   <div class="tasks">
     <div class="list">
-      <div *ngFor="let task of this.tasks" class="item">
-        <button mat-icon-button>
+      <div *ngFor="let task of this.available" class="item">
+        <button mat-icon-button (click)="add(task)">
           <mat-icon>add</mat-icon>
         </button>
         <div matTooltip="{{task.summary}}">{{task.title}}</div>
+        <div>{{task.points}} pont</div>
+        <div *ngIf="task.teamwork">
+          <mat-icon>groups</mat-icon>
+        </div>
       </div>
     </div>
     <div class="list">
-      <div *ngFor="let task of this.tasks" class="item">
-        <button mat-icon-button>
+      <div *ngFor="let task of this.commited" class="item">
+        <button mat-icon-button (click)="remove(task)">
           <mat-icon>remove</mat-icon>
         </button>
         <div matTooltip="{{task.summary}}">{{task.title}}</div>
+        <div>{{task.points}} pont</div>
+        <div *ngIf="task.teamwork">
+          <mat-icon>groups</mat-icon>
+        </div>
       </div>
     </div>
   </div>
-
+  <div class="footer">
+    <div class="progress">
+      <div class="label">Várható jegy:</div>
+      <div class="bar" *ngFor="let bar of placeholder" [ngStyle]='{"background-color": getColor()}'></div>
+    </div>
+    <div>
+      <button mat-raised-button color="primary" class="control" [disabled]="isDisabled()" (click)="save()">Mentés
+      </button>
+    </div>
+  </div>
 </div>

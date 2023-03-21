@@ -7,10 +7,9 @@ import {switchMap} from "rxjs";
 import {MatDialog} from "@angular/material/dialog";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {CreateTaskComponent} from "./create-task/create-task.component";
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {DeleteTaskComponent} from "./delete-task/delete-task.component";
 import {UpdateTaskComponent} from "./update-task/update-task.component";
-import {MatPaginator} from "@angular/material/paginator";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatSort} from "@angular/material/sort";
 
@@ -46,7 +45,7 @@ export class TaskComponent implements OnInit, AfterViewInit{
         .pipe(
           switchMap(modul => {
               this.modul = modul;
-              this.taskService.getTasksByModulId(modul.id!);
+              this.taskService.getTasksByModulIdAndRefreshSubject(modul.id!);
               return this.taskService.tasksByModulIdSubject;
             }
           )

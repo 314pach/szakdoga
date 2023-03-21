@@ -53,7 +53,7 @@ export class AttachmentWebService {
     return this.http.delete<any>(fullPath);
   }
 
-  deleteAttattachmentsById(attachmentIds: number[]): Observable<any> {
+  deleteAttachmentsById(attachmentIds: number[]): Observable<any> {
     let fullPath = this.buildFullPath(ApiPathEnum.DeleteAttachmentsById);
     return this.http.post<any>(fullPath, attachmentIds);
   }

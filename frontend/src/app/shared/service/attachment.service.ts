@@ -18,6 +18,6 @@ export class AttachmentService {
   }
 
   deleteAttachments(ids: number[]){
-    return this.attachmentWebService.deleteAttattachmentsById(ids);
+    return this.attachmentWebService.deleteAttachmentsById(ids);
   }
 }

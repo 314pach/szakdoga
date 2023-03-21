@@ -129,13 +129,13 @@ export class UpdateTaskComponent {
         ]
       )
       .subscribe(
-        task => {
+        _ => {
           this._snackBar.open(
             "A feladat módosítása sikeres",
             "Ok",
             {duration: 5000}
           );
-          this.taskService.getTasksByModulId(this.data.modulId);
+          this.taskService.getTasksByModulIdAndRefreshSubject(this.data.modulId);
         }
       );
       this.dialog.close();

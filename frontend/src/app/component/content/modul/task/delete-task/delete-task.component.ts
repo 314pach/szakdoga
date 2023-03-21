@@ -22,7 +22,7 @@ export class DeleteTaskComponent {
     this.taskService.deleteTask(this.data.task.id!)
       .subscribe(_ =>
       {
-        this.taskService.getTasksByModulId(this.data.modulId);
+        this.taskService.getTasksByModulIdAndRefreshSubject(this.data.modulId);
         this._snackBar.open(
           "A feladat törlése sikeres",
           "Ok",

@@ -28,9 +28,19 @@ export class CommitmentWebService {
     return this.http.get<CommitmentDto>(fullPath);
   }
 
+  getCommitmentsByUserAndModul(userId: number, taskIds: number[]): Observable<CommitmentDto[]> {
+    let fullPath = this.buildFullPath(ApiPathEnum.FindCommitmentsByUserAndModul) + userId;
+    return this.http.post<CommitmentDto[]>(fullPath, taskIds);
+  }
+
   createCommitment(commitment: CommitmentDto): Observable<CommitmentDto> {
     let fullPath = this.buildFullPath(ApiPathEnum.Create);
     return this.http.post<CommitmentDto>(fullPath, commitment);
+  }
+
+  createCommitments(commitments: CommitmentDto[]): Observable<CommitmentDto[]> {
+    let fullPath = this.buildFullPath(ApiPathEnum.CreateAll);
+    return this.http.post<CommitmentDto[]>(fullPath, commitments);
   }
 
   updateCommitment(commitment: CommitmentDto): Observable<CommitmentDto> {
@@ -41,5 +51,10 @@ export class CommitmentWebService {
   deleteCommitment(commitmentId: number): Observable<any> {
     let fullPath = this.buildFullPath(ApiPathEnum.Delete) + commitmentId;
     return this.http.delete<any>(fullPath);
+  }
+
+  deleteCommitmentsById(commitmentIds: number[]): Observable<any> {
+    let fullPath = this.buildFullPath(ApiPathEnum.DeleteCommitmentsById);
+    return this.http.post<any>(fullPath, commitmentIds);
   }
 }

@@ -4,10 +4,10 @@ export class CommitmentDto {
   public readonly status: string;
   public readonly deadline: Date;
   public readonly taskId: number;
-  public readonly studentIds: Set<number>;
-  public readonly badgeIds: Set<number>;
+  public readonly studentIds: number[];
+  public readonly badgeIds: number[];
 
-  constructor(id: number | null, points: number, status: string, deadline: Date, taskId: number, studentIds: Set<number>, badgeIds: Set<number>) {
+  constructor(id: number | null, points: number, status: string, deadline: Date, taskId: number, studentIds: number[], badgeIds: number[]) {
     this.id = id;
     this.points = points;
     this.status = status;

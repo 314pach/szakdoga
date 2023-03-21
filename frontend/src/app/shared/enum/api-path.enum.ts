@@ -9,5 +9,7 @@ export enum ApiPathEnum {
   FindAttachmentByTask = "findAttachmentsByTask/",
   DeleteAttachmentsById = "deleteAttachmentsById",
   FindModulsByClassroom = "findModulsByClassroom",
-  FindModulsByCreator = "findModulsByCreator/"
+  FindModulsByCreator = "findModulsByCreator/",
+  FindCommitmentsByUserAndModul = "findCommitmentsByUserAndModul/",
+  DeleteCommitmentsById = "deleteCommitmentsById"
 }

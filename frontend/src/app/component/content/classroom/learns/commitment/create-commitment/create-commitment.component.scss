@@ -21,3 +21,36 @@
   flex-direction: row;
   align-items: center;
 }
+
+.item div {
+  margin-right: 20px;
+}
+
+.footer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.progress {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: 15px;
+}
+
+.label {
+  margin-right: 10px;
+}
+
+.bar {
+  width:50px;
+  height: 4px;
+  margin: 0 5px;
+  //background-color: black;
+}
+
+.control {
+  margin-right: 15px;
+}
