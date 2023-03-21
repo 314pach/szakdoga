@@ -44,8 +44,18 @@ public class CommitmentService {
         return toDto(commitmentRepository.findAll());
     }
 
+    @Transactional(readOnly = true)
+    public Set<CommitmentDTO> findAllByUserAndModul(Long user, List<Long> tasks){
+        List<Commitment> commitments= commitmentRepository.test(user, tasks);
+        return toDto(commitments);
+    }
+
     public CommitmentDTO save(CommitmentDTO commitmentDTO){
         return toDto(commitmentRepository.save(toEntity(commitmentDTO)));
+    }
+
+    public Set<CommitmentDTO> saveAll(Set<CommitmentDTO> commitmentDTOSet) {
+        return toDto(commitmentRepository.saveAll(toEntity(commitmentDTOSet)));
     }
 
     public CommitmentDTO update(CommitmentDTO commitmentDTO){
@@ -54,6 +64,10 @@ public class CommitmentService {
 
     public void delete(Long id){
         commitmentRepository.deleteById(id);
+    }
+
+    public void deleteAllById(Set<Long> ids){
+        commitmentRepository.deleteAllById(ids);
     }
 
     public CommitmentDTO toDto(Commitment commitment){
@@ -106,5 +120,9 @@ public class CommitmentService {
         );
 
         return commitment;
+    }
+
+    public Set<Commitment> toEntity(Set<CommitmentDTO> commitmentDTOSet){
+        return commitmentDTOSet.stream().map(this::toEntity).collect(Collectors.toSet());
     }
 }

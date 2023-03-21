@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -29,10 +30,22 @@ public class CommitmentController {
         return new ResponseEntity<>(commitmentDTO, HttpStatus.OK);
     }
 
+    @PostMapping("/findCommitmentsByUserAndModul/{userId}")
+    public ResponseEntity<Set<CommitmentDTO>> getCommitmentsByUserAndModul(@PathVariable("userId") Long user, @RequestBody() List<Long> tasks){
+        Set<CommitmentDTO> commitmentDTOS = commitmentService.findAllByUserAndModul(user, tasks);
+        return new ResponseEntity<>(commitmentDTOS, HttpStatus.OK);
+    }
+
     @PostMapping("/create")
     public ResponseEntity<CommitmentDTO> addCommitment(@RequestBody() CommitmentDTO commitmentDTO){
         CommitmentDTO newCommitment = commitmentService.save(commitmentDTO);
         return new ResponseEntity<>(newCommitment, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/createAll")
+    public ResponseEntity<Set<CommitmentDTO>> addCommitments(@RequestBody() Set<CommitmentDTO> commitmentDTOSet){
+        Set<CommitmentDTO> newCommitments = commitmentService.saveAll(commitmentDTOSet);
+        return new ResponseEntity<>(newCommitments, HttpStatus.CREATED);
     }
 
     @PutMapping("/update")
@@ -44,6 +57,12 @@ public class CommitmentController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteCommitment(@PathVariable("id") Long id){
         commitmentService.delete(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/deleteCommitmentsById")
+    public ResponseEntity<?> deleteCommitmentsById(@RequestBody() Set<Long> ids){
+        commitmentService.deleteAllById(ids);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
