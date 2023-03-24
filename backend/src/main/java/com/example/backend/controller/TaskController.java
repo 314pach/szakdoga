@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -33,6 +34,12 @@ public class TaskController {
     public ResponseEntity<TaskDTO> getTaskById(@PathVariable("id") Long id){
         TaskDTO taskDTO = taskService.findById(id);
         return new ResponseEntity<>(taskDTO, HttpStatus.OK);
+    }
+
+    @PostMapping("/findTasksByIds")
+    public ResponseEntity<Set<TaskDTO>> getTasksByIds(@RequestBody() List<Long> taskIds){
+        Set<TaskDTO> taskDTOS = taskService.findAllByIds(taskIds);
+        return new ResponseEntity<>(taskDTOS, HttpStatus.OK);
     }
 
     @PostMapping("/create")

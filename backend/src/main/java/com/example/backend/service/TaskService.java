@@ -38,6 +38,11 @@ public class TaskService {
     public Set<TaskDTO> findAllByModulId(Long modulId){
         return toDto(taskRepository.getTasksByModul_Id(modulId));
     }
+
+    @Transactional(readOnly = true)
+    public Set<TaskDTO> findAllByIds(List<Long> ids) {
+        return toDto(taskRepository.findAllById(ids));
+    }
     public TaskDTO save(TaskDTO taskDTO){
         return toDto(taskRepository.save(toEntity(taskDTO)));
     }
