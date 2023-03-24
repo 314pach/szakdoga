@@ -1,0 +1,33 @@
+<div class="container">
+  <div class="list">
+    <div *ngFor="let commitment of this.commitments" class="item" (click)="view(commitment)" [ngStyle]="{'background-color': commitment.taskId === selectedCommitment.taskId ? ' #e6f2f8': ''}">
+      <div>{{this.tasks.get(commitment.taskId)!.title}}</div>
+      <div>{{this.tasks.get(commitment.taskId)!.points}} pont</div>
+      <div *ngIf="this.tasks.get(commitment.taskId)!.teamwork">
+        <mat-icon>groups</mat-icon>
+      </div>
+    </div>
+  </div>
+  <div class="view">
+    <div *ngIf="!selectedCommitment.id" class="no-data">
+      <div class="icon">
+        <mat-icon>info_outlined</mat-icon>
+      </div>
+      <div class="info">
+        Válassz egy feladatot
+      </div>
+    </div>
+    <div *ngIf="selectedCommitment.id">
+      <div class="title">{{this.tasks.get(selectedCommitment.taskId)!.title}}</div>
+      <div>{{this.tasks.get(selectedCommitment.taskId)!.summary}}</div>
+      <div class="label">Feladatleírás:</div>
+      <div>{{this.tasks.get(selectedCommitment.taskId)!.description}}</div>
+      <div *ngIf="links.length || files.length">
+        <div class="label">Csatolmányok:</div>
+        <div *ngFor="let link of links"><a href="{{link.path}}" target="_blank">{{link.path}}</a></div>
+      </div>
+      <div class="label">Eredmény:</div>
+      <div><span class="result">{{selectedCommitment.points}}</span> / {{this.tasks.get(selectedCommitment.taskId)!.points}} pont</div>
+    </div>
+  </div>
+</div>

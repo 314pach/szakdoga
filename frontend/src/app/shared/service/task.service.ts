@@ -23,6 +23,10 @@ export class TaskService {
     return this.taskWebService.getTasksByModulId(modulId);
   }
 
+  getTasksByIds(taskIds: number[]) : Observable<TaskDto[]> {
+    return this.taskWebService.getTasksByIds(taskIds);
+  }
+
   createTask(task: TaskDto) {
     return this.taskWebService.createTask(task);
   }

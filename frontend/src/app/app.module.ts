@@ -51,6 +51,7 @@ import { LearnsComponent } from './component/content/classroom/learns/learns.com
 import { EditLearnsComponent } from './component/content/classroom/learns/edit-learns/edit-learns.component';
 import { CommitmentComponent } from './component/content/classroom/learns/commitment/commitment.component';
 import { CreateCommitmentComponent } from './component/content/classroom/learns/commitment/create-commitment/create-commitment.component';
+import { ViewCommitmentComponent } from './component/content/classroom/learns/commitment/view-commitment/view-commitment.component';
 
 @NgModule({
   declarations: [
@@ -77,7 +78,8 @@ import { CreateCommitmentComponent } from './component/content/classroom/learns/
     LearnsComponent,
     EditLearnsComponent,
     CommitmentComponent,
-    CreateCommitmentComponent
+    CreateCommitmentComponent,
+    ViewCommitmentComponent
   ],
     imports: [
         BrowserModule,

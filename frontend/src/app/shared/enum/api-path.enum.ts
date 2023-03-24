@@ -11,5 +11,6 @@ export enum ApiPathEnum {
   FindModulsByClassroom = "findModulsByClassroom",
   FindModulsByCreator = "findModulsByCreator/",
   FindCommitmentsByUserAndModul = "findCommitmentsByUserAndModul/",
-  DeleteCommitmentsById = "deleteCommitmentsById"
+  DeleteCommitmentsById = "deleteCommitmentsById",
+  FindTasksByIds = "findTasksByIds"
 }

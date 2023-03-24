@@ -33,6 +33,11 @@ export class TaskWebService {
     return this.http.get<TaskDto>(fullPath)
   }
 
+  getTasksByIds(taskIds: number[]): Observable<TaskDto[]> {
+    let fullPath = this.buildFullPath(ApiPathEnum.FindTasksByIds);
+    return this.http.post<TaskDto[]>(fullPath, taskIds);
+  }
+
   createTask(task: TaskDto): Observable<TaskDto> {
     let fullPath = this.buildFullPath(ApiPathEnum.Create);
     return this.http.post<TaskDto>(fullPath, task);

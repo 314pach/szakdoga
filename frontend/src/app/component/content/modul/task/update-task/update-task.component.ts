@@ -124,6 +124,7 @@ export class UpdateTaskComponent {
       forkJoin(
         [
           this.taskService.updateTask(task),
+          //todo bug: links multiply bc WHY
           this.attachmentService.createAttachments(this.createLinksList()),
           this.attachmentService.deleteAttachments(this.linksToDelete)
         ]
