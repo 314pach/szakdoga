@@ -5,10 +5,10 @@
     </div>
     <div class="username">{{ loggedInUser.name }}</div>
     <div class="list">
-      <div class="list-item" routerLink="/profile">Profil</div>
-      <div class="list-item" routerLink="/classroom">Osztályok</div>
-      <div class="list-item" routerLink="/modul">Témakörök</div>
-      <div class="list-item" routerLink="/message">Üzenetek</div>
+      <div class="list-item" routerLink="/profile" (click)="closeIfOver()">Profil</div>
+      <div class="list-item" routerLink="/classroom" (click)="closeIfOver()">Osztályok</div>
+      <div class="list-item" routerLink="/modul" (click)="closeIfOver()">Témakörök</div>
+      <div class="list-item" routerLink="/message" (click)="closeIfOver()">Üzenetek</div>
     </div>
   </div>
   <div class="logout" matTooltip="Kijelentkezés">

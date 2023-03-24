@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ApplicationUserDto} from "../../shared/dto/application-user.dto";
 import {ApplicationUserService} from "../../shared/service/application-user.service";
+import {AppComponent} from "../../app.component";
 
 @Component({
   selector: 'app-menu',
@@ -10,7 +11,10 @@ import {ApplicationUserService} from "../../shared/service/application-user.serv
 export class MenuComponent implements OnInit {
   loggedInUser: ApplicationUserDto = {} as ApplicationUserDto;
 
-  constructor(private applicationUserService: ApplicationUserService) {
+  constructor(
+    private applicationUserService: ApplicationUserService,
+    public parentComponent: AppComponent
+  ) {
     applicationUserService.loggedInUserSubject.subscribe(user => {
       console.log(user);
       this.loggedInUser = user;
@@ -24,4 +28,9 @@ export class MenuComponent implements OnInit {
     console.log("asd");
   }
 
+  closeIfOver() {
+    if (this.parentComponent.mode === "over"){
+      this.parentComponent.drawer.close();
+    }
+  }
 }
