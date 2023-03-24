@@ -31,7 +31,7 @@
       <div class="bar" *ngFor="let bar of placeholder" [ngStyle]='{"background-color": getColor()}'></div>
     </div>
     <div>
-      <button mat-raised-button color="primary" class="control" [disabled]="isDisabled()" (click)="save()">Mentés
+      <button mat-raised-button color="primary" class="control" [disabled]="isDisabled()" (click)="save()" #save_btn>Mentés
       </button>
     </div>
   </div>

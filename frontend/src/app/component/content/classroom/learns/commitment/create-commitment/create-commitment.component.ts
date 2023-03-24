@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {forkJoin} from "rxjs";
 import {ClassroomService} from "../../../../../../shared/service/classroom.service";
 import {ApplicationUserService} from "../../../../../../shared/service/application-user.service";
@@ -13,13 +13,14 @@ import {ApplicationUserDto} from "../../../../../../shared/dto/application-user.
 import {CommitmentService} from "../../../../../../shared/service/commitment.service";
 import {combineLatest} from "rxjs";
 import {CommitmentStatusEnum} from "../../../../../../shared/enum/commitment-status.enum";
+import {MatButton} from "@angular/material/button";
 
 @Component({
   selector: 'app-create-commitment',
   templateUrl: './create-commitment.component.html',
   styleUrls: ['./create-commitment.component.scss']
 })
-export class CreateCommitmentComponent implements OnInit{
+export class CreateCommitmentComponent implements OnInit, AfterViewInit{
   loggedInUser: ApplicationUserDto = {} as ApplicationUserDto;
   modul: ModulDto = {} as ModulDto;
   tasks: TaskDto[] = [];
@@ -34,6 +35,8 @@ export class CreateCommitmentComponent implements OnInit{
   sumOfPoints: number = 0;
   expectedGrade: number = 1;
   placeholder: number[] = [0];
+
+  @ViewChild("save_btn") saveButton! : MatButton;
 
   constructor(
     private classroomService: ClassroomService,
@@ -67,6 +70,7 @@ export class CreateCommitmentComponent implements OnInit{
       data => {
         this.tasks = data[0];
         this.commitments = data[1];
+        this.commitedTaskIds = [];
         data[1].forEach(commitment => this.commitedTaskIds.push(commitment.taskId));
         this.available = data[0].filter(task => !this.commitedTaskIds.includes(task.id!));
         this.sumOfPoints = 0;
@@ -137,9 +141,8 @@ export class CreateCommitmentComponent implements OnInit{
   isDisabled() {
     let currentlyCommited : number[] = [];
     this.commited.forEach(task => currentlyCommited.push(task.id!));
-    // console.log("currently commited: " + currentlyCommited)
-    // console.log("db: " + this.commitedTaskIds)
-    //todo dupicate in database causes problem
+    console.log("currently commited: " + currentlyCommited)
+    console.log("db: " + this.commitedTaskIds)
     return this.commitedTaskIds.length === currentlyCommited.length && this.arraysEquals(this.commitedTaskIds.sort(), currentlyCommited.sort());
   }
 
@@ -211,5 +214,9 @@ export class CreateCommitmentComponent implements OnInit{
       default:
         return "black";
     }
+  }
+
+  ngAfterViewInit(): void {
+    this.saveButton.disabled = true;
   }
 }
