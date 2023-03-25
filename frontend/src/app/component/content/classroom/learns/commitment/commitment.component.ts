@@ -4,7 +4,7 @@ import {ModulDto} from "../../../../../shared/dto/modul.dto";
 import {ClassroomService} from "../../../../../shared/service/classroom.service";
 import {ModulService} from "../../../../../shared/service/modul.service";
 import {combineLatest, Observable, switchMap} from "rxjs";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {CommitmentService} from "../../../../../shared/service/commitment.service";
 import {ApplicationUserService} from "../../../../../shared/service/application-user.service";
 import {ApplicationUserDto} from "../../../../../shared/dto/application-user.dto";
@@ -28,6 +28,7 @@ export class CommitmentComponent {
     private commitmentService: CommitmentService,
     private applicationUserService: ApplicationUserService,
     private route: ActivatedRoute,
+    private router: Router
   ) {
     combineLatest(
         this.getTasks(),
@@ -66,4 +67,7 @@ export class CommitmentComponent {
     return this.applicationUserService.loggedInUserSubject;
   }
 
+  navigate() {
+    this.router.navigate(["classroom/modul"], {queryParams: {classroomId: this.classroom.id}});
+  }
 }

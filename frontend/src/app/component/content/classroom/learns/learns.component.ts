@@ -53,7 +53,7 @@ export class LearnsComponent implements OnInit {
   }
 
   open(modul: any) {
-    this.router.navigate(["modul/commitment"], {queryParams: {classroomId: this.classroom.id, modulId: modul.id}});
+    this.router.navigate(["classroom/modul/commitment"], {queryParams: {classroomId: this.classroom.id, modulId: modul.id}});
   }
 
   edit() {

@@ -39,8 +39,13 @@ const routes: Routes = [
     component: LearnsComponent
   },
   {
-    path: "modul/commitment",
+    path: "classroom/modul/commitment",
     component: CommitmentComponent
+  },
+  {
+    path: "",
+    redirectTo: "classroom",
+    pathMatch: "full"
   }
 ];
 

@@ -5,10 +5,10 @@
     </div>
     <div class="username">{{ loggedInUser.name }}</div>
     <div class="list">
-      <div class="list-item" routerLink="/profile" (click)="closeIfOver()">Profil</div>
-      <div class="list-item" routerLink="/classroom" (click)="closeIfOver()">Osztályok</div>
-      <div class="list-item" routerLink="/modul" (click)="closeIfOver()">Témakörök</div>
-      <div class="list-item" routerLink="/message" (click)="closeIfOver()">Üzenetek</div>
+      <div class="list-item" routerLink="/profile" (click)="closeIfOver()" [ngStyle]="{'background-color': getRoute() === 'profile' ? '#e6f2f8' : ''}">Profil</div>
+      <div class="list-item" routerLink="/classroom" (click)="closeIfOver()"  [ngStyle]="{'background-color': getRoute() === 'classroom' ? '#e6f2f8' : ''}">Osztályok</div>
+      <div class="list-item" routerLink="/modul" (click)="closeIfOver()" [ngStyle]="{'background-color': getRoute() === 'modul' ? '#e6f2f8' : ''}">Témakörök</div>
+      <div class="list-item" routerLink="/message" (click)="closeIfOver()" [ngStyle]="{'background-color': getRoute() === 'message' ? '#e6f2f8' : ''}">Üzenetek</div>
     </div>
   </div>
   <div class="logout" matTooltip="Kijelentkezés">
