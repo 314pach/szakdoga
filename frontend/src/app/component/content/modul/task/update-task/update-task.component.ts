@@ -155,10 +155,12 @@ export class UpdateTaskComponent {
 
   createLinksList(): AttachmentDto[]{
     let links: AttachmentDto[] = [];
-    this.linkForm.value.links.disabled
+    console.log(this.linkForm.value.links)
+
     this.linkForm.value.links.forEach((input: object) => {
+      console.log(input);
       // @ts-ignore
-      if (!input.disabled) {
+      if (!input.id) {
         // @ts-ignore
         let path = input.url;
         let link = new AttachmentDto(
