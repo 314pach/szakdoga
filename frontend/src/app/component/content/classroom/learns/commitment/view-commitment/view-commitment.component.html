@@ -31,6 +31,14 @@
     <div *ngIf="selectedCommitment.id">
       <div class="title">{{this.tasks.get(selectedCommitment.taskId)!.title}}</div>
       <div>{{this.tasks.get(selectedCommitment.taskId)!.summary}}</div>
+      <div>
+        <div *ngIf="this.tasks.get(selectedCommitment.taskId)!.teamwork" class="team">
+          <mat-icon>groups</mat-icon>
+          <mat-chip-set>
+            <mat-chip *ngFor="let username of getUsers(this.tasks.get(selectedCommitment.taskId)!.id!)" disableRipple>{{username}}</mat-chip>
+          </mat-chip-set>
+        </div>
+      </div>
       <div class="label">Feladatleírás:</div>
       <div>{{this.tasks.get(selectedCommitment.taskId)!.description}}</div>
       <div *ngIf="links.length || files.length">

@@ -1,6 +1,14 @@
 <div class="container">
   <div class="tasks">
     <div class="list">
+      <div *ngIf="!this.available.length" class="no-data">
+        <div class="icon">
+          <mat-icon>info_outlined</mat-icon>
+        </div>
+        <div class="info">
+          Nincs vállalható feladat
+        </div>
+      </div>
       <div *ngFor="let task of this.available" class="item">
         <button mat-icon-button (click)="add(task)">
           <mat-icon>add</mat-icon>
@@ -13,6 +21,14 @@
       </div>
     </div>
     <div class="list">
+      <div *ngIf="!this.commited.length" class="no-data">
+        <div class="icon">
+          <mat-icon>info_outlined</mat-icon>
+        </div>
+        <div class="info">
+          Nincs elvállalt feladat
+        </div>
+      </div>
       <div *ngFor="let task of this.commited" class="item">
         <button mat-icon-button (click)="remove(task)">
           <mat-icon>remove</mat-icon>
@@ -22,11 +38,11 @@
         <div *ngIf="task.teamwork" class="team-button" (click)="assemble(task)" matTooltip="Csapat szerkesztése">
           <mat-icon>groups</mat-icon>
         </div>
-<!--        <div *ngIf="task.teamwork">-->
-<!--          <mat-chip-set>-->
-<!--            <mat-chip *ngFor="let username of getUsers(task.id!)" disableRipple>{{username}}</mat-chip>-->
-<!--          </mat-chip-set>-->
-<!--        </div>-->
+        <div *ngIf="task.teamwork">
+          <mat-chip-set>
+            <mat-chip *ngFor="let username of getUsers(task.id!)" disableRipple>{{username}}</mat-chip>
+          </mat-chip-set>
+        </div>
       </div>
     </div>
   </div>

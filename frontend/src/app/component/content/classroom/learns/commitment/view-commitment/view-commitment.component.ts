@@ -26,6 +26,7 @@ export class ViewCommitmentComponent implements OnInit{
   modul: ModulDto = {} as ModulDto;
   tasks: Map<number, TaskDto> = new Map<number, TaskDto>();
   commitments: CommitmentDto[] = [];
+  teams: Map<number, Map<number, string>> = new Map; // taskId, userId, name
 
   // attachments: AttachmentDto[] = [];
   links: AttachmentDto[] = [];
@@ -53,7 +54,15 @@ export class ViewCommitmentComponent implements OnInit{
         switchMap(commitments => {
           this.commitments = commitments;
           let commitedTaskIds : number[] = [];
-          commitments.forEach(commitment => commitedTaskIds.push(commitment.taskId));
+          commitments.forEach(commitment => {
+            commitedTaskIds.push(commitment.taskId)
+            this.applicationUserService.getUsersByIds(commitment.studentIds)
+              .subscribe(users => {
+                let team: Map<number, string> = new Map;
+                users.forEach(u => team.set(u.id!, u.name));
+                this.teams.set(commitment.taskId, team);
+              });
+          });
           return this.taskService.getTasksByIds(commitedTaskIds);
         })
       )
@@ -67,5 +76,9 @@ export class ViewCommitmentComponent implements OnInit{
         this.links = attachments.filter(a => a.type === AttachmentTypeEnum.LINK);
         this.files = attachments.filter(a => a.type === AttachmentTypeEnum.FILE);
       });
+  }
+
+  getUsers(taskId: number) : string[]{
+    return Array.from(this.teams.get(taskId)!.values());
   }
 }

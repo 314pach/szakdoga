@@ -32,8 +32,8 @@ export class AssembleTeamComponent implements OnInit{
   }
 
   isDisabled() {
-    console.log(Array.from(this.checked.keys()).sort())
-    console.log(Array.from(this.data.members.keys()).sort())
+    // console.log(Array.from(this.checked.keys()).sort())
+    // console.log(Array.from(this.data.members.keys()).sort())
     return this.checked.size !== this.data.headcount || this.arraysEquals(Array.from(this.checked.keys()).sort(), Array.from(this.data.members.keys()).sort());
   }
 

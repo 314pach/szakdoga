@@ -33,6 +33,7 @@ export class CreateCommitmentComponent implements OnInit, AfterViewInit {
   commitments: CommitmentDto[] = [];
   commitedTaskIds: number[] = [];
   teams: Map<number, Map<number, string>> = new Map; // taskId, userId, name
+  changedTeams: Map<number, Map<number, string>> = new Map; // taskId, userId, name
 
   tasksToAdd: number[] = [];
   tasksToRemove: number[] = [];
@@ -90,8 +91,13 @@ export class CreateCommitmentComponent implements OnInit, AfterViewInit {
             this.applicationUserService.getUsersByIds(commitment.studentIds)
               .subscribe(users => {
                 let team: Map<number, string> = new Map;
-                users.forEach(u => team.set(u.id!, u.name));
+                let changedTeam: Map<number, string> = new Map;
+                users.forEach(u => {
+                  team.set(u.id!, u.name);
+                  changedTeam.set(u.id!, u.name);
+                });
                 this.teams.set(commitment.taskId, team);
+                this.changedTeams.set(commitment.taskId, changedTeam);
               });
           });
           this.available = data[0].filter(task => !this.commitedTaskIds.includes(task.id!));
@@ -131,8 +137,8 @@ export class CreateCommitmentComponent implements OnInit, AfterViewInit {
     this.refreshGrade();
     if (!this.commitedTaskIds.includes(task.id!)) {
       this.tasksToAdd.push(task.id!);
-      this.teams.set(task.id!, new Map())
-      this.teams.get(task.id!)!.set(this.loggedInUser.id!, this.loggedInUser.name)
+      this.changedTeams.set(task.id!, new Map()) //todo check
+      this.changedTeams.get(task.id!)!.set(this.loggedInUser.id!, this.loggedInUser.name)
     } else {
       this.tasksToRemove = this.tasksToRemove.filter(taskId => taskId !== task.id);
     }
@@ -171,12 +177,18 @@ export class CreateCommitmentComponent implements OnInit, AfterViewInit {
     // console.log(this.tasks);
     currentlyCommited.forEach(taskId => {
       let task: TaskDto = this.tasks.filter(t => t.id === taskId)[0];
-      if (task.headcount !== this.teams.get(taskId)!.size) {
+      if (this.changedTeams.get(taskId) && task.headcount !== this.changedTeams.get(taskId)!.size) {
         headcountError = true;
       }
     });
     if (headcountError) {
       return true;
+    }
+
+    for (let task of this.changedTeams.keys()) {
+      if (!this.arraysEquals(Array.from(this.teams.get(task)!.keys()), Array.from(this.changedTeams.get(task)!.keys()))) {
+        return false;
+      }
     }
 
     // console.log("currently commited: " + currentlyCommited)
@@ -193,12 +205,17 @@ export class CreateCommitmentComponent implements OnInit, AfterViewInit {
         ]
       )
         .subscribe(
-          _ => {
+          data => {
+            // console.log("hallo")
+            // console.log(data)
             this._snackBar.open(
               "A vállalás sikeres",
               "Ok",
               {duration: 5000}
             );
+            let alltasks: number[] = [];
+            this.tasks.forEach(t => alltasks.push(t.id!));
+            this.commitmentService.getCommitmentsByUserAndModul(this.loggedInUser.id!, alltasks);
             this.refreshData();
           }
         );
@@ -221,7 +238,8 @@ export class CreateCommitmentComponent implements OnInit, AfterViewInit {
     let commitments: CommitmentDto[] = [];
     if (this.tasksToAdd.length) {
       this.tasksToAdd.forEach(taskId => {
-        let members: number[] = [...this.teams.get(taskId)!.keys()];
+        let members: number[] = [...this.changedTeams.get(taskId)!.keys()];
+        // console.log(members);
         let newCommitment;
         if (this.commitedTaskIds.includes(taskId)) {
           let id = this.commitments.filter(c => c.taskId === taskId)[0].id;
@@ -251,6 +269,7 @@ export class CreateCommitmentComponent implements OnInit, AfterViewInit {
       });
     }
     return this.commitmentService.createCommitments(commitments);
+    //todo batch update to look better on backend
   }
 
   getColor() {
@@ -288,12 +307,21 @@ export class CreateCommitmentComponent implements OnInit, AfterViewInit {
       });
     dialogRef.afterClosed()
       .subscribe(result => {
-        // console.log(result);
-        this.teams.set(task.id!, result);
+        if (result instanceof Map) {
+          // console.log(result);
+          this.changedTeams.set(task.id!, result);
+          if ((!this.teams.has(task.id!) || !this.arraysEquals(Array.from(this.teams.get(task.id!)!.keys()), Array.from(this.changedTeams.get(task.id!)!.keys()))) && !this.tasksToAdd.includes(task.id!)) {
+            this.tasksToAdd.push(task.id!);
+          }
+        }
       })
   }
 
-  // getUsers(taskId: number) : string[]{
-  //   return Array.from(this.teams.get(taskId)!.values());
-  // }
+  getUsers(taskId: number): string[] {
+    if (this.changedTeams.get(taskId)) {
+      return Array.from(this.changedTeams.get(taskId)!.values());
+    } else {
+      return [];
+    }
+  }
 }
