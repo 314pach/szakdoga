@@ -19,9 +19,14 @@
         </button>
         <div matTooltip="{{task.summary}}">{{task.title}}</div>
         <div>{{task.points}} pont</div>
-        <div *ngIf="task.teamwork">
+        <div *ngIf="task.teamwork" class="team-button" (click)="assemble(task)" matTooltip="Csapat szerkesztése">
           <mat-icon>groups</mat-icon>
         </div>
+<!--        <div *ngIf="task.teamwork">-->
+<!--          <mat-chip-set>-->
+<!--            <mat-chip *ngFor="let username of getUsers(task.id!)" disableRipple>{{username}}</mat-chip>-->
+<!--          </mat-chip-set>-->
+<!--        </div>-->
       </div>
     </div>
   </div>

@@ -34,7 +34,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 }
 
 .progress {
@@ -57,4 +57,18 @@
 
 .control {
   margin-right: 15px;
+}
+
+.team-button {
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.team-button:hover {
+  border-radius: 20px;
+  background-color: #c2c2c2;
 }

@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
-import {forkJoin} from "rxjs";
+import {filter, forkJoin} from "rxjs";
 import {ClassroomService} from "../../../../../../shared/service/classroom.service";
 import {ApplicationUserService} from "../../../../../../shared/service/application-user.service";
 import {ModulService} from "../../../../../../shared/service/modul.service";
@@ -14,20 +14,25 @@ import {CommitmentService} from "../../../../../../shared/service/commitment.ser
 import {combineLatest} from "rxjs";
 import {CommitmentStatusEnum} from "../../../../../../shared/enum/commitment-status.enum";
 import {MatButton} from "@angular/material/button";
+import {MatDialog} from "@angular/material/dialog";
+import {AssembleTeamComponent} from "./assemble-team/assemble-team.component";
+import {ClassroomDto} from "../../../../../../shared/dto/classroom.dto";
 
 @Component({
   selector: 'app-create-commitment',
   templateUrl: './create-commitment.component.html',
   styleUrls: ['./create-commitment.component.scss']
 })
-export class CreateCommitmentComponent implements OnInit, AfterViewInit{
+export class CreateCommitmentComponent implements OnInit, AfterViewInit {
   loggedInUser: ApplicationUserDto = {} as ApplicationUserDto;
   modul: ModulDto = {} as ModulDto;
+  classroom: ClassroomDto = {} as ClassroomDto;
   tasks: TaskDto[] = [];
   available: TaskDto[] = [];
   commited: TaskDto[] = [];
   commitments: CommitmentDto[] = [];
   commitedTaskIds: number[] = [];
+  teams: Map<number, Map<number, string>> = new Map; // taskId, userId, name
 
   tasksToAdd: number[] = [];
   tasksToRemove: number[] = [];
@@ -36,7 +41,7 @@ export class CreateCommitmentComponent implements OnInit, AfterViewInit{
   expectedGrade: number = 1;
   placeholder: number[] = [0];
 
-  @ViewChild("save_btn") saveButton! : MatButton;
+  @ViewChild("save_btn") saveButton!: MatButton;
 
   constructor(
     private classroomService: ClassroomService,
@@ -45,38 +50,56 @@ export class CreateCommitmentComponent implements OnInit, AfterViewInit{
     private applicationUserService: ApplicationUserService,
     private commitmentService: CommitmentService,
     private route: ActivatedRoute,
+    private dialog: MatDialog,
     private _snackBar: MatSnackBar,
   ) {
   }
+
   ngOnInit(): void {
     this.refreshData();
     this.route.queryParams
       .subscribe(params => {
-          let modulId = params['modulId'];
-          this.modulService.getModulById(modulId)
-            .subscribe(
-              modul => this.modul = modul
-            );
+        let modulId = params['modulId'];
+        let classroomId = params['classroomId'];
+        this.modulService.getModulById(modulId)
+          .subscribe(
+            modul => this.modul = modul
+          );
+        this.classroomService.getClassroomById(classroomId)
+          .subscribe(
+            classroom => this.classroom = classroom
+          );
       });
   }
 
   refreshData() {
     this.applicationUserService.loggedInUserSubject
-      .subscribe( user => this.loggedInUser = user);
+      .subscribe(user => this.loggedInUser = user);
     combineLatest(
       this.taskService.tasksByModulIdSubject,
       this.commitmentService.commitmentsByModulSubject
     ).subscribe(
       data => {
-        this.tasks = data[0];
-        this.commitments = data[1];
-        this.commitedTaskIds = [];
-        data[1].forEach(commitment => this.commitedTaskIds.push(commitment.taskId));
-        this.available = data[0].filter(task => !this.commitedTaskIds.includes(task.id!));
-        this.sumOfPoints = 0;
-        this.commited = data[0].filter(task => this.commitedTaskIds.includes(task.id!));
-        this.commited.forEach(task => this.sumOfPoints += task.points);
-        this.refreshGrade();
+        if (data[0].length && data[1].length) {
+          // console.log(data)
+          this.tasks = data[0];
+          this.commitments = data[1];
+          this.commitedTaskIds = [];
+          data[1].forEach(commitment => {
+            this.commitedTaskIds.push(commitment.taskId)
+            this.applicationUserService.getUsersByIds(commitment.studentIds)
+              .subscribe(users => {
+                let team: Map<number, string> = new Map;
+                users.forEach(u => team.set(u.id!, u.name));
+                this.teams.set(commitment.taskId, team);
+              });
+          });
+          this.available = data[0].filter(task => !this.commitedTaskIds.includes(task.id!));
+          this.sumOfPoints = 0;
+          this.commited = data[0].filter(task => this.commitedTaskIds.includes(task.id!));
+          this.commited.forEach(task => this.sumOfPoints += task.points);
+          this.refreshGrade();
+        }
       }
     )
   }
@@ -98,7 +121,7 @@ export class CreateCommitmentComponent implements OnInit, AfterViewInit{
       this.expectedGrade = 5;
       this.placeholder = [0, 0, 0, 0, 0];
     }
-    console.log(this.placeholder)
+    // console.log(this.placeholder)
   }
 
   add(task: TaskDto) {
@@ -106,13 +129,15 @@ export class CreateCommitmentComponent implements OnInit, AfterViewInit{
     this.available = this.available.filter(t => t.id !== task.id);
     this.sumOfPoints += task.points;
     this.refreshGrade();
-    if (!this.commitedTaskIds.includes(task.id!)){
+    if (!this.commitedTaskIds.includes(task.id!)) {
       this.tasksToAdd.push(task.id!);
+      this.teams.set(task.id!, new Map())
+      this.teams.get(task.id!)!.set(this.loggedInUser.id!, this.loggedInUser.name)
     } else {
       this.tasksToRemove = this.tasksToRemove.filter(taskId => taskId !== task.id);
     }
-    console.log(this.tasksToAdd);
-    console.log(this.tasksToRemove);
+    // console.log(this.tasksToAdd);
+    // console.log(this.tasksToRemove);
   }
 
   remove(task: TaskDto) {
@@ -120,16 +145,16 @@ export class CreateCommitmentComponent implements OnInit, AfterViewInit{
     this.commited = this.commited.filter(t => t.id !== task.id);
     this.sumOfPoints -= task.points;
     this.refreshGrade();
-    if (this.commitedTaskIds.includes(task.id!)){
+    if (this.commitedTaskIds.includes(task.id!)) {
       this.tasksToRemove.push(task.id!);
     } else {
       this.tasksToAdd = this.tasksToAdd.filter(taskId => taskId !== task.id);
     }
-    console.log(this.tasksToAdd);
-    console.log(this.tasksToRemove);
+    // console.log(this.tasksToAdd);
+    // console.log(this.tasksToRemove);
   }
 
-  arraysEquals(a: number[], b:  number[]): boolean{
+  arraysEquals(a: number[], b: number[]): boolean {
     // console.log(a);
     // console.log(b);
     return Array.isArray(a) &&
@@ -139,10 +164,23 @@ export class CreateCommitmentComponent implements OnInit, AfterViewInit{
   }
 
   isDisabled() {
-    let currentlyCommited : number[] = [];
+    let currentlyCommited: number[] = [];
     this.commited.forEach(task => currentlyCommited.push(task.id!));
-    console.log("currently commited: " + currentlyCommited)
-    console.log("db: " + this.commitedTaskIds)
+
+    let headcountError = false;
+    // console.log(this.tasks);
+    currentlyCommited.forEach(taskId => {
+      let task: TaskDto = this.tasks.filter(t => t.id === taskId)[0];
+      if (task.headcount !== this.teams.get(taskId)!.size) {
+        headcountError = true;
+      }
+    });
+    if (headcountError) {
+      return true;
+    }
+
+    // console.log("currently commited: " + currentlyCommited)
+    // console.log("db: " + this.commitedTaskIds)
     return this.commitedTaskIds.length === currentlyCommited.length && this.arraysEquals(this.commitedTaskIds.sort(), currentlyCommited.sort());
   }
 
@@ -167,11 +205,11 @@ export class CreateCommitmentComponent implements OnInit, AfterViewInit{
     }
   }
 
-  deleteCommitments(){
-    let commitmentIds : number[] = [];
+  deleteCommitments() {
+    let commitmentIds: number[] = [];
     if (this.tasksToRemove.length) {
       this.commitments.forEach(commitment => {
-        if (this.tasksToRemove.includes(commitment.taskId)){
+        if (this.tasksToRemove.includes(commitment.taskId)) {
           commitmentIds.push(commitment.id!);
         }
       });
@@ -179,26 +217,43 @@ export class CreateCommitmentComponent implements OnInit, AfterViewInit{
     return this.commitmentService.deleteCommitments(commitmentIds);
   }
 
-  createCommitments(){
-    let commitments : CommitmentDto[] = [];
+  createCommitments() {
+    let commitments: CommitmentDto[] = [];
     if (this.tasksToAdd.length) {
       this.tasksToAdd.forEach(taskId => {
-        let newCommitment = new CommitmentDto(
-          null,
-          0,
-          CommitmentStatusEnum.Created,
-          this.modul.end,
-          taskId,
-          [this.loggedInUser.id!],
-          []
-        );
+        let members: number[] = [...this.teams.get(taskId)!.keys()];
+        let newCommitment;
+        if (this.commitedTaskIds.includes(taskId)) {
+          let id = this.commitments.filter(c => c.taskId === taskId)[0].id;
+          newCommitment = new CommitmentDto(
+            id,
+            0,
+            CommitmentStatusEnum.Created,
+            this.modul.end,
+            taskId,
+            // [this.loggedInUser.id!],
+            members,
+            []
+          );
+        } else {
+          newCommitment = new CommitmentDto(
+            null,
+            0,
+            CommitmentStatusEnum.Created,
+            this.modul.end,
+            taskId,
+            // [this.loggedInUser.id!],
+            members,
+            []
+          );
+        }
         commitments.push(newCommitment);
       });
     }
     return this.commitmentService.createCommitments(commitments);
   }
 
-  getColor(){
+  getColor() {
     //todo better colors
     switch (this.expectedGrade) {
       case 1:
@@ -219,4 +274,26 @@ export class CreateCommitmentComponent implements OnInit, AfterViewInit{
   ngAfterViewInit(): void {
     this.saveButton.disabled = true;
   }
+
+  assemble(task: TaskDto) {
+    let dialogRef = this.dialog.open(
+      AssembleTeamComponent, {
+        width: '600px',
+        maxHeight: '500px',
+        data: {
+          classroomId: this.classroom.id,
+          headcount: task.headcount,
+          members: this.teams.get(task.id!)
+        }
+      });
+    dialogRef.afterClosed()
+      .subscribe(result => {
+        // console.log(result);
+        this.teams.set(task.id!, result);
+      })
+  }
+
+  // getUsers(taskId: number) : string[]{
+  //   return Array.from(this.teams.get(taskId)!.values());
+  // }
 }

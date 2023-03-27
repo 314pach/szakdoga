@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject} from "rxjs";
+import {BehaviorSubject, Observable} from "rxjs";
 import {ApplicationUserDto} from "../dto/application-user.dto";
 import {ApplicationUserWebService} from "./api/application-user-web.service";
 
@@ -27,6 +27,14 @@ export class ApplicationUserService {
       .subscribe(
           user => this.loggedInUserSubject.next(user)
       );
+  }
+
+  getUserByClassroom(classroomId: number) {
+    return this.applicationUserWebService.getUsersByClassroom(classroomId);
+  }
+
+  getUsersByIds(userIds: number[]) : Observable<ApplicationUserDto[]> {
+    return this.applicationUserWebService.getUsersByIds(userIds);
   }
 
   updateUser(user: ApplicationUserDto){

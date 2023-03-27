@@ -24,6 +24,7 @@ import {MatDividerModule} from "@angular/material/divider";
 import {MatSortModule} from "@angular/material/sort";
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatChipsModule} from '@angular/material/chips';
 
 
 @NgModule({
@@ -80,7 +81,8 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
     MatDividerModule,
     MatSortModule,
     MatTabsModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatChipsModule
   ]
 })
 export class SharedModule { }

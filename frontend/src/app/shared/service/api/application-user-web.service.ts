@@ -28,6 +28,16 @@ export class ApplicationUserWebService {
     return this.http.get<ApplicationUserDto>(fullPath);
   }
 
+  getUsersByClassroom(classroomId: number): Observable<ApplicationUserDto[]> {
+    let fullPath = this.buildFullPath(ApiPathEnum.FindUsersByClassroom) + classroomId;
+    return this.http.get<ApplicationUserDto[]>(fullPath);
+  }
+
+  getUsersByIds(userIds: number[]): Observable<ApplicationUserDto[]> {
+    let fullPath = this.buildFullPath(ApiPathEnum.FindUsersByIds);
+    return this.http.post<ApplicationUserDto[]>(fullPath, userIds);
+  }
+
   createUser(user: ApplicationUserDto): Observable<ApplicationUserDto> {
     let fullPath = this.buildFullPath(ApiPathEnum.Create);
     return this.http.post<ApplicationUserDto>(fullPath, user);
