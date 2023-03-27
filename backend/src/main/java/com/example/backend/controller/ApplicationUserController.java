@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -27,6 +28,18 @@ public class ApplicationUserController {
     public ResponseEntity<ApplicationUserDTO> getUserById(@PathVariable("id") Long id){
         ApplicationUserDTO applicationUserDTO = applicationUserService.findById(id);
         return new ResponseEntity<>(applicationUserDTO, HttpStatus.OK);
+    }
+
+    @GetMapping("/findUsersByClassroom/{classroomId}")
+    public ResponseEntity<Set<ApplicationUserDTO>> getAllUsersByClassroom(@PathVariable("classroomId") Long classroomId){
+        Set<ApplicationUserDTO> userDTOS = applicationUserService.findAllByClassroom(classroomId);
+        return new ResponseEntity<>(userDTOS, HttpStatus.OK);
+    }
+
+    @PostMapping("/findUsersByIds")
+    public ResponseEntity<Set<ApplicationUserDTO>> getUsersByIds(@RequestBody() List<Long> userIds){
+        Set<ApplicationUserDTO> applicationUserDTOS = applicationUserService.findAllByIds(userIds);
+        return new ResponseEntity<>(applicationUserDTOS, HttpStatus.OK);
     }
 
     @PostMapping("/create")

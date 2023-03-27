@@ -41,6 +41,16 @@ public class ApplicationUserService {
         return toDto(applicationUserRepository.findAll());
     }
 
+    @Transactional(readOnly = true)
+    public Set<ApplicationUserDTO> findAllByClassroom(Long classroomId){
+        return toDto(applicationUserRepository.findAllByClassId(classroomId));
+    }
+
+    @Transactional(readOnly = true)
+    public Set<ApplicationUserDTO> findAllByIds(List<Long> ids) {
+        return toDto(applicationUserRepository.findAllById(ids));
+    }
+
     public ApplicationUserDTO save(ApplicationUserDTO applicationUserDTO){
         return toDto(applicationUserRepository.save(toEntity(applicationUserDTO)));
     }
