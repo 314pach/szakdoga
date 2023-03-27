@@ -21,17 +21,17 @@ export class MenuComponent implements OnInit {
     private route: ActivatedRoute
   ) {
     applicationUserService.loggedInUserSubject.subscribe(user => {
-      console.log(user);
+      // console.log(user);
       this.loggedInUser = user;
     })
     router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe(event => {
-      console.log(event);
+      // console.log(event);
       // @ts-ignore
       this.routeString = event.url;
     })
-    console.log(this.router.url);
+    // console.log(this.router.url);
     this.route.url.subscribe(url => console.log(url));
   }
 
