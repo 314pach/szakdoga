@@ -1,5 +1,6 @@
 package com.example.backend.model;
 
+import com.example.backend.token.Token;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -56,6 +57,8 @@ public class ApplicationUser implements UserDetails {
     )
     @Enumerated(EnumType.STRING)
     private Role role;
+    @OneToMany(mappedBy = "applicationUser")
+    private Set<Token> tokens;
     @ManyToMany(
             cascade = {CascadeType.MERGE, CascadeType.REFRESH},
             fetch = FetchType.LAZY
@@ -170,5 +173,13 @@ public class ApplicationUser implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public Set<Token> getTokens() {
+        return tokens;
+    }
+
+    public void setTokens(Set<Token> tokens) {
+        this.tokens = tokens;
     }
 }
