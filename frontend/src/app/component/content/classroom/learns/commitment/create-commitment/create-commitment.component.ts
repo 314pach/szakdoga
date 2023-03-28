@@ -302,7 +302,7 @@ export class CreateCommitmentComponent implements OnInit, AfterViewInit {
         data: {
           classroomId: this.classroom.id,
           headcount: task.headcount,
-          members: this.teams.get(task.id!)
+          members: this.changedTeams.get(task.id!)
         }
       });
     dialogRef.afterClosed()
