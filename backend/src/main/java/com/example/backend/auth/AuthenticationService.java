@@ -4,6 +4,7 @@ import com.example.backend.config.JwtService;
 import com.example.backend.model.ApplicationUser;
 import com.example.backend.model.Role;
 import com.example.backend.repository.ApplicationUserRepository;
+import com.example.backend.service.ApplicationUserService;
 import com.example.backend.token.Token;
 import com.example.backend.token.TokenRepository;
 import com.example.backend.token.TokenType;
@@ -12,17 +13,21 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
+
 @Service
 public class AuthenticationService {
 
     private final ApplicationUserRepository applicationUserRepository;
+    private final ApplicationUserService applicationUserService;
     private final TokenRepository tokenRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    public AuthenticationService(ApplicationUserRepository applicationUserRepository, TokenRepository tokenRepository, PasswordEncoder passwordEncoder, JwtService jwtService, AuthenticationManager authenticationManager) {
+    public AuthenticationService(ApplicationUserRepository applicationUserRepository, ApplicationUserService applicationUserService, TokenRepository tokenRepository, PasswordEncoder passwordEncoder, JwtService jwtService, AuthenticationManager authenticationManager) {
         this.applicationUserRepository = applicationUserRepository;
+        this.applicationUserService = applicationUserService;
         this.tokenRepository = tokenRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
@@ -35,14 +40,17 @@ public class AuthenticationService {
         user.setEmail(request.getEmail());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setRole(Role.STUDENT);
-//        user.setClassRooms(new HashSet<>());
-//        user.setCommitments(new HashSet<>());
+        user.setClassRooms(new HashSet<>());
+        user.setCommitments(new HashSet<>());
 
         var savedUser = applicationUserRepository.save(user);
         var jwtToken = jwtService.generateToken(user);
-//        revokeAlllUserTokens(savedUser);
+//        revokeAllUserTokens(savedUser);
         saveUserToken(savedUser, jwtToken);
-        return new AuthenticationResponse(jwtToken);
+        return new AuthenticationResponse(
+                jwtToken,
+                this.applicationUserService.toDto(user)
+        );
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
@@ -55,12 +63,15 @@ public class AuthenticationService {
         var user = applicationUserRepository.findByEmail(request.getEmail())
                 .orElseThrow();
         var jwtToken = jwtService.generateToken(user);
-        revokeAlllUserTokens(user);
+        revokeAllUserTokens(user);
         saveUserToken(user, jwtToken);
-        return new AuthenticationResponse(jwtToken);
+        return new AuthenticationResponse(
+                jwtToken,
+                this.applicationUserService.toDto(user)
+        );
     }
 
-    private void revokeAlllUserTokens(ApplicationUser user){
+    private void revokeAllUserTokens(ApplicationUser user){
         var validUserTokens = tokenRepository.findAllValidTokensByUser(user.getId());
         if (validUserTokens.isEmpty()){
             return;
