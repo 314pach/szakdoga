@@ -28,6 +28,11 @@ export class MessageWebService {
     return this.http.get<MessageDto>(fullPath);
   }
 
+  getMessagesByParties(userId1: number, userId2: number): Observable<MessageDto[]> {
+    let fullPath = this.buildFullPath(ApiPathEnum.FindMessagesByParties) + userId1 + "/" + userId2;
+    return this.http.get<MessageDto[]>(fullPath);
+  }
+
   createMessage(message: MessageDto): Observable<MessageDto> {
     let fullPath = this.buildFullPath(ApiPathEnum.Create);
     return this.http.post<MessageDto>(fullPath, message);

@@ -1,1 +1,59 @@
-<p>message works!</p>
+<div class="container" style="height: 100%">
+  <div class="users">
+    <div class="search">
+      <mat-form-field appearance="outline" class="field">
+        <mat-label>Keresés</mat-label>
+        <input matInput type="text" [(ngModel)]="search" (keyup)="doSearch()">
+      </mat-form-field>
+    </div>
+    <div class="list">
+      <div *ngIf="!this.users.length" class="no-data">
+        <div class="icon">
+          <mat-icon>info_outlined</mat-icon>
+        </div>
+        <div class="info">
+          Nincs megjeleníthető felhasználó
+        </div>
+      </div>
+      <div *ngIf="this.filteredUsers.length">
+        <div *ngFor="let user of this.filteredUsers" class="item" (click)="open(user)"
+             [ngStyle]="{'background-color': user.id === selectedUser.id ? ' #e6f2f8': ''}">
+          <div>{{user.name}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="messages">
+    <div *ngIf="!this.messages.length && this.selectedUser.id" class="no-data">
+      <div class="icon">
+        <mat-icon>info_outlined</mat-icon>
+      </div>
+      <div class="info">
+        Nincs megjeleníthető üzenet
+      </div>
+    </div>
+    <div *ngIf="!this.selectedUser.id" class="no-data">
+      <div class="icon">
+        <mat-icon>info_outlined</mat-icon>
+      </div>
+      <div class="info">
+        Válassz egy felhasználót
+      </div>
+    </div>
+    <div *ngIf="selectedUser.id">
+      <div *ngIf="this.messages.length" class="message-list">
+        <div *ngFor="let message of this.messages" class="message-item">
+          <div class="date">{{message.timestamp | date:"yyyy.MM.dd HH:mm"}}</div>
+          <div class="text">{{message.body}}</div>
+        </div>
+      </div>
+      <mat-form-field appearance="outline" class="field">
+        <textarea matInput [formControl]="messageControl" class="no-resize"></textarea>
+        <button mat-icon-button matSuffix (click)="send()" [attr.aria-label]="'Send'" matTooltip="Küldés" class="send-button">
+          <mat-icon>send</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+  </div>
+</div>
+
