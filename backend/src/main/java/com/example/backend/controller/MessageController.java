@@ -29,6 +29,12 @@ public class MessageController {
         return new ResponseEntity<>(messageDTO, HttpStatus.OK);
     }
 
+    @GetMapping("/findMessagesByParties/{user1}/{user2}")
+    public ResponseEntity<Set<MessageDTO>> getMessageByParties(@PathVariable("user1") Long user1, @PathVariable("user2") Long user2){
+        Set<MessageDTO> messageDTOS = messageService.findAllByParties(user1, user2);
+        return new ResponseEntity<>(messageDTOS, HttpStatus.OK);
+    }
+
     @PostMapping("/create")
     public ResponseEntity<MessageDTO> addMessage(@RequestBody() MessageDTO messageDTO){
         MessageDTO newMessage = messageService.save(messageDTO);
