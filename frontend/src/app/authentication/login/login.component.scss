@@ -47,12 +47,15 @@
 }
 
 .link {
+  padding: 5px;
   margin-top: 10px;
 }
 
-//.link:hover {
-//  cursor: pointer;
-//}
+.link:hover {
+  border-radius: 5px;
+  background-color: #c2c2c2;
+  cursor: pointer;
+}
 
 @media screen and (max-width: 1000px) {
   .login-card {
