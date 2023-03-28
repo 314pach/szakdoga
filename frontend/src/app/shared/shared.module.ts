@@ -17,14 +17,16 @@ import {FlexLayoutModule} from "@angular/flex-layout";
 import {MatSelectModule} from "@angular/material/select";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatDatepickerModule} from "@angular/material/datepicker";
-import {MatNativeDateModule} from "@angular/material/core";
+import {DateAdapter, MAT_DATE_LOCALE, MatNativeDateModule} from "@angular/material/core";
 import {MatTableModule} from "@angular/material/table";
-import {MatPaginatorModule} from "@angular/material/paginator";
+import {MatPaginatorIntl, MatPaginatorModule} from "@angular/material/paginator";
 import {MatDividerModule} from "@angular/material/divider";
 import {MatSortModule} from "@angular/material/sort";
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatChipsModule} from '@angular/material/chips';
+import {CustomDateAdapter} from "./adapter/custom-date-adapter";
+import {getHungarianPaginatorIntl} from "./adapter/custom-paginator-language-adapter";
 
 
 @NgModule({
@@ -83,6 +85,11 @@ import {MatChipsModule} from '@angular/material/chips';
     MatTabsModule,
     MatSlideToggleModule,
     MatChipsModule
-  ]
+  ],
+  providers: [
+    {provide: MAT_DATE_LOCALE, useValue: "hu-HU"},
+    {provide: DateAdapter, useClass: CustomDateAdapter},
+    { provide: MatPaginatorIntl, useValue: getHungarianPaginatorIntl() }
+  ],
 })
 export class SharedModule { }
