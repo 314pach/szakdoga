@@ -4,6 +4,7 @@ import {ApplicationUserService} from "../../../shared/service/application-user.s
 import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
 import {filter} from "rxjs";
 import {ApplicationComponent} from "../../application.component";
+import {AuthenticationService} from "../../../shared/service/authentication.service";
 
 @Component({
   selector: 'app-menu',
@@ -16,6 +17,7 @@ export class MenuComponent implements OnInit {
 
   constructor(
     private applicationUserService: ApplicationUserService,
+    private authenticationService: AuthenticationService,
     public parentComponent: ApplicationComponent,
     private router: Router,
     private route: ActivatedRoute
@@ -60,5 +62,9 @@ export class MenuComponent implements OnInit {
       return "message";
     }
     return "";
+  }
+
+  logout() {
+    this.authenticationService.logout();
   }
 }

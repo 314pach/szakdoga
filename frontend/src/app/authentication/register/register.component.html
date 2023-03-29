@@ -37,7 +37,7 @@
       </div>
     </mat-card-content>
     <mat-card-actions class="control">
-      <button mat-raised-button color="primary" [disabled]="isDisabled()">Regisztráció</button>
+      <button mat-raised-button color="primary" [disabled]="isDisabled()" (click)="register()">Regisztráció</button>
       <div class="link" routerLink="/authentication/login">Bejelentkezés</div>
     </mat-card-actions>
   </mat-card>

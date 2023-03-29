@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import {FormControl, Validators} from "@angular/forms";
+import {AuthenticationService} from "../../shared/service/authentication.service";
+import {RegisterRequestDto} from "../../shared/dto/register-request.dto";
 
 @Component({
   selector: 'app-register',
@@ -17,7 +19,9 @@ export class RegisterComponent {
   passwordControl: FormControl = new FormControl<string>("", [Validators.required, Validators.minLength(6), Validators.maxLength(15), Validators.pattern("(?=[A-Za-z0-9]+$)^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).*$")]);
   passwordAgainControl: FormControl = new FormControl<string>("", Validators.required);
 
-  constructor() {
+  constructor(
+    private authenticationService: AuthenticationService
+  ) {
   }
 
   passwordsMatch() {
@@ -31,5 +35,16 @@ export class RegisterComponent {
 
   isDisabled() {
     return this.nameControl.invalid || this.emailControl.invalid || this.passwordControl.invalid || this.passwordAgainControl.invalid || !this.confirmed;
+  }
+
+  register() {
+    if (!this.isDisabled()){
+      let newUser = new RegisterRequestDto(
+        this.nameControl.value,
+        this.emailControl.value,
+        this.passwordControl.value
+      )
+      this.authenticationService.register(newUser);
+    }
   }
 }

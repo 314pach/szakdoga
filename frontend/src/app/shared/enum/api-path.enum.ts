@@ -1,4 +1,7 @@
 export enum ApiPathEnum {
+  Login = "login",
+  Register = "register",
+  Logout = "logout",
   FindAll = "findAll",
   FindById = "find/",
   Create = "create",

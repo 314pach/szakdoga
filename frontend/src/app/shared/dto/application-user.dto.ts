@@ -1,9 +1,11 @@
+import {RoleEnum} from "../enum/role.enum";
+
 export class ApplicationUserDto {
   public readonly id: number | null;
   public readonly name: string;
   public readonly email: string;
   public readonly password: string;
-  public readonly role: boolean;
+  public readonly role: RoleEnum;
   public readonly classRoomIds: Set<number>;
   public readonly commitmentIds: Set<number>;
 
@@ -13,7 +15,7 @@ export class ApplicationUserDto {
     name: string,
     email: string,
     password: string,
-    role: boolean,
+    role: RoleEnum,
     classRoomIds: Set<number>,
     commitmentIds: Set<number>
   ) {

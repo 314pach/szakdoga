@@ -11,8 +11,8 @@ export class ApplicationUserService {
   loggedInUserSubject: BehaviorSubject<ApplicationUserDto> = new BehaviorSubject<ApplicationUserDto>({} as ApplicationUserDto);
 
   constructor(private applicationUserWebService: ApplicationUserWebService) {
-    this.getAllUsers();
-    this.getUserById(1)
+    this.getAllUsers(); //todo ezt nem itt kellene
+    // this.getUserById(1)
   }
 
   getAllUsers() {

@@ -52,6 +52,7 @@ export class MessageComponent implements OnInit {
   }
 
   open(user: ApplicationUserDto) {
+    console.log(this.loggedInUser);
     this.selectedUser = user;
     this.messageService.getSelectedMessages(this.loggedInUser.id!, this.selectedUser.id!);
   }
