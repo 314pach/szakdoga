@@ -8,6 +8,9 @@ import {ClassroomService} from "../../../../../shared/service/classroom.service"
 import {MatDialog} from "@angular/material/dialog";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {EditLearnsComponent} from "./edit-learns/edit-learns.component";
+import {ApplicationUserService} from "../../../../../shared/service/application-user.service";
+import {ApplicationUserDto} from "../../../../../shared/dto/application-user.dto";
+import {RoleEnum} from "../../../../../shared/enum/role.enum";
 
 @Component({
   selector: 'app-learns',
@@ -16,10 +19,13 @@ import {EditLearnsComponent} from "./edit-learns/edit-learns.component";
 })
 export class LearnsComponent implements OnInit {
 
+  loggedInUser: ApplicationUserDto = {} as ApplicationUserDto;
   classroom: ClassroomDto = {} as ClassroomDto;
   moduls: ModulDto[] = [];
+  isTeacher: boolean = false;
 
   constructor(
+    private applicationUserService: ApplicationUserService,
     private modulService: ModulService,
     private classroomService: ClassroomService,
     private route: ActivatedRoute,
@@ -30,6 +36,11 @@ export class LearnsComponent implements OnInit {
   }
 
   refreshData() {
+    this.applicationUserService.loggedInUserSubject.subscribe(user => {
+      // console.log(user);
+      this.loggedInUser = user;
+      this.isTeacher = (user.role === RoleEnum.TEACHER);
+    })
     this.route.queryParams.subscribe(params => {
       let classroomId = params['classroomId'];
       this.classroomService.getClassroomById(classroomId)

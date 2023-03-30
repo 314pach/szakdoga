@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ApplicationUserDto} from "../../../shared/dto/application-user.dto";
 import {ApplicationUserService} from "../../../shared/service/application-user.service";
 import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
 import {filter} from "rxjs";
 import {ApplicationComponent} from "../../application.component";
 import {AuthenticationService} from "../../../shared/service/authentication.service";
+import {RoleEnum} from "../../../shared/enum/role.enum";
 
 @Component({
   selector: 'app-menu',
@@ -14,6 +15,7 @@ import {AuthenticationService} from "../../../shared/service/authentication.serv
 export class MenuComponent implements OnInit {
   loggedInUser: ApplicationUserDto = {} as ApplicationUserDto;
   routeString: string = "";
+  isTeacher: boolean = false;
 
   constructor(
     private applicationUserService: ApplicationUserService,
@@ -25,6 +27,7 @@ export class MenuComponent implements OnInit {
     applicationUserService.loggedInUserSubject.subscribe(user => {
       // console.log(user);
       this.loggedInUser = user;
+      this.isTeacher = (user.role === RoleEnum.TEACHER);
     })
     router.events.pipe(
       filter(event => event instanceof NavigationEnd)
@@ -43,22 +46,22 @@ export class MenuComponent implements OnInit {
   }
 
   closeIfOver() {
-    if (this.parentComponent.mode === "over"){
+    if (this.parentComponent.mode === "over") {
       this.parentComponent.drawer.close();
     }
   }
 
   getRoute(): string {
-    if (this.routeString.startsWith("/profile")){
+    if (this.routeString.startsWith("/profile")) {
       return "profile";
     }
-    if (this.routeString.startsWith("/classroom")){
+    if (this.routeString.startsWith("/classroom")) {
       return "classroom";
     }
-    if (this.routeString.startsWith("/modul")){
+    if (this.routeString.startsWith("/modul")) {
       return "modul";
     }
-    if (this.routeString.startsWith("/message")){
+    if (this.routeString.startsWith("/message")) {
       return "message";
     }
     return "";

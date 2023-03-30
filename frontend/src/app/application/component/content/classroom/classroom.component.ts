@@ -7,6 +7,9 @@ import {UpdateClassroomComponent} from "./update-classroom/update-classroom.comp
 import {DeleteClassroomComponent} from "./delete-classroom/delete-classroom.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Router} from "@angular/router";
+import {RoleEnum} from "../../../../shared/enum/role.enum";
+import {ApplicationUserService} from "../../../../shared/service/application-user.service";
+import {ApplicationUserDto} from "../../../../shared/dto/application-user.dto";
 
 @Component({
   selector: 'app-classroom',
@@ -14,17 +17,25 @@ import {Router} from "@angular/router";
   styleUrls: ['./classroom.component.scss']
 })
 export class ClassroomComponent implements OnInit {
-
+  loggedInUser: ApplicationUserDto = {} as ApplicationUserDto;
   allClassrooms: ClassroomDto[] = [];
   classrooms: ClassroomDto[] = [];
   archived: boolean = false;
+  isTeacher: boolean = false;
 
   constructor(
+    private applicationUserService: ApplicationUserService,
     private classroomService: ClassroomService,
     private dialog: MatDialog,
     private _snackBar: MatSnackBar,
     private router: Router
   ) {
+    applicationUserService.loggedInUserSubject.subscribe(user => {
+      // console.log(user);
+      this.loggedInUser = user;
+      this.isTeacher = (user.role === RoleEnum.TEACHER);
+    })
+    //todo classrooms for the user!!!
     this.classroomService.allClassRoomsSubject.subscribe(
       classrooms => {
         this.allClassrooms = classrooms;

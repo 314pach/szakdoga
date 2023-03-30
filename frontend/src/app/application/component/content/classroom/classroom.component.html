@@ -2,10 +2,10 @@
   <div class="breadcrumb">
     <div class="breadcrumb-label">Osztályok</div>
   </div>
-  <div class="action" *ngIf="!archived">
+  <div class="action" *ngIf="!archived && this.isTeacher">
     <button mat-raised-button (click)="openArchive()">Archívum</button>
   </div>
-  <div class="action" *ngIf="archived">
+  <div class="action" *ngIf="archived  && this.isTeacher">
     <button mat-raised-button (click)="closeArchive()">Archívum bezárása</button>
   </div>
 </div>
@@ -24,7 +24,7 @@
         <div>{{classroom.name}}</div>
         <div class="truncate">{{classroom.subject}}</div>
       </mat-card-header>
-      <mat-card-actions class="control">
+      <mat-card-actions class="control" *ngIf="this.isTeacher">
         <div class="button" (click)="update(classroom)" matTooltip="Szerkesztés">
           <mat-icon>edit</mat-icon>
         </div>
@@ -42,7 +42,7 @@
     </mat-card>
   </div>
 </div>
-<div class="add" (click)="create()">
+<div class="add" (click)="create()" *ngIf="this.isTeacher">
   <button mat-fab color="primary" matTooltip="Osztály létrehozása" matTooltipPosition="before">
     <mat-icon>add</mat-icon>
   </button>

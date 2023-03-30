@@ -6,7 +6,7 @@
     </div>
     <div class="breadcrumb-label">{{this.classroom.name}} {{this.classroom.subject}}</div>
   </div>
-  <div class="action">
+  <div class="action" *ngIf="this.isTeacher">
     <button mat-raised-button (click)="edit()">Szerkesztés</button>
   </div>
 </div>
@@ -27,7 +27,7 @@
           {{modul.beginning | date:"yyyy.MM.dd"}} - {{modul.end | date:"yyyy.MM.dd"}}
         </div>
       </mat-card-header>
-      <mat-card-actions class="control">
+      <mat-card-actions class="control" *ngIf="this.isTeacher">
         <mat-slide-toggle>Vállalási időszak</mat-slide-toggle>
       </mat-card-actions>
     </mat-card>

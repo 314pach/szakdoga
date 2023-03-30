@@ -1,12 +1,9 @@
 import { Injectable } from '@angular/core';
 import {AuthenticationWebService} from "./api/authentication-web.service";
 import {RegisterRequestDto} from "../dto/register-request.dto";
-import {Observable} from "rxjs";
-import {AuthenticationResponseDto} from "../dto/authentication-response.dto";
 import {LoginRequestDto} from "../dto/login-request.dto";
 import {ApplicationUserService} from "./application-user.service";
 import {Router} from "@angular/router";
-import {HttpHeaders} from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'

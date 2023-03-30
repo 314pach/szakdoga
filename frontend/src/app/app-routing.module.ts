@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {RouterModule, Routes} from "@angular/router";
 import {ApplicationComponent} from "./application/application.component";
+import {AuthguardService} from "./shared/service/authguard.service";
 
 const routes: Routes = [
   {
@@ -11,7 +12,8 @@ const routes: Routes = [
   {
     path: "application",
     loadChildren: () => import('./application/application.module').then(m => m.ApplicationModule),
-    component: ApplicationComponent
+    component: ApplicationComponent,
+    canActivate: [AuthguardService]
   },
   {
     path: "",

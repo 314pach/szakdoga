@@ -7,6 +7,7 @@ import {MessageComponent} from "./component/content/message/message.component";
 import {TaskComponent} from "./component/content/modul/task/task.component";
 import {LearnsComponent} from "./component/content/classroom/learns/learns.component";
 import {CommitmentComponent} from "./component/content/classroom/learns/commitment/commitment.component";
+import {RoleAuthguardService} from "../shared/service/role-authguard.service";
 
 const routes: Routes = [
   {
@@ -19,7 +20,8 @@ const routes: Routes = [
   },
   {
     path: "modul",
-    component: ModulComponent
+    component: ModulComponent,
+    canActivate: [RoleAuthguardService]
   },
   {
     path: "message",
@@ -27,7 +29,8 @@ const routes: Routes = [
   },
   {
     path: "modul/task",
-    component: TaskComponent
+    component: TaskComponent,
+    canActivate: [RoleAuthguardService]
   },
   {
     path: "classroom/modul",
