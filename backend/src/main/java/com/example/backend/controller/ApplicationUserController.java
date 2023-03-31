@@ -30,6 +30,12 @@ public class ApplicationUserController {
         return new ResponseEntity<>(applicationUserDTO, HttpStatus.OK);
     }
 
+    @GetMapping("/findUserByToken/{token}")
+    public ResponseEntity<ApplicationUserDTO> getUserByToken(@PathVariable("token") String token){
+        ApplicationUserDTO applicationUserDTO = applicationUserService.findByToken(token);
+        return new ResponseEntity<>(applicationUserDTO, HttpStatus.OK);
+    }
+
     @GetMapping("/findUsersByClassroom/{classroomId}")
     public ResponseEntity<Set<ApplicationUserDTO>> getAllUsersByClassroom(@PathVariable("classroomId") Long classroomId){
         Set<ApplicationUserDTO> userDTOS = applicationUserService.findAllByClassroom(classroomId);

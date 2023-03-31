@@ -41,6 +41,11 @@ public class ClassroomService {
         return toDto(classroomRepository.findAll());
     }
 
+    @Transactional(readOnly = true)
+    public Set<ClassroomDTO> findAllByUser(Long userId){
+        return toDto(classroomRepository.findAllByApplicationUser(userId));
+    }
+
     public ClassroomDTO save(ClassroomDTO classroomDTO){
         Classroom classroom = this.toEntity(classroomDTO);
         classroomRepository.save(classroom);

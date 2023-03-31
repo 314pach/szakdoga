@@ -5,9 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
-
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ApplicationUserRepository extends JpaRepository<ApplicationUser, Long> {
@@ -19,4 +18,7 @@ public interface ApplicationUserRepository extends JpaRepository<ApplicationUser
 
     @Query("SELECT user FROM ApplicationUser user WHERE user.id in ?1")
     List<ApplicationUser> findAllById(List<Long> userIds);
+
+    @Query("SELECT user FROM ApplicationUser user INNER JOIN Token token ON token.applicationUser.id = user.id WHERE token.token = ?1")
+    Optional<ApplicationUser> findByToken(String token);
 }

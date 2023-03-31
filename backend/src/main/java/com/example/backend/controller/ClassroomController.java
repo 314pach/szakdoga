@@ -29,6 +29,12 @@ public class ClassroomController {
         return new ResponseEntity<>(classroomDTO, HttpStatus.OK);
     }
 
+    @GetMapping("/findClassroomsByUser/{userId}")
+    public ResponseEntity<Set<ClassroomDTO>> getClassroomsByUser(@PathVariable("userId") Long userId){
+        Set<ClassroomDTO> classroomDTOS = classroomService.findAllByUser(userId);
+        return new ResponseEntity<>(classroomDTOS, HttpStatus.OK);
+    }
+
     @PostMapping("/create")
     public ResponseEntity<ClassroomDTO> addClassroom(@RequestBody() ClassroomDTO classroomDTO){
         ClassroomDTO newClassroom = classroomService.save(classroomDTO);

@@ -37,6 +37,11 @@ public class ApplicationUserService {
     }
 
     @Transactional(readOnly = true)
+    public ApplicationUserDTO findByToken(String token){
+        return applicationUserRepository.findByToken(token).map(this::toDto).orElse(null);
+    }
+
+    @Transactional(readOnly = true)
     public Set<ApplicationUserDTO> findAll(){
         return toDto(applicationUserRepository.findAll());
     }
