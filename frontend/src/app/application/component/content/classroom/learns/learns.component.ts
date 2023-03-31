@@ -36,7 +36,8 @@ export class LearnsComponent implements OnInit {
   }
 
   refreshData() {
-    this.applicationUserService.loggedInUserSubject.subscribe(user => {
+    let token = localStorage.getItem("token");
+    this.applicationUserService.getUserByToken(token!).subscribe(user => {
       // console.log(user);
       this.loggedInUser = user;
       this.isTeacher = (user.role === RoleEnum.TEACHER);

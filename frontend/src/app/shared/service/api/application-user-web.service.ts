@@ -28,6 +28,11 @@ export class ApplicationUserWebService {
     return this.http.get<ApplicationUserDto>(fullPath, {headers: this.createHeader()});
   }
 
+  getUserByToken(token: string): Observable<ApplicationUserDto> {
+    let fullPath = this.buildFullPath(ApiPathEnum.FindUserByToken) + token;
+    return this.http.get<ApplicationUserDto>(fullPath, {headers: this.createHeader()});
+  }
+
   getUsersByClassroom(classroomId: number): Observable<ApplicationUserDto[]> {
     let fullPath = this.buildFullPath(ApiPathEnum.FindUsersByClassroom) + classroomId;
     return this.http.get<ApplicationUserDto[]>(fullPath, {headers: this.createHeader()});

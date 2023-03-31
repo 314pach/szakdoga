@@ -35,7 +35,8 @@ export class UpdateModulComponent {
     this.grade3Control.setValue(this.data.modul.pointsFor3);
     this.grade4Control.setValue(this.data.modul.pointsFor4);
     this.grade5Control.setValue(this.data.modul.pointsFor5);
-    this.applicationUserService.loggedInUserSubject.subscribe(
+    let token = localStorage.getItem("token");
+    this.applicationUserService.getUserByToken(token!).subscribe(
       user => this.loggedInUser = user
     );
   }

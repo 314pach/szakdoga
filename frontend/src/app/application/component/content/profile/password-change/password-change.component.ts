@@ -27,7 +27,8 @@ export class PasswordChangeComponent {
     private applicationUserService: ApplicationUserService,
     private _snackBar: MatSnackBar
   ) {
-    applicationUserService.loggedInUserSubject.subscribe(user => {
+    let token = localStorage.getItem("token");
+    applicationUserService.getUserByToken(token!).subscribe(user => {
       this.loggedInUser = user;
     })
   }

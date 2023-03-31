@@ -7,6 +7,8 @@ import {ClassroomService} from "../../../../../shared/service/classroom.service"
 import {ApplicationUserService} from "../../../../../shared/service/application-user.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatSelectChange} from "@angular/material/select";
+import {switchMap} from "rxjs";
+import * as url from "url";
 // import {isArrayEqual} from "@angular/compiler-cli/src/ngtsc/incremental/semantic_graph";
 
 @Component({
@@ -15,6 +17,7 @@ import {MatSelectChange} from "@angular/material/select";
   styleUrls: ['./update-classroom.component.scss']
 })
 export class UpdateClassroomComponent {
+  loggedInUser: ApplicationUserDto = {} as ApplicationUserDto;
   classrooms: ClassroomDto[] = [];
 
   students: ApplicationUserDto[] = [];
@@ -37,12 +40,22 @@ export class UpdateClassroomComponent {
     this.nameControl.setValue(this.data.classroom.name);
     this.subjectControl.setValue(this.data.classroom.subject);
     this.checked = [...this.data.classroom.applicationUserIds];
-    this.classroomService.allClassRoomsSubject.subscribe(
+    let token = localStorage.getItem("token");
+    this.applicationUserService.getUserByToken(token!).pipe(
+      switchMap(
+      user => {
+        this.loggedInUser = user;
+        this.classroomService.getClassRoomsByUser(user.id!);
+        return this.classroomService.allClassRoomsSubject;
+      }
+      )
+    ).subscribe(
       classrooms => {
         this.classrooms = classrooms;
         console.log(this.classrooms);
       }
     );
+    this.applicationUserService.getAllUsers();
     this.applicationUserService.allUsersSubject.subscribe(
       users => {
         this.students = users.filter(user => !user.role);
@@ -126,7 +139,7 @@ export class UpdateClassroomComponent {
               "Ok",
               {duration: 5000}
             );
-            this.classroomService.getAllClassRooms();
+            this.classroomService.getClassRoomsByUser(this.loggedInUser.id!);
           }
         );
       this.dialog.close();

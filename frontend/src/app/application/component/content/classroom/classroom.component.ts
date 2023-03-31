@@ -30,7 +30,8 @@ export class ClassroomComponent implements OnInit {
     private _snackBar: MatSnackBar,
     private router: Router
   ) {
-    applicationUserService.loggedInUserSubject.subscribe(user => {
+    let token = localStorage.getItem("token");
+    applicationUserService.getUserByToken(token!).subscribe(user => {
       // console.log(user);
       this.loggedInUser = user;
       this.isTeacher = (user.role === RoleEnum.TEACHER);
@@ -97,7 +98,7 @@ export class ClassroomComponent implements OnInit {
             "Ok",
             {duration: 5000}
           );
-          this.classroomService.getAllClassRooms();
+          this.classroomService.getClassRoomsByUser(this.loggedInUser.id!);
         }
       );
   }
@@ -119,7 +120,7 @@ export class ClassroomComponent implements OnInit {
             "Ok",
             {duration: 5000}
           );
-          this.classroomService.getAllClassRooms();
+          this.classroomService.getClassroomById(this.loggedInUser.id!);
         }
       );
   }

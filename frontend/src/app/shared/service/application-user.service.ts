@@ -11,7 +11,7 @@ export class ApplicationUserService {
   loggedInUserSubject: BehaviorSubject<ApplicationUserDto> = new BehaviorSubject<ApplicationUserDto>({} as ApplicationUserDto);
 
   constructor(private applicationUserWebService: ApplicationUserWebService) {
-    this.getAllUsers(); //todo ezt nem itt kellene
+    // this.getAllUsers(); //todo ezt nem itt kellene
     // this.getUserById(1)
   }
 
@@ -27,6 +27,10 @@ export class ApplicationUserService {
       .subscribe(
           user => this.loggedInUserSubject.next(user)
       );
+  }
+
+  getUserByToken(token: string) {
+    return this.applicationUserWebService.getUserByToken(token);
   }
 
   getUserByClassroom(classroomId: number) {

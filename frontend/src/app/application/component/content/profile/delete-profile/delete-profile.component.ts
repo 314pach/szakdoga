@@ -14,7 +14,8 @@ export class DeleteProfileComponent {
   constructor(
     private applicationUserService: ApplicationUserService,
   ) {
-    applicationUserService.loggedInUserSubject.subscribe(user => {
+    let token = localStorage.getItem("token");
+    applicationUserService.getUserByToken(token!).subscribe(user => {
       this.loggedInUser = user;
     })
   }

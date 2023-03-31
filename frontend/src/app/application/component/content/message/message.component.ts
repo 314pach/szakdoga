@@ -30,7 +30,8 @@ export class MessageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.applicationUserService.loggedInUserSubject
+    let token = localStorage.getItem("token");
+    this.applicationUserService.getUserByToken(token!)
       .pipe(
         switchMap(user => {
           this.loggedInUser = user
@@ -42,6 +43,7 @@ export class MessageComponent implements OnInit {
         switchMap(messages => {
           this.messages = messages.sort((a, b) => a.timestamp < b.timestamp ? 1 : -1)
           // console.log(messages);
+          this.applicationUserService.getAllUsers();
           return this.applicationUserService.allUsersSubject;
         })
       )

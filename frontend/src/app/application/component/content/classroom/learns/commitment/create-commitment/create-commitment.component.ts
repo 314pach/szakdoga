@@ -74,7 +74,8 @@ export class CreateCommitmentComponent implements OnInit, AfterViewInit {
   }
 
   refreshData() {
-    this.applicationUserService.loggedInUserSubject
+    let token = localStorage.getItem("token");
+    this.applicationUserService.getUserByToken(token!)
       .subscribe(user => this.loggedInUser = user);
     combineLatest(
       this.taskService.tasksByModulIdSubject,

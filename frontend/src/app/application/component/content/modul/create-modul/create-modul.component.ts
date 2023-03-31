@@ -28,7 +28,8 @@ export class CreateModulComponent {
     private applicationUserService: ApplicationUserService,
     private _snackBar: MatSnackBar
   ) {
-    this.applicationUserService.loggedInUserSubject.subscribe(
+    let token = localStorage.getItem("token");
+    this.applicationUserService.getUserByToken(token!).subscribe(
       user => this.loggedInUser = user
     );
   }

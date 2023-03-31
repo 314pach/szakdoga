@@ -27,18 +27,11 @@ export class ModulComponent implements OnInit {
     private dialog: MatDialog,
     private _snackBar: MatSnackBar,
     private router: Router
-  ) {
-    // this.refreshData();
-    this.modulService.allModulsSubject.subscribe(
-      moduls => {
-        this.moduls = moduls;
-        console.log(this.moduls);
-      }
-    );
-  }
+  ) {  }
 
   refreshData(){
-    this.applicationUserService.loggedInUserSubject
+    let token = localStorage.getItem("token");
+    this.applicationUserService.getUserByToken(token!)
       .pipe(
         switchMap(loggedInUser => {
             return this.modulService.getModulsByCreator(loggedInUser.id!);

@@ -46,7 +46,8 @@ export class AssembleTeamComponent implements OnInit{
 
   ngOnInit(): void {
     this.checked = new Map(this.data.members);
-    this.applicationUserService.loggedInUserSubject
+    let token = localStorage.getItem("token");
+    this.applicationUserService.getUserByToken(token!)
       .subscribe( user => this.loggedInUser = user);
     this.applicationUserService.getUserByClassroom(this.data.classroomId).subscribe(
       users => {

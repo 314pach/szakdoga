@@ -7,6 +7,7 @@ import {MatSelectChange} from "@angular/material/select";
 import {FormControl, Validators} from "@angular/forms";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatDialogRef} from "@angular/material/dialog";
+import {switchMap} from "rxjs";
 
 @Component({
   selector: 'app-create-classroom',
@@ -34,20 +35,27 @@ export class CreateClassroomComponent {
     private applicationUserService: ApplicationUserService,
     private _snackBar: MatSnackBar
   ) {
-    this.classroomService.allClassRoomsSubject.subscribe(
+    let token = localStorage.getItem("token");
+    this.applicationUserService.getUserByToken(token!).pipe(
+      switchMap(
+        user => {
+          this.loggedInUser = user;
+          this.classroomService.getClassRoomsByUser(user.id!);
+          return this.classroomService.allClassRoomsSubject;
+        }
+      )
+    ).subscribe(
       classrooms => {
         this.classrooms = classrooms;
         console.log(this.classrooms);
       }
     );
+    this.applicationUserService.getAllUsers();
     this.applicationUserService.allUsersSubject.subscribe(
       users => {
         this.students = users.filter(user => !user.role);
         this.filteredStudents = users.filter(user => !user.role);
       }
-    );
-    this.applicationUserService.loggedInUserSubject.subscribe(
-      user => this.loggedInUser = user
     );
   }
 
@@ -113,7 +121,7 @@ export class CreateClassroomComponent {
             "Ok",
             {duration: 5000}
           );
-          this.classroomService.getAllClassRooms();
+          this.classroomService.getClassRoomsByUser(this.loggedInUser.id!);
           }
         );
       this.dialog.close();

@@ -47,7 +47,8 @@ export class ViewCommitmentComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.applicationUserService.loggedInUserSubject
+    let token = localStorage.getItem("token");
+    this.applicationUserService.getUserByToken(token!)
       .subscribe( user => this.loggedInUser = user);
     this.commitmentService.commitmentsByModulSubject
       .pipe(

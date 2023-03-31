@@ -23,6 +23,11 @@ export class ClassroomWebService {
     return this.http.get<ClassroomDto[]>(fullPath, {headers: this.createHeader()});
   }
 
+  getClassRoomsByUser(userId: number): Observable<ClassroomDto[]> {
+    let fullPath = this.buildFullPath(ApiPathEnum.FindClassroomsByUser) + userId;
+    return this.http.get<ClassroomDto[]>(fullPath, {headers: this.createHeader()});
+  }
+
   getClassRoomById(classRoomId: number): Observable<ClassroomDto> {
     let fullPath = this.buildFullPath(ApiPathEnum.FindById) + classRoomId;
     return this.http.get<ClassroomDto>(fullPath, {headers: this.createHeader()});

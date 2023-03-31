@@ -64,7 +64,8 @@ export class CommitmentComponent {
   }
 
   getUser(): Observable<ApplicationUserDto> {
-    return this.applicationUserService.loggedInUserSubject;
+    let token = localStorage.getItem("token");
+    return this.applicationUserService.getUserByToken(token!);
   }
 
   navigate() {

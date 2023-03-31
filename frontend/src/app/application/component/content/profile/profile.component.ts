@@ -24,8 +24,9 @@ export class ProfileComponent implements OnInit {
     private applicationUserService: ApplicationUserService,
     private dialog: MatDialog
   ) {
-    applicationUserService.allUsersSubject.subscribe(users => console.log(users))
-    applicationUserService.loggedInUserSubject.subscribe(user => {
+    // applicationUserService.allUsersSubject.subscribe(users => console.log(users))
+    let token = localStorage.getItem("token");
+    applicationUserService.getUserByToken(token!).subscribe(user => {
       console.log(user);
       this.loggedInUser = user;
       this.nameControl.setValue(this.loggedInUser.name);

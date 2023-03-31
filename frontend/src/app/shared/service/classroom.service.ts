@@ -11,11 +11,15 @@ export class ClassroomService {
   allClassRoomsSubject: BehaviorSubject<ClassroomDto[]> = new BehaviorSubject<ClassroomDto[]>([]);
 
   constructor(private classroomWebService: ClassroomWebService) {
-    this.getAllClassRooms();
+    // this.getAllClassRooms();
   }
 
   getAllClassRooms() {
-    this.classroomWebService.getAllClassRooms()
+    return this.classroomWebService.getAllClassRooms();
+  }
+
+  getClassRoomsByUser(userId: number) {
+    this.classroomWebService.getClassRoomsByUser(userId)
       .subscribe(
         classrooms => this.allClassRoomsSubject.next(classrooms)
       );

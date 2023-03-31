@@ -42,7 +42,8 @@ export class CreateTaskComponent {
     this.linkForm = this.formBuilder.group({
       links: this.formBuilder.array([]),
     });
-    this.applicationUserService.loggedInUserSubject.subscribe(
+    let token = localStorage.getItem("token");
+    this.applicationUserService.getUserByToken(token!).subscribe(
       user => this.loggedInUser = user
     );
   }

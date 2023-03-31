@@ -56,7 +56,8 @@ export class UpdateTaskComponent {
           .forEach(attachment => this.addLink(attachment));
         this.linksFromDatabase = attachments.filter(attachment => attachment.type === AttachmentTypeEnum.LINK)
       });
-    this.applicationUserService.loggedInUserSubject.subscribe(
+    let token = localStorage.getItem("token");
+    this.applicationUserService.getUserByToken(token!).subscribe(
       user => this.loggedInUser = user
     );
   }
