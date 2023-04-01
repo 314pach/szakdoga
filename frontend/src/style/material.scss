@@ -13,3 +13,9 @@
 .mat-mdc-tab-body-wrapper {
   flex-grow: 1 !important;
 }
+
+.mat-mdc-snack-bar-container.red-snackbar {
+  --mat-mdc-snack-bar-button-color: rgba(255, 255, 255, 0.87);
+  --mdc-snackbar-container-color: #F44336;
+  --mdc-snackbar-supporting-text-color: rgba(255, 255, 255, 0.87);
+}

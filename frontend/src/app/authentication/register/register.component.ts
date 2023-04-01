@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import {FormControl, Validators} from "@angular/forms";
 import {AuthenticationService} from "../../shared/service/authentication.service";
 import {RegisterRequestDto} from "../../shared/dto/register-request.dto";
+import {catchError} from "rxjs";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-register',
@@ -20,7 +23,9 @@ export class RegisterComponent {
   passwordAgainControl: FormControl = new FormControl<string>("", Validators.required);
 
   constructor(
-    private authenticationService: AuthenticationService
+    private authenticationService: AuthenticationService,
+    private _snackBar: MatSnackBar,
+    private router: Router
   ) {
   }
 
@@ -44,7 +49,25 @@ export class RegisterComponent {
         this.emailControl.value,
         this.passwordControl.value
       )
-      this.authenticationService.register(newUser);
+      this.authenticationService.register(newUser)
+        .pipe(
+          catchError(err => {
+            if(err.status === 403) {
+              // localStorage.clear();
+              this._snackBar.open(
+                "Hiba a regisztráció során: az e-mail cím már foglalt!",
+                "Ok",
+                {
+                  duration: 5000,
+                  panelClass: ['red-snackbar']}
+              )
+              throw "Authentication error";
+            }
+            throw err;
+          })
+        ).subscribe(
+          _ => this.router.navigateByUrl("authentication/login")
+        );
     }
   }
 }

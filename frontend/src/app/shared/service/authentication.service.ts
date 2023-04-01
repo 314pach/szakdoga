@@ -17,18 +17,11 @@ export class AuthenticationService {
   ) { }
 
   register(newUser: RegisterRequestDto){
-    this.authenticationWebService.register(newUser)
-      .subscribe(_ => this.router.navigateByUrl("authentication/login"))
+    return this.authenticationWebService.register(newUser);
   }
 
   login(user: LoginRequestDto){
-    this.authenticationWebService.login(user)
-      .subscribe(response => {
-        // console.log(response)
-        this.applicationUserService.loggedInUserSubject.next(response.applicationUser);
-        localStorage.setItem("token", response.token);
-        this.router.navigateByUrl("application")
-      });
+    return this.authenticationWebService.login(user);
   }
 
   logout(){

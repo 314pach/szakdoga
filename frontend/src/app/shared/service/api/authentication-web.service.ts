@@ -4,8 +4,9 @@ import {ApiPathEnum} from "../../enum/api-path.enum";
 import {environment} from "../../../../environments/environment";
 import {RegisterRequestDto} from "../../dto/register-request.dto";
 import {AuthenticationResponseDto} from "../../dto/authentication-response.dto";
-import {Observable} from "rxjs";
+import {catchError, Observable} from "rxjs";
 import {LoginRequestDto} from "../../dto/login-request.dto";
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,10 @@ import {LoginRequestDto} from "../../dto/login-request.dto";
 export class AuthenticationWebService {
   private specificUrl: string = "authentication/";
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private router: Router
+  ) { }
 
   private buildFullPath(path: ApiPathEnum): string {
     return environment.apiBaseUrl + this.specificUrl + path;
@@ -31,7 +35,17 @@ export class AuthenticationWebService {
 
   logout(): Observable<void>{
     let fullPath = this.buildFullPath(ApiPathEnum.Logout);
-    return this.http.get<void>(fullPath, {headers: this.createHeader()});
+    return this.http.get<void>(fullPath, {headers: this.createHeader()})
+      .pipe(
+        catchError(err => {
+          if(err.status === 403) {
+            localStorage.clear();
+            this.router.navigateByUrl("authentication/login");
+            throw "Authentication error";
+          }
+          throw err;
+        })
+      );
   }
 
   createHeader(): HttpHeaders {
