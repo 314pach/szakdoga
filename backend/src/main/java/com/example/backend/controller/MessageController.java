@@ -4,6 +4,8 @@ import com.example.backend.model.dto.MessageDTO;
 import com.example.backend.service.MessageService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
@@ -12,9 +14,11 @@ import java.util.Set;
 @RequestMapping("/message")
 public class MessageController {
     private final MessageService messageService;
+    private final SimpMessagingTemplate template;
 
-    public MessageController(MessageService messageService) {
+    public MessageController(MessageService messageService, SimpMessagingTemplate template) {
         this.messageService = messageService;
+        this.template = template;
     }
 
     @GetMapping("/findAll")
@@ -39,6 +43,11 @@ public class MessageController {
     public ResponseEntity<MessageDTO> addMessage(@RequestBody() MessageDTO messageDTO){
         MessageDTO newMessage = messageService.save(messageDTO);
         return new ResponseEntity<>(newMessage, HttpStatus.CREATED);
+    }
+
+    @MessageMapping("/addMessageToOpenedConversation")
+    public void addMessageToSocket(MessageDTO messageDTO){
+        template.convertAndSend("/openedMessages", messageDTO);
     }
 
     @PutMapping("/update")
