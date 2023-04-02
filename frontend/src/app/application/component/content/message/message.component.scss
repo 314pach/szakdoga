@@ -72,6 +72,12 @@
   background-color: #e6f2f8;
 }
 
+.scrollable {
+  overflow: auto;
+  display: flex;
+  flex-direction: column-reverse;
+}
+
 .messages {
   width: 80%;
   border: solid #939393 1px;
@@ -87,12 +93,26 @@
 .message-list {
   display: flex;
   flex-direction: column-reverse;
+  gap: 15px;
+  overflow-y: auto;
 }
 
 .message-item {
   display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.message {
+  display: flex;
   flex-direction: column;
   margin-bottom: 5px;
+}
+
+.picture {
+  border-radius: 20px;
+  width: 40px;
+  height: 40px;;
 }
 
 .date {

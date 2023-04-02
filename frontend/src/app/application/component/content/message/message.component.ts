@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ApplicationUserDto} from "../../../../shared/dto/application-user.dto";
 import {ApplicationUserService} from "../../../../shared/service/application-user.service";
 import {MessageService} from "../../../../shared/service/message.service";
@@ -12,7 +12,7 @@ import {MessageStatusEnum} from "../../../../shared/enum/message-status.enum";
   templateUrl: './message.component.html',
   styleUrls: ['./message.component.scss']
 })
-export class MessageComponent implements OnInit {
+export class MessageComponent implements OnInit, OnDestroy {
 
   loggedInUser: ApplicationUserDto = {} as ApplicationUserDto;
   users: ApplicationUserDto[] = [];
@@ -25,11 +25,12 @@ export class MessageComponent implements OnInit {
 
   constructor(
     private applicationUserService: ApplicationUserService,
-    private messageService: MessageService,
+    public messageService: MessageService,
   ) {
   }
 
   ngOnInit(): void {
+    this.messageService.connectToSelectedMessages();
     let token = localStorage.getItem("token");
     this.applicationUserService.getUserByToken(token!)
       .pipe(
@@ -38,11 +39,6 @@ export class MessageComponent implements OnInit {
           if (this.selectedUser.id) {
             this.messageService.getSelectedMessages(user.id!, this.selectedUser.id!);
           }
-          return this.messageService.selectedMessagesSubject;
-        }),
-        switchMap(messages => {
-          this.messages = messages.sort((a, b) => a.timestamp < b.timestamp ? 1 : -1)
-          // console.log(messages);
           this.applicationUserService.getAllUsers();
           return this.applicationUserService.allUsersSubject;
         })
@@ -76,9 +72,13 @@ export class MessageComponent implements OnInit {
       );
       this.messageService.createMessage(message)
         .subscribe(
-          _ => this.messageService.getSelectedMessages(this.loggedInUser.id!, this.selectedUser.id!)
+          message => this.messageService.sendMessageToSelected(message)
         );
       this.messageControl.setValue("");
     }
+  }
+
+  ngOnDestroy(): void {
+    this.messageService.disconnectFromSelectedMessages();
   }
 }
