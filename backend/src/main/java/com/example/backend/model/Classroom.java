@@ -38,6 +38,11 @@ public class Classroom {
     )
     private String subject;
     @Column(
+            name = "commitmentPeriod",
+            nullable = false
+    )
+    private Boolean commitmentPeriod;
+    @Column(
             name = "archived",
             nullable = false
     )
@@ -113,5 +118,13 @@ public class Classroom {
 
     public void setUsers(Set<ApplicationUser> users) {
         this.users = users;
+    }
+
+    public boolean getCommitmentPeriod() {
+        return commitmentPeriod;
+    }
+
+    public void setCommitmentPeriod(boolean commitmentPeriod) {
+        this.commitmentPeriod = commitmentPeriod;
     }
 }

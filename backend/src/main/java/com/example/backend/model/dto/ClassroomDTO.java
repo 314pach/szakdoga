@@ -6,6 +6,7 @@ public class ClassroomDTO {
     private Long id;
     private String name;
     private String subject;
+    private Boolean commitmentPeriod;
     private Boolean archived;
     private Set<Long> modulIds;
     private Set<Long> applicationUserIds;
@@ -56,5 +57,13 @@ public class ClassroomDTO {
 
     public void setApplicationUserIds(Set<Long> applicationUserIds) {
         this.applicationUserIds = applicationUserIds;
+    }
+
+    public Boolean getCommitmentPeriod() {
+        return commitmentPeriod;
+    }
+
+    public void setCommitmentPeriod(Boolean commitmentPeriod) {
+        this.commitmentPeriod = commitmentPeriod;
     }
 }

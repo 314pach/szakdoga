@@ -68,6 +68,7 @@ public class ClassroomService {
         classroomDTO.setId(classroom.getId());
         classroomDTO.setName(classroom.getName());
         classroomDTO.setSubject(classroom.getSubject());
+        classroomDTO.setCommitmentPeriod(classroom.getCommitmentPeriod());
         classroomDTO.setArchived(classroom.getArchived());
         classroomDTO.setModulIds(classroom.getModuls()
                 .stream().map(Modul::getId)
@@ -92,6 +93,7 @@ public class ClassroomService {
         classroom.setName(classroomDTO.getName());
         classroom.setSubject(classroomDTO.getSubject());
         classroom.setArchived(classroomDTO.getArchived());
+        classroom.setCommitmentPeriod(classroomDTO.getCommitmentPeriod());
         classroom.setModuls(
                 classroomDTO.getModulIds().stream()
                         .map(id -> modulRepository.findById(id))
