@@ -2,6 +2,7 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {ApplicationUserService} from "../../../../../../../../shared/service/application-user.service";
 import {ApplicationUserDto} from "../../../../../../../../shared/dto/application-user.dto";
+import {RoleEnum} from "../../../../../../../../shared/enum/role.enum";
 
 @Component({
   selector: 'app-assemble-team',
@@ -51,8 +52,8 @@ export class AssembleTeamComponent implements OnInit{
       .subscribe( user => this.loggedInUser = user);
     this.applicationUserService.getUserByClassroom(this.data.classroomId).subscribe(
       users => {
-        this.students = users.filter(user => !user.role);
-        this.filteredStudents = users.filter(user => !user.role && user.id !== this.loggedInUser.id );
+        this.students = users.filter(user => user.role === RoleEnum.STUDENT);
+        this.filteredStudents = users.filter(user => user.role === RoleEnum.STUDENT && user.id !== this.loggedInUser.id );
         // console.log(this.filteredStudents)
       }
     )

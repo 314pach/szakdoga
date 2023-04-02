@@ -26,7 +26,8 @@ export class EditLearnsComponent {
 
   ) {
     this.checked = [...this.data.classroom.modulIds];
-    this.applicationUserService.loggedInUserSubject
+    let token = localStorage.getItem("token");
+    this.applicationUserService.getUserByToken(token!)
       .pipe(
         switchMap(loggedInUser => {
             return this.modulService.getModulsByCreator(loggedInUser.id!);
@@ -59,6 +60,7 @@ export class EditLearnsComponent {
         this.data.classroom.id,
         this.data.classroom.name,
         this.data.classroom.subject,
+        this.data.classroom.commitmentPeriod,
         this.data.classroom.archived,
         this.checked,
         this.data.classroom.applicationUserIds

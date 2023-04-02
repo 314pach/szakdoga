@@ -78,6 +78,6 @@ export class ModulComponent implements OnInit {
   }
 
   open(modul: ModulDto) {
-    this.router.navigate(["modul/task"], {queryParams: {modulId: modul.id}});
+    this.router.navigate(["application/modul/task"], {queryParams: {modulId: modul.id}});
   }
 }

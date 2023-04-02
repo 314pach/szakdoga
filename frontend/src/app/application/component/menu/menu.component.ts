@@ -53,16 +53,16 @@ export class MenuComponent implements OnInit {
   }
 
   getRoute(): string {
-    if (this.routeString.startsWith("/profile")) {
+    if (this.routeString.startsWith("/application/profile")) {
       return "profile";
     }
-    if (this.routeString.startsWith("/classroom")) {
+    if (this.routeString.startsWith("/application/classroom")) {
       return "classroom";
     }
-    if (this.routeString.startsWith("/modul")) {
+    if (this.routeString.startsWith("/application/modul")) {
       return "modul";
     }
-    if (this.routeString.startsWith("/message")) {
+    if (this.routeString.startsWith("/application/message")) {
       return "message";
     }
     return "";

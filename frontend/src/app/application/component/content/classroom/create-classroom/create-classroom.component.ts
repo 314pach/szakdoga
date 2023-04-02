@@ -8,6 +8,7 @@ import {FormControl, Validators} from "@angular/forms";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatDialogRef} from "@angular/material/dialog";
 import {switchMap} from "rxjs";
+import {RoleEnum} from "../../../../../shared/enum/role.enum";
 
 @Component({
   selector: 'app-create-classroom',
@@ -53,8 +54,8 @@ export class CreateClassroomComponent {
     this.applicationUserService.getAllUsers();
     this.applicationUserService.allUsersSubject.subscribe(
       users => {
-        this.students = users.filter(user => !user.role);
-        this.filteredStudents = users.filter(user => !user.role);
+        this.students = users.filter(user => user.role === RoleEnum.STUDENT);
+        this.filteredStudents = users.filter(user => user.role === RoleEnum.STUDENT);
       }
     );
   }
@@ -108,6 +109,7 @@ export class CreateClassroomComponent {
         null,
         this.nameControl.value,
         this.subjectControl.value,
+        false,
         false,
         [],
         this.checked

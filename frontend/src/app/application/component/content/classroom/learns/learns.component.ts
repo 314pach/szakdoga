@@ -11,6 +11,7 @@ import {EditLearnsComponent} from "./edit-learns/edit-learns.component";
 import {ApplicationUserService} from "../../../../../shared/service/application-user.service";
 import {ApplicationUserDto} from "../../../../../shared/dto/application-user.dto";
 import {RoleEnum} from "../../../../../shared/enum/role.enum";
+import {MatSlideToggleChange} from "@angular/material/slide-toggle";
 
 @Component({
   selector: 'app-learns',
@@ -65,7 +66,7 @@ export class LearnsComponent implements OnInit {
   }
 
   open(modul: any) {
-    this.router.navigate(["classroom/modul/commitment"], {queryParams: {classroomId: this.classroom.id, modulId: modul.id}});
+    this.router.navigate(["application/classroom/modul/commitment"], {queryParams: {classroomId: this.classroom.id, modulId: modul.id}});
   }
 
   edit() {
@@ -80,5 +81,29 @@ export class LearnsComponent implements OnInit {
         this.refreshData();
       }
     });
+  }
+
+  toggleCommitmentPeriod($event: MatSlideToggleChange) {
+    let classroom = new ClassroomDto(
+      this.classroom.id,
+      this.classroom.name,
+      this.classroom.subject,
+      $event.checked,
+      this.classroom.archived,
+      this.classroom.modulIds,
+      this.classroom.applicationUserIds
+    )
+    console.log(classroom)
+    this.classroomService.updateClassRoom(classroom)
+      .subscribe(
+        classroom => {
+          this._snackBar.open(
+            $event.checked ? "Vállalási időszak bekapcsolása sikeres":"Vállalási időszak kikapcsolása sikeres",
+            "Ok",
+            {duration: 5000}
+          );
+          this.refreshData();
+        }
+      );
   }
 }

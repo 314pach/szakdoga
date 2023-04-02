@@ -82,8 +82,9 @@ export class CreateCommitmentComponent implements OnInit, AfterViewInit {
       this.commitmentService.commitmentsByModulSubject
     ).subscribe(
       data => {
-        if (data[0].length && data[1].length) {
-          // console.log(data)
+        console.log(data)
+        if (data[0].length || data[1].length) {
+          console.log(data)
           this.tasks = data[0];
           this.commitments = data[1];
           this.commitedTaskIds = [];
@@ -171,6 +172,13 @@ export class CreateCommitmentComponent implements OnInit, AfterViewInit {
   }
 
   isDisabled() {
+    console.log(this.modul.beginning)
+    console.log(new Date(this.modul.beginning))
+    console.log(new Date())
+    console.log(this.modul.beginning>new Date())
+    if (!this.classroom.commitmentPeriod || (this.classroom.commitmentPeriod && (new Date(this.modul.beginning)>new Date() || new Date()>new Date(this.modul.end)))){
+      return true;
+    }
     let currentlyCommited: number[] = [];
     this.commited.forEach(task => currentlyCommited.push(task.id!));
 
@@ -187,7 +195,7 @@ export class CreateCommitmentComponent implements OnInit, AfterViewInit {
     }
 
     for (let task of this.changedTeams.keys()) {
-      if (!this.arraysEquals(Array.from(this.teams.get(task)!.keys()), Array.from(this.changedTeams.get(task)!.keys()))) {
+      if (!this.teams.get(task) || !this.arraysEquals(Array.from(this.teams.get(task)!.keys()), Array.from(this.changedTeams.get(task)!.keys()))) {
         return false;
       }
     }

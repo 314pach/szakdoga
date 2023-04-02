@@ -10,6 +10,7 @@ import {Router} from "@angular/router";
 import {RoleEnum} from "../../../../shared/enum/role.enum";
 import {ApplicationUserService} from "../../../../shared/service/application-user.service";
 import {ApplicationUserDto} from "../../../../shared/dto/application-user.dto";
+import {switchMap} from "rxjs";
 
 @Component({
   selector: 'app-classroom',
@@ -29,15 +30,22 @@ export class ClassroomComponent implements OnInit {
     private dialog: MatDialog,
     private _snackBar: MatSnackBar,
     private router: Router
-  ) {
+  ) { }
+
+  ngOnInit(): void {
     let token = localStorage.getItem("token");
-    applicationUserService.getUserByToken(token!).subscribe(user => {
-      // console.log(user);
-      this.loggedInUser = user;
-      this.isTeacher = (user.role === RoleEnum.TEACHER);
-    })
-    //todo classrooms for the user!!!
-    this.classroomService.allClassRoomsSubject.subscribe(
+    this.applicationUserService.getUserByToken(token!)
+      .pipe(
+        switchMap(
+          user => {
+            // console.log(user);
+            this.loggedInUser = user;
+            this.isTeacher = (user.role === RoleEnum.TEACHER);
+            this.classroomService.getClassRoomsByUser(user.id!);
+            return this.classroomService.allClassRoomsSubject;
+          }
+        )
+      ).subscribe(
       classrooms => {
         this.allClassrooms = classrooms;
         if (this.archived) {
@@ -47,10 +55,6 @@ export class ClassroomComponent implements OnInit {
         }
       }
     );
-
-  }
-
-  ngOnInit(): void {
   }
 
   create() {
@@ -86,6 +90,7 @@ export class ClassroomComponent implements OnInit {
       classroom.id,
       classroom.name,
       classroom.subject,
+      classroom.commitmentPeriod,
       true,
       classroom.modulIds,
       classroom.applicationUserIds
@@ -108,6 +113,7 @@ export class ClassroomComponent implements OnInit {
       classroom.id,
       classroom.name,
       classroom.subject,
+      classroom.commitmentPeriod,
       false,
       classroom.modulIds,
       classroom.applicationUserIds
@@ -120,7 +126,7 @@ export class ClassroomComponent implements OnInit {
             "Ok",
             {duration: 5000}
           );
-          this.classroomService.getClassroomById(this.loggedInUser.id!);
+          this.classroomService.getClassRoomsByUser(this.loggedInUser.id!);
         }
       );
   }
@@ -136,6 +142,6 @@ export class ClassroomComponent implements OnInit {
   }
 
   open(classroom: ClassroomDto) {
-    this.router.navigate(["classroom/modul"], {queryParams: {classroomId: classroom.id}});
+    this.router.navigate(["application/classroom/modul"], {queryParams: {classroomId: classroom.id}});
   }
 }

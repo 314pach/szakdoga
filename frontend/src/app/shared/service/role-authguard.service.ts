@@ -12,7 +12,8 @@ export class RoleAuthguardService implements CanActivate {
   constructor(private applicationUserService: ApplicationUserService,) { }
 
   canActivate(): Observable<boolean>{
-    return this.applicationUserService.loggedInUserSubject.pipe(
+    let token = localStorage.getItem("token");
+    return this.applicationUserService.getUserByToken(token!).pipe(
       switchMap(
         loggedInUser => {
           if (loggedInUser.role === RoleEnum.TEACHER){

@@ -69,6 +69,6 @@ export class CommitmentComponent {
   }
 
   navigate() {
-    this.router.navigate(["classroom/modul"], {queryParams: {classroomId: this.classroom.id}});
+    this.router.navigate(["application/classroom/modul"], {queryParams: {classroomId: this.classroom.id}});
   }
 }

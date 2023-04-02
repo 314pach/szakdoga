@@ -8,7 +8,8 @@ import {ApplicationUserService} from "../../../../../shared/service/application-
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatSelectChange} from "@angular/material/select";
 import {switchMap} from "rxjs";
-import * as url from "url";
+import {RoleEnum} from "../../../../../shared/enum/role.enum";
+
 // import {isArrayEqual} from "@angular/compiler-cli/src/ngtsc/incremental/semantic_graph";
 
 @Component({
@@ -58,8 +59,8 @@ export class UpdateClassroomComponent {
     this.applicationUserService.getAllUsers();
     this.applicationUserService.allUsersSubject.subscribe(
       users => {
-        this.students = users.filter(user => !user.role);
-        this.filteredStudents = users.filter(user => !user.role);
+        this.students = users.filter(user => user.role === RoleEnum.STUDENT);
+        this.filteredStudents = users.filter(user => user.role === RoleEnum.STUDENT);
       }
     )
   }
@@ -126,6 +127,7 @@ export class UpdateClassroomComponent {
         this.data.classroom.id,
         this.nameControl.value,
         this.subjectControl.value,
+        this.data.classroom.commitmentPeriod,
         this.data.classroom.archived,
         this.data.classroom.modulIds,
         this.checked
