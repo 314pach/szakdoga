@@ -50,6 +50,12 @@ public class CommitmentService {
         return toDto(commitments);
     }
 
+    @Transactional(readOnly = true)
+    public Set<CommitmentDTO> findAllByUsersAndModul(List<Long> users, List<Long> tasks){
+        List<Commitment> commitments= commitmentRepository.getCommitmentsByUsersAndModul(users, tasks);
+        return toDto(commitments);
+    }
+
     public CommitmentDTO save(CommitmentDTO commitmentDTO){
         return toDto(commitmentRepository.save(toEntity(commitmentDTO)));
     }

@@ -36,6 +36,12 @@ public class CommitmentController {
         return new ResponseEntity<>(commitmentDTOS, HttpStatus.OK);
     }
 
+    @PostMapping("/findCommitmentsByUsersAndModul")
+    public ResponseEntity<Set<CommitmentDTO>> getCommitmentsByUsersAndModul(@RequestBody() List<List<Long>> ids){
+        Set<CommitmentDTO> commitmentDTOS = commitmentService.findAllByUsersAndModul(ids.get(0), ids.get(1));
+        return new ResponseEntity<>(commitmentDTOS, HttpStatus.OK);
+    }
+
     @PostMapping("/create")
     public ResponseEntity<CommitmentDTO> addCommitment(@RequestBody() CommitmentDTO commitmentDTO){
         CommitmentDTO newCommitment = commitmentService.save(commitmentDTO);
