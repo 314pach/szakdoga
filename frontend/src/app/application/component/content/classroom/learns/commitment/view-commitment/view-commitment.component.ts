@@ -14,6 +14,8 @@ import {switchMap} from "rxjs";
 import {AttachmentDto} from "../../../../../../../shared/dto/attachment.dto";
 import {AttachmentService} from "../../../../../../../shared/service/attachment.service";
 import {AttachmentTypeEnum} from "../../../../../../../shared/enum/attachment-type.enum";
+import {BadgeDto} from "../../../../../../../shared/dto/badge.dto";
+import {BadgeService} from "../../../../../../../shared/service/badge.service";
 
 @Component({
   selector: 'app-view-commitment',
@@ -28,6 +30,8 @@ export class ViewCommitmentComponent implements OnInit{
   commitments: CommitmentDto[] = [];
   teams: Map<number, Map<number, string>> = new Map; // taskId, userId, name
 
+  badges: BadgeDto[] = [];
+
   // attachments: AttachmentDto[] = [];
   links: AttachmentDto[] = [];
   files: AttachmentDto[] = [];
@@ -39,6 +43,7 @@ export class ViewCommitmentComponent implements OnInit{
     private modulService: ModulService,
     private taskService: TaskService,
     private attachmentService: AttachmentService,
+    private badgeService: BadgeService,
     private applicationUserService: ApplicationUserService,
     private commitmentService: CommitmentService,
     private route: ActivatedRoute,
@@ -77,6 +82,8 @@ export class ViewCommitmentComponent implements OnInit{
         this.links = attachments.filter(a => a.type === AttachmentTypeEnum.LINK);
         this.files = attachments.filter(a => a.type === AttachmentTypeEnum.FILE);
       });
+    this.badgeService.getBadgesByIds(commitment.badgeIds)
+      .subscribe(badges => this.badges = badges);
   }
 
   getUsers(taskId: number) : string[]{

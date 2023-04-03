@@ -27,6 +27,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatChipsModule} from '@angular/material/chips';
 import {CustomDateAdapter} from "./adapter/custom-date-adapter";
 import {getHungarianPaginatorIntl} from "./adapter/custom-paginator-language-adapter";
+import {MatExpansionModule} from '@angular/material/expansion';
 
 
 @NgModule({
@@ -84,7 +85,8 @@ import {getHungarianPaginatorIntl} from "./adapter/custom-paginator-language-ada
     MatSortModule,
     MatTabsModule,
     MatSlideToggleModule,
-    MatChipsModule
+    MatChipsModule,
+    MatExpansionModule
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: "hu-HU"},

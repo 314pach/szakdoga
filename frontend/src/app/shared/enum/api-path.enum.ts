@@ -20,5 +20,7 @@ export enum ApiPathEnum {
   FindUsersByIds = "findUsersByIds",
   FindMessagesByParties = "findMessagesByParties/",
   FindUserByToken = "findUserByToken/",
-  FindClassroomsByUser = "findClassroomsByUser/"
+  FindClassroomsByUser = "findClassroomsByUser/",
+  FindCommitmentsByUsersAndModul = "findCommitmentsByUsersAndModul",
+  FindBadgesByIds = "findBadgesByIds"
 }

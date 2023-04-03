@@ -18,12 +18,20 @@ export class CommitmentService {
       );
   }
 
+  getCommitmentsByUsersAndModul(userIds: number[], taskIds: number[]) {
+    return this.commitmentWebService.getCommitmentsByUsersAndModul(userIds, taskIds);
+  }
+
   createCommitment(commitment: CommitmentDto) {
     return this.commitmentWebService.createCommitment(commitment);
   }
 
   createCommitments(commitments: CommitmentDto[]) {
     return this.commitmentWebService.createCommitments(commitments);
+  }
+
+  updateCommitment(commitment: CommitmentDto){
+    return this.commitmentWebService.updateCommitment(commitment);
   }
 
   deleteCommitment(commitmentId: number) {

@@ -8,6 +8,7 @@ import {TaskComponent} from "./component/content/modul/task/task.component";
 import {LearnsComponent} from "./component/content/classroom/learns/learns.component";
 import {CommitmentComponent} from "./component/content/classroom/learns/commitment/commitment.component";
 import {RoleAuthguardService} from "../shared/service/role-authguard.service";
+import {CorrectionComponent} from "./component/content/classroom/learns/correction/correction.component";
 
 const routes: Routes = [
   {
@@ -39,6 +40,11 @@ const routes: Routes = [
   {
     path: "classroom/modul/commitment",
     component: CommitmentComponent
+  },
+  {
+    path: "classroom/modul/correction",
+    component: CorrectionComponent,
+    canActivate: [RoleAuthguardService]
   },
   {
     path: "",

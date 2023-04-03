@@ -67,6 +67,21 @@ export class CommitmentWebService {
       );
   }
 
+  getCommitmentsByUsersAndModul(userIds: number[], taskIds: number[]): Observable<CommitmentDto[]> {
+    let fullPath = this.buildFullPath(ApiPathEnum.FindCommitmentsByUsersAndModul);
+    return this.http.post<CommitmentDto[]>(fullPath, [userIds, taskIds], {headers: this.createHeader()})
+      .pipe(
+        catchError(err => {
+          if(err.status === 403) {
+            localStorage.clear();
+            this.router.navigateByUrl("authentication/login");
+            throw "Authentication error";
+          }
+          throw err;
+        })
+      );
+  }
+
   createCommitment(commitment: CommitmentDto): Observable<CommitmentDto> {
     let fullPath = this.buildFullPath(ApiPathEnum.Create);
     return this.http.post<CommitmentDto>(fullPath, commitment, {headers: this.createHeader()})

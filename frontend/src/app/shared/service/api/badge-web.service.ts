@@ -37,6 +37,21 @@ export class BadgeWebService {
       );
   }
 
+  getBadgesByIds(badgeIds: number[]): Observable<BadgeDto[]> {
+    let fullPath = this.buildFullPath(ApiPathEnum.FindBadgesByIds);
+    return this.http.post<BadgeDto[]>(fullPath, badgeIds, {headers: this.createHeader()})
+      .pipe(
+        catchError(err => {
+          if(err.status === 403) {
+            localStorage.clear();
+            this.router.navigateByUrl("authentication/login");
+            throw "Authentication error";
+          }
+          throw err;
+        })
+      );
+  }
+
   getBadgeById(badgeId: number): Observable<BadgeDto> {
     let fullPath = this.buildFullPath(ApiPathEnum.FindById) + badgeId;
     return this.http.get<BadgeDto>(fullPath, {headers: this.createHeader()})

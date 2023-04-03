@@ -45,6 +45,11 @@
         <div class="label">Csatolmányok:</div>
         <div *ngFor="let link of links"><a href="{{link.path}}" target="_blank">{{link.path}}</a></div>
       </div>
+      <mat-chip-set>
+        <mat-chip *ngFor="let badge of this.badges" [matTooltip]="badge.tooltip" disableRipple>
+          <mat-icon style="font-size: 20px">{{badge.icon}}</mat-icon>
+        </mat-chip>
+      </mat-chip-set>
       <div class="label">Eredmény:</div>
       <div><span class="result">{{selectedCommitment.points}}</span>
         / {{this.tasks.get(selectedCommitment.taskId)!.points}} pont

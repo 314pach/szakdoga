@@ -37,6 +37,7 @@ import {
 } from "./component/content/classroom/learns/commitment/create-commitment/assemble-team/assemble-team.component";
 import {SharedModule} from "../shared/shared.module";
 import { ApplicationComponent } from './application.component';
+import { CorrectionComponent } from './component/content/classroom/learns/correction/correction.component';
 
 
 @NgModule({
@@ -66,7 +67,8 @@ import { ApplicationComponent } from './application.component';
     CreateCommitmentComponent,
     ViewCommitmentComponent,
     AssembleTeamComponent,
-    ApplicationComponent
+    ApplicationComponent,
+    CorrectionComponent
   ],
   imports: [
     CommonModule,

@@ -66,7 +66,11 @@ export class LearnsComponent implements OnInit {
   }
 
   open(modul: any) {
-    this.router.navigate(["application/classroom/modul/commitment"], {queryParams: {classroomId: this.classroom.id, modulId: modul.id}});
+    if (this.isTeacher) {
+      this.router.navigate(["application/classroom/modul/correction"], {queryParams: {classroomId: this.classroom.id, modulId: modul.id}});
+    } else {
+      this.router.navigate(["application/classroom/modul/commitment"], {queryParams: {classroomId: this.classroom.id, modulId: modul.id}});
+    }
   }
 
   edit() {
