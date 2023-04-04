@@ -7,6 +7,7 @@ import com.example.backend.model.dto.ApplicationUserDTO;
 import com.example.backend.repository.ApplicationUserRepository;
 import com.example.backend.repository.ClassroomRepository;
 import com.example.backend.repository.CommitmentRepository;
+import com.example.backend.repository.FileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +25,9 @@ public class ApplicationUserService {
 
     @Autowired
     private CommitmentRepository commitmentRepository;
+
+    @Autowired
+    private FileRepository fileRepository;
 
     private final ApplicationUserRepository applicationUserRepository;
 
@@ -78,6 +82,11 @@ public class ApplicationUserService {
         applicationUserDTO.setEmail(applicationUser.getEmail());
         applicationUserDTO.setPassword(applicationUser.getPassword());
         applicationUserDTO.setRole(applicationUser.getRole());
+        if(applicationUser.getProfilePicture() != null){
+            applicationUserDTO.setProfilePictureId(applicationUser.getProfilePicture().getId());
+        } else {
+            applicationUserDTO.setProfilePictureId(null);
+        }
         applicationUserDTO.setClassRoomIds(applicationUser.getClassRooms()
                 .stream().map(Classroom::getId)
                 .collect(Collectors.toSet()));
@@ -102,6 +111,8 @@ public class ApplicationUserService {
         applicationUser.setEmail(applicationUserDTO.getEmail());
         applicationUser.setPassword(applicationUserDTO.getPassword());
         applicationUser.setRole(applicationUserDTO.getRole());
+        applicationUser.setProfilePicture(
+                fileRepository.findById(applicationUserDTO.getProfilePictureId()).orElse(null));
         applicationUser.setClassRooms(
                 applicationUserDTO.getClassRoomIds().stream()
                         .map(id -> classroomRepository.findById(id))

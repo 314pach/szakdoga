@@ -57,6 +57,9 @@ public class ApplicationUser implements UserDetails {
     )
     @Enumerated(EnumType.STRING)
     private Role role;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "profilePictureId", referencedColumnName = "id")
+    private File profilePicture;
     @OneToMany(mappedBy = "applicationUser")
     private Set<Token> tokens;
     @ManyToMany(
@@ -181,5 +184,13 @@ public class ApplicationUser implements UserDetails {
 
     public void setTokens(Set<Token> tokens) {
         this.tokens = tokens;
+    }
+
+    public File getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(File profilePicture) {
+        this.profilePicture = profilePicture;
     }
 }

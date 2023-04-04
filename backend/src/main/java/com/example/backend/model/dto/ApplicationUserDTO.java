@@ -11,6 +11,7 @@ public class ApplicationUserDTO {
     private String email;
     private String password;
     private Role role;
+    private Long profilePictureId;
     private Set<Long> classRoomIds = new HashSet<>();
 
     private Set<Long> commitmentIds = new HashSet<>();
@@ -69,5 +70,13 @@ public class ApplicationUserDTO {
 
     public void setCommitmentIds(Set<Long> commitmentIds) {
         this.commitmentIds = commitmentIds;
+    }
+
+    public Long getProfilePictureId() {
+        return profilePictureId;
+    }
+
+    public void setProfilePictureId(Long profilePictureId) {
+        this.profilePictureId = profilePictureId;
     }
 }
