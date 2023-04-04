@@ -87,6 +87,7 @@ export class ProfileComponent implements OnInit {
         this.emailControl.value,
         this.loggedInUser.password,
         this.loggedInUser.role,
+        this.loggedInUser.profilePictureId,
         this.loggedInUser.classRoomIds,
         this.loggedInUser.commitmentIds
       )

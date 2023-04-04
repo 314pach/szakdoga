@@ -62,6 +62,7 @@ export class PasswordChangeComponent {
         this.loggedInUser.email,
         this.newPasswordControl.value,
         this.loggedInUser.role,
+        this.loggedInUser.profilePictureId,
         this.loggedInUser.classRoomIds,
         this.loggedInUser.commitmentIds
       )

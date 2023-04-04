@@ -6,6 +6,7 @@ export class ApplicationUserDto {
   public readonly email: string;
   public readonly password: string;
   public readonly role: RoleEnum;
+  public readonly profilePictureId: number;
   public readonly classRoomIds: Set<number>;
   public readonly commitmentIds: Set<number>;
 
@@ -16,6 +17,7 @@ export class ApplicationUserDto {
     email: string,
     password: string,
     role: RoleEnum,
+    profilePictureId: number,
     classRoomIds: Set<number>,
     commitmentIds: Set<number>
   ) {
@@ -24,6 +26,7 @@ export class ApplicationUserDto {
     this.email = email;
     this.password = password;
     this.role = role;
+    this.profilePictureId = profilePictureId;
     this.classRoomIds = classRoomIds;
     this.commitmentIds = commitmentIds;
   }

@@ -44,9 +44,10 @@
       <div *ngIf="this.messageService.selectedMessages.length" class="message-list">
         <div *ngFor="let message of this.messageService.selectedMessages" class="message-item"
              [ngStyle]='{"justify-content": message.senderId===loggedInUser.id ? "flex-end" : "flex-start"}'>
-          <div *ngIf="message.senderId !== loggedInUser.id"><img class="picture"
-                                                                 src="assets/temp-resources/gizsgugya.jpg"
-                                                                 alt="profile picture"></div>
+          <div *ngIf="message.senderId !== loggedInUser.id">
+            <img *ngIf="!selectedUser.profilePictureId" class="picture" src="assets/temp-resources/gizsgugya.jpg" alt="profile picture">
+            <img *ngIf="selectedUser.profilePictureId" class="picture" [src]="'http://localhost:8080/file/files/' + selectedUser.profilePictureId" alt="profile picture">
+          </div>
           <div class="message">
             <div class="date">{{message.timestamp | date:"yyyy.MM.dd HH:mm"}}</div>
             <div class="text">{{message.body}}</div>
