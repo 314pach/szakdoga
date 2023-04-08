@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 import static jakarta.persistence.GenerationType.SEQUENCE;
 
@@ -37,7 +37,10 @@ public class Handin {
             nullable = false,
             columnDefinition = "TIMESTAMP"
     )
-    private LocalDateTime timestamp;
+    private Date timestamp;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "fileId", referencedColumnName = "id", nullable = false)
+    private File file;
     @ManyToOne(
             fetch = FetchType.LAZY
     )
@@ -75,11 +78,11 @@ public class Handin {
         this.path = path;
     }
 
-    public LocalDateTime getTimestamp() {
+    public Date getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(LocalDateTime timestamp) {
+    public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
     }
 
@@ -97,5 +100,13 @@ public class Handin {
 
     public void setUploader(ApplicationUser uploader) {
         this.uploader = uploader;
+    }
+
+    public File getFile() {
+        return file;
+    }
+
+    public void setFile(File file) {
+        this.file = file;
     }
 }

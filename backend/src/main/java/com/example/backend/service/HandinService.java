@@ -4,6 +4,7 @@ import com.example.backend.model.Handin;
 import com.example.backend.model.dto.HandinDTO;
 import com.example.backend.repository.ApplicationUserRepository;
 import com.example.backend.repository.CommitmentRepository;
+import com.example.backend.repository.FileRepository;
 import com.example.backend.repository.HandinRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,9 @@ public class HandinService {
     @Autowired
     private CommitmentRepository commitmentRepository;
 
+    @Autowired
+    private FileRepository fileRepository;
+
     private final HandinRepository handinRepository;
 
     public HandinService(HandinRepository handinRepository) {
@@ -36,6 +40,11 @@ public class HandinService {
     @Transactional(readOnly = true)
     public Set<HandinDTO> findAll(){
         return toDto(handinRepository.findAll());
+    }
+
+    @Transactional(readOnly = true)
+    public Set<HandinDTO> findAllByCommitmentId(Long commitmentId){
+        return toDto(handinRepository.getHandinsByCommitment_Id(commitmentId));
     }
 
     public HandinDTO save(HandinDTO handinDTO){
@@ -58,6 +67,7 @@ public class HandinService {
         handinDTO.setId(handin.getId());
         handinDTO.setPath(handin.getPath());
         handinDTO.setTimestamp(handin.getTimestamp());
+        handinDTO.setFileId(handin.getFile().getId());
         handinDTO.setCommitmentId(handin.getCommitment().getId());
         handinDTO.setUploaderId(handin.getUploader().getId());
 
@@ -76,6 +86,7 @@ public class HandinService {
         handin.setId(handinDTO.getId());
         handin.setPath(handinDTO.getPath());
         handin.setTimestamp(handinDTO.getTimestamp());
+        handin.setFile(this.fileRepository.findById(handinDTO.getFileId()).orElse(null));
         commitmentRepository.findById(handinDTO.getCommitmentId()).ifPresent(handin::setCommitment);
         applicationUserRepository.findById(handinDTO.getUploaderId()).ifPresent(handin::setUploader);
 

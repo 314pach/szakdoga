@@ -26,7 +26,7 @@ public class Attachment {
     private Long id;
     @Column(
             name = "path",
-            nullable = false,
+            nullable = true,
             columnDefinition = "TEXT"
     )
     private String path;
@@ -58,6 +58,10 @@ public class Attachment {
             action = OnDeleteAction.NO_ACTION
     )
     private ApplicationUser uploader;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "fileId", referencedColumnName = "id", nullable = true)
+    private File file;
 
     public Long getId() {
         return id;
@@ -97,5 +101,13 @@ public class Attachment {
 
     public void setUploader(ApplicationUser uploader) {
         this.uploader = uploader;
+    }
+
+    public File getFile() {
+        return file;
+    }
+
+    public void setFile(File file) {
+        this.file = file;
     }
 }

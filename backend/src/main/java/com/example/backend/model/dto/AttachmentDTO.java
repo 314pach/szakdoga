@@ -8,6 +8,7 @@ public class AttachmentDTO {
     private AttachmentType type;
     private Long taskId;
     private Long uploaderId;
+    private Long fileId;
 
     public Long getId() {
         return id;
@@ -47,5 +48,13 @@ public class AttachmentDTO {
 
     public void setUploaderId(Long uploaderId) {
         this.uploaderId = uploaderId;
+    }
+
+    public Long getFileId() {
+        return fileId;
+    }
+
+    public void setFileId(Long fileId) {
+        this.fileId = fileId;
     }
 }

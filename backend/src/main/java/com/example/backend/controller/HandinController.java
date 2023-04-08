@@ -29,6 +29,12 @@ public class HandinController {
         return new ResponseEntity<>(handinDTO, HttpStatus.OK);
     }
 
+    @GetMapping("/findHandinsByCommitment/{commitmentId}")
+    public ResponseEntity<Set<HandinDTO>> getHandinByCommitment(@PathVariable("commitmentId") Long commitmentId){
+        Set<HandinDTO> handinDTOS = handinService.findAllByCommitmentId(commitmentId);
+        return new ResponseEntity<>(handinDTOS, HttpStatus.OK);
+    }
+
     @PostMapping("/create")
     public ResponseEntity<HandinDTO> addHandin(@RequestBody() HandinDTO handinDTO){
         HandinDTO newHandin = handinService.save(handinDTO);

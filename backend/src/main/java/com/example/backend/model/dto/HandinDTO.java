@@ -1,14 +1,13 @@
 package com.example.backend.model.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
-import java.time.LocalDateTime;
+import java.util.Date;
 
 public class HandinDTO {
     private Long id;
     private String path;
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime timestamp;
+//    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private Date timestamp;
+    private Long fileId;
     private Long commitmentId;
     private Long uploaderId;
 
@@ -28,11 +27,11 @@ public class HandinDTO {
         this.path = path;
     }
 
-    public LocalDateTime getTimestamp() {
+    public Date getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(LocalDateTime timestamp) {
+    public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
     }
 
@@ -50,5 +49,13 @@ public class HandinDTO {
 
     public void setUploaderId(Long uploaderId) {
         this.uploaderId = uploaderId;
+    }
+
+    public Long getFileId() {
+        return fileId;
+    }
+
+    public void setFileId(Long fileId) {
+        this.fileId = fileId;
     }
 }

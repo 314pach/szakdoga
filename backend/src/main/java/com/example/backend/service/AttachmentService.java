@@ -4,6 +4,7 @@ import com.example.backend.model.Attachment;
 import com.example.backend.model.dto.AttachmentDTO;
 import com.example.backend.repository.ApplicationUserRepository;
 import com.example.backend.repository.AttachmentRepository;
+import com.example.backend.repository.FileRepository;
 import com.example.backend.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,9 @@ public class AttachmentService {
 
     @Autowired
     private TaskRepository taskRepository;
+
+    @Autowired
+    private FileRepository fileRepository;
 
     private final AttachmentRepository attachmentRepository;
 
@@ -72,6 +76,11 @@ public class AttachmentService {
         attachmentDTO.setType(attachment.getType());
         attachmentDTO.setTaskId(attachment.getTask().getId());
         attachmentDTO.setUploaderId(attachment.getUploader().getId());
+        if(attachment.getFile() != null){
+            attachmentDTO.setFileId(attachment.getFile().getId());
+        } else {
+            attachmentDTO.setFileId(null);
+        }
 
         return attachmentDTO;
     }
@@ -90,6 +99,8 @@ public class AttachmentService {
         attachment.setType(attachmentDTO.getType());
         taskRepository.findById(attachmentDTO.getTaskId()).ifPresent(attachment::setTask);
         applicationUserRepository.findById(attachmentDTO.getUploaderId()).ifPresent(attachment::setUploader);
+        attachment.setFile(
+                fileRepository.findById(attachmentDTO.getFileId()).orElse(null));
 
         return attachment;
     }
