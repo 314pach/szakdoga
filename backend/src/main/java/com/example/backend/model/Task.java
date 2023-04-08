@@ -61,6 +61,11 @@ public class Task {
             nullable = false
     )
     private Integer headcount;
+    @Column(
+            name = "submit",
+            nullable = false
+    )
+    private Boolean submit;
     @ManyToOne(
             fetch = FetchType.LAZY
     )
@@ -140,5 +145,13 @@ public class Task {
 
     public void setModul(Modul modul) {
         this.modul = modul;
+    }
+
+    public Boolean getSubmit() {
+        return submit;
+    }
+
+    public void setSubmit(Boolean submit) {
+        this.submit = submit;
     }
 }

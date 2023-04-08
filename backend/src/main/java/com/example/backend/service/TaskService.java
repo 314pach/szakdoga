@@ -67,6 +67,7 @@ public class TaskService {
         taskDTO.setPoints(task.getPoints());
         taskDTO.setTeamwork(task.getTeamwork());
         taskDTO.setHeadcount(task.getHeadcount());
+        taskDTO.setSubmit(task.getSubmit());
         taskDTO.setModulId(task.getModul().getId());
 
         return taskDTO;
@@ -88,6 +89,7 @@ public class TaskService {
         task.setPoints(taskDTO.getPoints());
         task.setTeamwork(taskDTO.getTeamwork());
         task.setHeadcount(taskDTO.getHeadcount());
+        task.setSubmit(taskDTO.getSubmit());
         modulRepository.findById(taskDTO.getModulId()).ifPresent(task::setModul);
 
         return task;
