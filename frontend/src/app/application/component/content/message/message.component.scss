@@ -112,7 +112,8 @@
 .picture {
   border-radius: 20px;
   width: 40px;
-  height: 40px;;
+  height: 40px;
+  object-fit: cover;
 }
 
 .date {
