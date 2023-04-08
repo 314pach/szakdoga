@@ -3,7 +3,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {ApiPathEnum} from "../../enum/api-path.enum";
 import {environment} from "../../../../environments/environment";
-import {Observable} from "rxjs";
+import {catchError, Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'

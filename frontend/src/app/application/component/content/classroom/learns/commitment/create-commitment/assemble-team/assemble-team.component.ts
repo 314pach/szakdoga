@@ -52,7 +52,7 @@ export class AssembleTeamComponent implements OnInit{
       .subscribe( user => this.loggedInUser = user);
     this.applicationUserService.getUserByClassroom(this.data.classroomId).subscribe(
       users => {
-        this.students = users.filter(user => user.role === RoleEnum.STUDENT);
+        this.students = users.filter(user => user.role === RoleEnum.STUDENT && user.id !== this.loggedInUser.id);
         this.filteredStudents = users.filter(user => user.role === RoleEnum.STUDENT && user.id !== this.loggedInUser.id );
         // console.log(this.filteredStudents)
       }

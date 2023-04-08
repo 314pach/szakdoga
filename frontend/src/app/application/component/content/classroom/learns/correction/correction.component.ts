@@ -21,6 +21,9 @@ import {CommitmentByUserModel} from "../../../../../../shared/model/commitment-b
 import {MatChipSelectionChange} from "@angular/material/chips";
 import {FormControl, Validators} from "@angular/forms";
 import {CommitmentStatusEnum} from "../../../../../../shared/enum/commitment-status.enum";
+import {FileWebService} from "../../../../../../shared/service/api/file-web.service";
+import {HandinByDateModel} from "../../../../../../shared/model/handin-by-date-model";
+import {HandinService} from "../../../../../../shared/service/handin.service";
 
 @Component({
   selector: 'app-correction',
@@ -35,11 +38,14 @@ export class CorrectionComponent implements OnInit {
   commitmentsByStudents:  CommitmentByUserModel[] = [];
   tasks: Map<number, TaskDto> = new Map;
   commitments: CommitmentDto[] = [];
+  sumOfPointsForModul: number = 0;
   badges: BadgeDto[] = [];
   checkedBadges: number[] = [];
   selectedCommitment: CommitmentDto = {} as CommitmentDto;
+  selectedCommitmentsByUser: CommitmentByUserModel = {} as CommitmentByUserModel;
   links: AttachmentDto[] = [];
   files: AttachmentDto[] = [];
+  handinsByDate: HandinByDateModel[] = [];
   pointsControl: FormControl = new FormControl<number>(0, [Validators.required, Validators.min(0)]);
 
   constructor(
@@ -47,11 +53,13 @@ export class CorrectionComponent implements OnInit {
     private modulService: ModulService,
     private taskService: TaskService,
     private attachmentService: AttachmentService,
+    private handinService: HandinService,
     private commitmentService: CommitmentService,
     private badgeService: BadgeService,
     private applicationUserService: ApplicationUserService,
     private route: ActivatedRoute,
     private router: Router,
+    private fileWebService: FileWebService,
   ) {
 
   }
@@ -92,14 +100,34 @@ export class CorrectionComponent implements OnInit {
     this.router.navigate(["application/classroom/modul"], {queryParams: {classroomId: this.classroom.id}});
   }
 
-  view(commitment: CommitmentDto) {
+  view(commitment: CommitmentDto, commitmentsByStudent: CommitmentByUserModel) {
     this.selectedCommitment = commitment;
+    this.selectedCommitmentsByUser = commitmentsByStudent;
     this.pointsControl.setValue(commitment.points);
     this.pointsControl.addValidators(Validators.max(this.tasks.get(commitment.taskId)!.points));
     this.checkedBadges = [...this.selectedCommitment.badgeIds];
     // this.selectedCommitment.badgeIds.forEach(badgeId => {
     //   this.checkedBadges.push(this.badges.filter(badge => badge.id === badgeId)[0].id!)
     // });
+    let uniqueDates: number[] = [];
+    this.handinService.getHandinsByCommitmentId(commitment.id!)
+      .subscribe(handins => {
+        handins.forEach(handin => {
+          uniqueDates.push(new Date(new Date(handin.timestamp).getFullYear(), new Date(handin.timestamp).getMonth(), new Date(handin.timestamp).getDate(), new Date(handin.timestamp).getHours(), new Date(handin.timestamp).getMinutes()).getTime());
+        });
+        uniqueDates = [...new Set(uniqueDates)];
+        uniqueDates.sort();
+        // console.log(uniqueDates)
+        this.handinsByDate = [];
+        uniqueDates.forEach(date => {
+          let handinsByDate : HandinByDateModel = {
+            date: new Date(date),
+            handins: handins.filter(handin => date === new Date(new Date(handin.timestamp).getFullYear(), new Date(handin.timestamp).getMonth(), new Date(handin.timestamp).getDate(), new Date(handin.timestamp).getHours(), new Date(handin.timestamp).getMinutes()).getTime())
+          }
+          this.handinsByDate.push(handinsByDate);
+        });
+        // console.log(this.handinsByDate);
+      });
     this.attachmentService.getAttachmentByTaskId(commitment.taskId)
       .subscribe(attachments => {
         this.links = attachments.filter(a => a.type === AttachmentTypeEnum.LINK);
@@ -125,22 +153,30 @@ export class CorrectionComponent implements OnInit {
       switchMap(
         data => {
           data[0].filter(user => user.role === RoleEnum.STUDENT).forEach(user => this.students.set(user.id!, user));
-          data[1].forEach(task => this.tasks.set(task.id!, task));
+          this.sumOfPointsForModul = 0;
+          data[1].forEach(task => {
+            this.tasks.set(task.id!, task);
+            this.sumOfPointsForModul += task.points;
+          });
           return this.commitmentService.getCommitmentsByUsersAndModul(Array.from(this.students.keys()), Array.from(this.tasks.keys()));
         }
       )
     ).subscribe(commitments => {
         this.commitments = commitments;
         Array.from(this.students.keys()).forEach(studentId => {
+          let commitmentList = commitments.filter(commitment => commitment.studentIds.includes(studentId));
+          let score = 0;
+          commitmentList.forEach(commitment => score += commitment.points);
           let commitmentModel: CommitmentByUserModel = {
             student: this.students.get(studentId)!,
-            commitments: commitments.filter(commitment => commitment.studentIds.includes(studentId))
+            commitments: commitmentList,
+            sumOfPoints: score
           }
           this.commitmentsByStudents.push(commitmentModel);
         })
-        console.log(this.students);
-        console.log(this.tasks);
-        console.log(this.commitmentsByStudents);
+        // console.log(this.students);
+        // console.log(this.tasks);
+        // console.log(this.commitmentsByStudents);
       }
     );
     this.badgeService.getAllBadges()
@@ -221,5 +257,31 @@ export class CorrectionComponent implements OnInit {
           this.selectedCommitment = commitment;
         })
     }
+  }
+
+  downloadFile(fileId: number, fileName: string): void {
+    this.fileWebService.getFile(fileId).subscribe(file => {
+      const elem = window.document.createElement('a');
+      elem.href = window.URL.createObjectURL(file);
+      elem.download = fileName;
+      document.body.appendChild(elem);
+      elem.click();
+      document.body.removeChild(elem);
+    });
+  }
+
+  getGrade(points: number) {
+    if (points < this.modul.pointsFor2) {
+      return 1;
+    } else if (points < this.modul.pointsFor3) {
+      return 2;
+    } else if (points < this.modul.pointsFor4) {
+      return 3;
+    } else if (points < this.modul.pointsFor5) {
+      return 4;
+    } else {
+      return 5;
+    }
+    // console.log(this.placeholder)
   }
 }

@@ -172,10 +172,10 @@ export class CreateCommitmentComponent implements OnInit, AfterViewInit {
   }
 
   isDisabled() {
-    console.log(this.modul.beginning)
-    console.log(new Date(this.modul.beginning))
-    console.log(new Date())
-    console.log(this.modul.beginning>new Date())
+    // console.log(this.modul.beginning)
+    // console.log(new Date(this.modul.beginning))
+    // console.log(new Date())
+    // console.log(this.modul.beginning>new Date())
     if (!this.classroom.commitmentPeriod || (this.classroom.commitmentPeriod && (new Date(this.modul.beginning)>new Date() || new Date()>new Date(this.modul.end)))){
       return true;
     }

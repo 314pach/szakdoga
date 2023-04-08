@@ -13,6 +13,10 @@ export class AttachmentService {
     return this.attachmentWebService.createAttachments(attachments);
   }
 
+  createAttachment(attachment: AttachmentDto) {
+    return this.attachmentWebService.createAttachment(attachment);
+  }
+
   getAttachmentByTaskId(taskId: number) {
     return this.attachmentWebService.getAttachmentsByTaskId(taskId);
   }

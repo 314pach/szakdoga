@@ -5,6 +5,7 @@ import {environment} from "../../../../environments/environment";
 import {catchError, Observable} from "rxjs";
 import {HandinDto} from "../../dto/handin.dto";
 import {Router} from "@angular/router";
+import {AttachmentDto} from "../../dto/attachment.dto";
 
 @Injectable({
   providedIn: 'root'
@@ -40,6 +41,21 @@ export class HandinWebService {
   getHandinById(handinId: number): Observable<HandinDto> {
     let fullPath = this.buildFullPath(ApiPathEnum.FindById) + handinId;
     return this.http.get<HandinDto>(fullPath, {headers: this.createHeader()})
+      .pipe(
+        catchError(err => {
+          if(err.status === 403) {
+            localStorage.clear();
+            this.router.navigateByUrl("authentication/login");
+            throw "Authentication error";
+          }
+          throw err;
+        })
+      );
+  }
+
+  getHandinsByCommitmentId(commitmentId: number): Observable<HandinDto[]> {
+    let fullPath = this.buildFullPath(ApiPathEnum.FindHandinsByCommitment) + commitmentId;
+    return this.http.get<HandinDto[]>(fullPath, {headers: this.createHeader()})
       .pipe(
         catchError(err => {
           if(err.status === 403) {

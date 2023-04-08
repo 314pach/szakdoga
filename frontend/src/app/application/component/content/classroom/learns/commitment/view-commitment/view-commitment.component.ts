@@ -16,6 +16,11 @@ import {AttachmentService} from "../../../../../../../shared/service/attachment.
 import {AttachmentTypeEnum} from "../../../../../../../shared/enum/attachment-type.enum";
 import {BadgeDto} from "../../../../../../../shared/dto/badge.dto";
 import {BadgeService} from "../../../../../../../shared/service/badge.service";
+import {FileWebService} from "../../../../../../../shared/service/api/file-web.service";
+import {FormControl, Validators} from "@angular/forms";
+import {HandinService} from "../../../../../../../shared/service/handin.service";
+import {HandinDto} from "../../../../../../../shared/dto/handin.dto";
+import {HandinByDateModel} from "../../../../../../../shared/model/handin-by-date-model";
 
 @Component({
   selector: 'app-view-commitment',
@@ -35,6 +40,10 @@ export class ViewCommitmentComponent implements OnInit{
   // attachments: AttachmentDto[] = [];
   links: AttachmentDto[] = [];
   files: AttachmentDto[] = [];
+  filesArray: File[] = [];
+  uploadFiles: boolean = false;
+  handinControl: FormControl = new FormControl('', Validators.required);
+  handinsByDate: HandinByDateModel[] = [];
 
   selectedCommitment: CommitmentDto = {} as CommitmentDto;
 
@@ -43,11 +52,13 @@ export class ViewCommitmentComponent implements OnInit{
     private modulService: ModulService,
     private taskService: TaskService,
     private attachmentService: AttachmentService,
+    private handinService: HandinService,
     private badgeService: BadgeService,
     private applicationUserService: ApplicationUserService,
     private commitmentService: CommitmentService,
     private route: ActivatedRoute,
     private _snackBar: MatSnackBar,
+    private fileWebService: FileWebService,
   ) {
   }
 
@@ -77,6 +88,25 @@ export class ViewCommitmentComponent implements OnInit{
 
   view(commitment: CommitmentDto) {
     this.selectedCommitment = commitment;
+    let uniqueDates: number[] = [];
+    this.handinService.getHandinsByCommitmentId(commitment.id!)
+      .subscribe(handins => {
+        handins.forEach(handin => {
+          uniqueDates.push(new Date(new Date(handin.timestamp).getFullYear(), new Date(handin.timestamp).getMonth(), new Date(handin.timestamp).getDate(), new Date(handin.timestamp).getHours(), new Date(handin.timestamp).getMinutes()).getTime());
+        });
+        uniqueDates = [...new Set(uniqueDates)];
+        uniqueDates.sort();
+        console.log(uniqueDates)
+        this.handinsByDate = [];
+        uniqueDates.forEach(date => {
+          let handinsByDate : HandinByDateModel = {
+            date: new Date(date),
+            handins: handins.filter(handin => date === new Date(new Date(handin.timestamp).getFullYear(), new Date(handin.timestamp).getMonth(), new Date(handin.timestamp).getDate(), new Date(handin.timestamp).getHours(), new Date(handin.timestamp).getMinutes()).getTime())
+          }
+          this.handinsByDate.push(handinsByDate);
+        });
+        console.log(this.handinsByDate);
+      });
     this.attachmentService.getAttachmentByTaskId(commitment.taskId)
       .subscribe(attachments => {
         this.links = attachments.filter(a => a.type === AttachmentTypeEnum.LINK);
@@ -88,5 +118,63 @@ export class ViewCommitmentComponent implements OnInit{
 
   getUsers(taskId: number) : string[]{
     return Array.from(this.teams.get(taskId)!.values());
+  }
+
+  downloadFile(fileId: number, fileName: string): void {
+    this.fileWebService.getFile(fileId).subscribe(file => {
+      const elem = window.document.createElement('a');
+      elem.href = window.URL.createObjectURL(file);
+      elem.download = fileName;
+      document.body.appendChild(elem);
+      elem.click();
+      document.body.removeChild(elem);
+    });
+  }
+
+  checkUploadFiles() {
+    this.uploadFiles = true;
+  }
+
+  removeFileUpload() {
+    this.uploadFiles = false;
+  }
+
+  fileSelectionChanged($event: any) {
+    if ($event.target) {
+      this.filesArray = $event.target.files;
+    }
+  }
+
+  isDisabled() {
+    return this.handinControl.invalid;
+  }
+
+  save() {
+    if (!this.isDisabled()){
+      let i = 0;
+      Array.from(this.filesArray).forEach(input => {
+        this.fileWebService.uploadFile(input)
+          .pipe(
+            switchMap(id => {
+              let file = new HandinDto(
+                null,
+                input.name,
+                new Date(),
+                id,
+                this.selectedCommitment.id!,
+                this.loggedInUser.id!
+              );
+              return this.handinService.createHandin(file);
+            }))
+          .subscribe(_ => {
+            console.log("siker");
+            i++;
+            if (i === this.filesArray.length){
+              this.view(this.selectedCommitment);
+              this.removeFileUpload();
+            }
+          });
+      });
+    }
   }
 }

@@ -6,6 +6,7 @@ export class TaskDto {
   public readonly points: number;
   public readonly teamwork: boolean;
   public readonly headcount: number;
+  public readonly submit: boolean;
   public readonly modulId: number;
 
   constructor(
@@ -16,6 +17,7 @@ export class TaskDto {
     points: number,
     teamwork: boolean,
     headcount: number,
+    submit: boolean,
     modulId: number
   ) {
     this.id = id;
@@ -25,6 +27,7 @@ export class TaskDto {
     this.points = points;
     this.teamwork = teamwork;
     this.headcount = headcount;
+    this.submit = submit;
     this.modulId = modulId;
   }
 }

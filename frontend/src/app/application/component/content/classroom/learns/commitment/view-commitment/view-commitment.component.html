@@ -44,6 +44,40 @@
       <div *ngIf="links.length || files.length">
         <div class="label">Csatolmányok:</div>
         <div *ngFor="let link of links"><a href="{{link.path}}" target="_blank">{{link.path}}</a></div>
+        <div *ngFor="let fileAttachment of files" (click)="downloadFile(fileAttachment.fileId!, fileAttachment.path)">
+          <mat-icon>description</mat-icon>{{fileAttachment.path}}
+        </div>
+      </div>
+      <div class="link-container" *ngIf="this.tasks.get(this.selectedCommitment.taskId)!.submit">
+        <div class="attachment">
+          <div class="header">
+            <div class="label">
+              Beadott fájlok
+            </div>
+            <button mat-icon-button matTooltip="Fájlok feltöltése" matTooltipPosition="above" (click)="checkUploadFiles()" [disabled]="this.uploadFiles">
+              <mat-icon>add</mat-icon>
+            </button>
+          </div>
+          <div *ngFor="let handinByDate of handinsByDate">
+            <div>{{handinByDate.date | date:"yyyy.MM.dd HH:mm"}}</div>
+            <div *ngFor="let handin of handinByDate.handins" (click)="downloadFile(handin.fileId!, handin.path)">
+              <mat-icon>description</mat-icon>{{handin.path}}
+            </div>
+          </div>
+          <div *ngIf="uploadFiles">
+            <div>
+              <input multiple type="file" [formControl]="handinControl" (change)="fileSelectionChanged($event)">
+            </div>
+            <button mat-icon-button matTooltip="Mégse" matTooltipPosition="after" (click)="removeFileUpload()" class="link-remove">
+              <mat-icon>remove</mat-icon>
+            </button>
+            <div class="button-container">
+              <button mat-raised-button color="primary" class="control" [disabled]="isDisabled()" (click)="save()">Beadás
+              </button>
+              <button mat-raised-button class="control" mat-dialog-close="true">Mégse</button>
+            </div>
+          </div>
+        </div>
       </div>
       <mat-chip-set>
         <mat-chip *ngFor="let badge of this.badges" [matTooltip]="badge.tooltip" disableRipple>

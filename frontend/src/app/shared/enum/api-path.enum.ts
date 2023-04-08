@@ -25,5 +25,5 @@ export enum ApiPathEnum {
   FindBadgesByIds = "findBadgesByIds",
   UploadFile = "upload",
   GetFiles = "files/",
-  GetImages = "images"
+  FindHandinsByCommitment = "findHandinsByCommitment/"
 }

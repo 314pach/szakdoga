@@ -3,5 +3,6 @@ import {ApplicationUserDto} from "../dto/application-user.dto";
 
 export interface CommitmentByUserModel {
   student: ApplicationUserDto,
-  commitments: CommitmentDto[]
+  commitments: CommitmentDto[],
+  sumOfPoints: number
 }
