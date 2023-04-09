@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, Renderer2, ViewChild} from '@angular/core';
 import {ApplicationUserDto} from "../../../../shared/dto/application-user.dto";
 import {ApplicationUserService} from "../../../../shared/service/application-user.service";
 import {MessageService} from "../../../../shared/service/message.service";
@@ -6,6 +6,7 @@ import {switchMap} from "rxjs";
 import {MessageDto} from "../../../../shared/dto/message.dto";
 import {FormControl} from "@angular/forms";
 import {MessageStatusEnum} from "../../../../shared/enum/message-status.enum";
+import {MatDrawer, MatDrawerMode} from "@angular/material/sidenav";
 
 @Component({
   selector: 'app-message',
@@ -13,6 +14,9 @@ import {MessageStatusEnum} from "../../../../shared/enum/message-status.enum";
   styleUrls: ['./message.component.scss']
 })
 export class MessageComponent implements OnInit, OnDestroy {
+  @ViewChild("drawer") drawer!: MatDrawer;
+  mode: MatDrawerMode = "side";
+  threshold: number = 800;
 
   loggedInUser: ApplicationUserDto = {} as ApplicationUserDto;
   users: ApplicationUserDto[] = [];
@@ -26,7 +30,10 @@ export class MessageComponent implements OnInit, OnDestroy {
   constructor(
     private applicationUserService: ApplicationUserService,
     public messageService: MessageService,
+    private renderer: Renderer2
   ) {
+    this.renderer.listen("window", "resize", this.setMenuMode);
+    this.mode = this.getScreenWidth() >= this.threshold ? "side" : "over";
   }
 
   ngOnInit(): void {
@@ -50,7 +57,10 @@ export class MessageComponent implements OnInit, OnDestroy {
   }
 
   open(user: ApplicationUserDto) {
-    console.log(this.loggedInUser);
+    if (this.getScreenWidth() <= this.threshold){
+      this.drawer.close();
+    }
+    // console.log(this.loggedInUser);
     this.selectedUser = user;
     this.messageService.getSelectedMessages(this.loggedInUser.id!, this.selectedUser.id!);
   }
@@ -80,5 +90,23 @@ export class MessageComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.messageService.disconnectFromSelectedMessages();
+  }
+
+  getScreenWidth(): number {
+    return window.innerWidth;
+  }
+
+  setMenuMode = (e: Event) => {
+    if (this.getScreenWidth() >= this.threshold){
+      if (this.mode === "over"){
+        this.drawer.open();
+      }
+      this.mode = "side";
+    } else {
+      if (this.mode === "side"){
+        this.drawer.close();
+      }
+      this.mode = "over"
+    }
   }
 }

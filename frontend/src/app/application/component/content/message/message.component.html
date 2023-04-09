@@ -1,67 +1,98 @@
-<div class="container" style="height: 100%">
-  <div class="users">
-    <div class="search">
-      <mat-form-field appearance="outline" class="field">
-        <mat-label>Keresés</mat-label>
-        <input matInput type="text" [(ngModel)]="search" (keyup)="doSearch()">
+<mat-drawer-container class="container">
+  <mat-drawer #drawer [mode]="mode" [opened]="mode==='side'" style="width: 300px" class="drawer">
+    <div class="users">
+      <div class="search">
+        <mat-form-field appearance="outline" class="field">
+          <mat-label>Keresés</mat-label>
+          <input matInput type="text" [(ngModel)]="search" (keyup)="doSearch()">
+        </mat-form-field>
+      </div>
+      <div class="list">
+        <div *ngIf="!this.users.length" class="no-data">
+          <div class="icon">
+            <mat-icon>info_outlined</mat-icon>
+          </div>
+          <div class="info">
+            Nincs megjeleníthető felhasználó
+          </div>
+        </div>
+        <div *ngIf="this.filteredUsers.length">
+          <div *ngFor="let user of this.filteredUsers" class="item" (click)="open(user)"
+               [ngStyle]="{'background-color': user.id === selectedUser.id ? ' #e6f2f8': ''}">
+            <div>{{user.name}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-drawer>
+  <mat-drawer-content class="drawer-content">
+    <div class="messages">
+      <div *ngIf="!this.messageService.selectedMessages.length && this.selectedUser.id" class="no-data">
+        <div class="message-header">
+          <div *ngIf="!drawer.opened" (click)="drawer.open()" class="menu-toggle"
+               matTooltip="Felhasználók megjelenítése">
+            <mat-icon class="toggle-icon">menu</mat-icon>
+          </div>
+        </div>
+        <div class="error-message">
+          <div class="icon">
+            <mat-icon>info_outlined</mat-icon>
+          </div>
+          <div class="info">
+            Nincs megjeleníthető üzenet
+          </div>
+        </div>
+      </div>
+      <div *ngIf="!this.selectedUser.id" class="no-data">
+        <div class="message-header">
+          <div *ngIf="!drawer.opened" (click)="drawer.open()" class="menu-toggle"
+               matTooltip="Felhasználók megjelenítése">
+            <mat-icon class="toggle-icon">menu</mat-icon>
+          </div>
+        </div>
+        <div class="error-message">
+          <div class="icon">
+            <mat-icon>info_outlined</mat-icon>
+          </div>
+          <div class="info">
+            Válassz egy felhasználót
+          </div>
+        </div>
+      </div>
+      <div *ngIf="selectedUser.id && this.messageService.selectedMessages.length" class="message-header">
+        <div *ngIf="!drawer.opened" (click)="drawer.open()" class="menu-toggle" matTooltip="Felhasználók megjelenítése">
+          <mat-icon class="toggle-icon">menu</mat-icon>
+        </div>
+        <div class="label">{{selectedUser.name}}</div>
+      </div>
+      <mat-divider *ngIf="selectedUser.id && this.messageService.selectedMessages.length" class="divider"></mat-divider>
+      <div *ngIf="selectedUser.id" class="scrollable">
+        <div *ngIf="this.messageService.selectedMessages.length" class="message-list">
+          <div *ngFor="let message of this.messageService.selectedMessages" class="message-item"
+               [ngStyle]='{
+             "justify-content": message.senderId===loggedInUser.id ? "flex-end" : "flex-start",
+             "margin": message.senderId===loggedInUser.id ? "0 5px 0 20%" : "0 20% 0 0"}'>
+            <div *ngIf="message.senderId !== loggedInUser.id">
+              <img *ngIf="!selectedUser.profilePictureId" class="picture" src="assets/temp-resources/gizsgugya.jpg"
+                   alt="profile picture">
+              <img *ngIf="selectedUser.profilePictureId" class="picture"
+                   [src]="'http://localhost:8080/file/files/' + selectedUser.profilePictureId" alt="profile picture">
+            </div>
+            <div class="message">
+              <div class="date">{{message.timestamp | date:"yyyy.MM.dd HH:mm"}}</div>
+              <div class="text">{{message.body}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <mat-form-field appearance="outline" class="field" *ngIf="selectedUser.id">
+        <textarea matInput [formControl]="messageControl" class="no-resize"></textarea>
+        <button mat-icon-button matSuffix (click)="send()" [attr.aria-label]="'Send'" matTooltip="Küldés"
+                class="send-button">
+          <mat-icon>send</mat-icon>
+        </button>
       </mat-form-field>
     </div>
-    <div class="list">
-      <div *ngIf="!this.users.length" class="no-data">
-        <div class="icon">
-          <mat-icon>info_outlined</mat-icon>
-        </div>
-        <div class="info">
-          Nincs megjeleníthető felhasználó
-        </div>
-      </div>
-      <div *ngIf="this.filteredUsers.length">
-        <div *ngFor="let user of this.filteredUsers" class="item" (click)="open(user)"
-             [ngStyle]="{'background-color': user.id === selectedUser.id ? ' #e6f2f8': ''}">
-          <div>{{user.name}}</div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="messages">
-    <div *ngIf="!this.messageService.selectedMessages.length && this.selectedUser.id" class="no-data">
-      <div class="icon">
-        <mat-icon>info_outlined</mat-icon>
-      </div>
-      <div class="info">
-        Nincs megjeleníthető üzenet
-      </div>
-    </div>
-    <div *ngIf="!this.selectedUser.id" class="no-data">
-      <div class="icon">
-        <mat-icon>info_outlined</mat-icon>
-      </div>
-      <div class="info">
-        Válassz egy felhasználót
-      </div>
-    </div>
-    <div *ngIf="selectedUser.id" class="scrollable">
-      <div *ngIf="this.messageService.selectedMessages.length" class="message-list">
-        <div *ngFor="let message of this.messageService.selectedMessages" class="message-item"
-             [ngStyle]='{"justify-content": message.senderId===loggedInUser.id ? "flex-end" : "flex-start"}'>
-          <div *ngIf="message.senderId !== loggedInUser.id">
-            <img *ngIf="!selectedUser.profilePictureId" class="picture" src="assets/temp-resources/gizsgugya.jpg" alt="profile picture">
-            <img *ngIf="selectedUser.profilePictureId" class="picture" [src]="'http://localhost:8080/file/files/' + selectedUser.profilePictureId" alt="profile picture">
-          </div>
-          <div class="message">
-            <div class="date">{{message.timestamp | date:"yyyy.MM.dd HH:mm"}}</div>
-            <div class="text">{{message.body}}</div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <mat-form-field appearance="outline" class="field">
-      <textarea matInput [formControl]="messageControl" class="no-resize"></textarea>
-      <button mat-icon-button matSuffix (click)="send()" [attr.aria-label]="'Send'" matTooltip="Küldés"
-              class="send-button">
-        <mat-icon>send</mat-icon>
-      </button>
-    </mat-form-field>
-  </div>
-</div>
+  </mat-drawer-content>
+</mat-drawer-container>
 
