@@ -1,142 +1,171 @@
-<div class="navbar">
-  <div class="breadcrumb">
-    <div class="breadcrumb-label clickable" routerLink="/application/classroom">Osztályok</div>
-    <div class="breadcrumb-icon">
-      <mat-icon>arrow_right</mat-icon>
-    </div>
-    <div class="breadcrumb-label clickable"
-         (click)="navigate()">{{this.classroom.name}} {{this.classroom.subject}}</div>
-    <div class="breadcrumb-icon">
-      <mat-icon>arrow_right</mat-icon>
-    </div>
-    <div class="breadcrumb-label">{{this.modul.title}}</div>
-  </div>
-</div>
-<div class="high">
-  <div class="container" style="height: 100%">
-    <div class="list">
-      <div *ngIf="!this.students.size" class="no-data">
-        <div class="icon">
-          <mat-icon>info_outlined</mat-icon>
-        </div>
-        <div class="info">
-          Nincsenek megjeleníthető diákok
-        </div>
+<div class="container">
+  <div class="navbar">
+    <div class="breadcrumb">
+      <div class="breadcrumb-label clickable" routerLink="/application/classroom">Osztályok</div>
+      <div class="breadcrumb-icon">
+        <mat-icon>arrow_right</mat-icon>
       </div>
-      <div *ngIf="this.students.size && this.commitmentsByStudents.length && this.tasks.size">
-        <mat-accordion>
-          <div *ngFor="let commitmentsByStudent of this.commitmentsByStudents">
-            <mat-expansion-panel hideToggle>
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                  {{commitmentsByStudent.student.name}}
-                </mat-panel-title>
-              </mat-expansion-panel-header>
-              <div *ngIf="!this.commitmentsByStudent.commitments.length" class="no-data">
+      <div class="breadcrumb-label clickable"
+           (click)="navigate()">{{this.classroom.name}} {{this.classroom.subject}}</div>
+      <div class="breadcrumb-icon">
+        <mat-icon>arrow_right</mat-icon>
+      </div>
+      <div class="breadcrumb-label">{{this.modul.title}}</div>
+    </div>
+  </div>
+  <div class="high">
+    <mat-drawer-container class="drawer-container">
+      <!--    <div class="container" style="height: 100%">-->
+      <mat-drawer #drawer [mode]="mode" [opened]="mode==='side'" class="drawer">
+        <div class="list">
+          <div *ngIf="!this.students.size" class="no-data">
+            <div class="icon">
+              <mat-icon>info_outlined</mat-icon>
+            </div>
+            <div class="info">
+              Nincsenek megjeleníthető diákok
+            </div>
+          </div>
+          <div *ngIf="this.students.size && this.commitmentsByStudents.length && this.tasks.size">
+            <mat-accordion>
+              <div *ngFor="let commitmentsByStudent of this.commitmentsByStudents">
+                <mat-expansion-panel hideToggle>
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      {{commitmentsByStudent.student.name}}
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+                  <div *ngIf="!this.commitmentsByStudent.commitments.length" class="list-no-data">
+                    <div class="list-icon">
+                      <mat-icon>info_outlined</mat-icon>
+                    </div>
+                    <div class="list-info">
+                      Nincsenek elvállalt feladatok
+                    </div>
+                  </div>
+                  <div *ngIf="this.commitmentsByStudent.commitments.length">
+                    <div *ngFor="let commitment of this.commitmentsByStudent.commitments"
+                         (click)="view(commitment, commitmentsByStudent)" class="item">
+                      {{this.tasks.get(commitment.taskId)!.title}}
+                    </div>
+                  </div>
+                </mat-expansion-panel>
+              </div>
+            </mat-accordion>
+          </div>
+        </div>
+      </mat-drawer>
+      <mat-drawer-content class="drawer-content">
+        <div class="view">
+          <div class="statistics" *ngIf="selectedCommitment.id && selectedCommitmentsByUser.student">
+            <div class="statistics-header">
+              <div *ngIf="!drawer.opened" (click)="drawer.open()" class="menu-toggle"
+                   matTooltip="Felhasználók megjelenítése">
+                <mat-icon class="toggle-icon">menu</mat-icon>
+              </div>
+              <div class="statistics-label">{{selectedCommitmentsByUser.student.name}}</div>
+            </div>
+            <div class="statistics-result">
+              <div>Jegy: {{getGrade(selectedCommitmentsByUser.sumOfPoints)}}</div>
+              <div>
+                <span class="result">{{selectedCommitmentsByUser.sumOfPoints}}</span> / {{sumOfPointsForModul}} pont
+              </div>
+            </div>
+          </div>
+          <div class="commitment">
+            <div *ngIf="!selectedCommitment.id" class="no-data">
+              <div class="statistics-header">
+                <div *ngIf="!drawer.opened" (click)="drawer.open()" class="menu-toggle"
+                     matTooltip="Felhasználók megjelenítése">
+                  <mat-icon class="toggle-icon">menu</mat-icon>
+                </div>
+              </div>
+              <div class="error-message">
                 <div class="icon">
                   <mat-icon>info_outlined</mat-icon>
                 </div>
                 <div class="info">
-                  Nincsenek elvállalt feladatok
-                </div>
-              </div>
-              <div *ngIf="this.commitmentsByStudent.commitments.length">
-                <div *ngFor="let commitment of this.commitmentsByStudent.commitments"
-                     (click)="view(commitment, commitmentsByStudent)" class="item">
-                  {{this.tasks.get(commitment.taskId)!.title}}
-                </div>
-              </div>
-            </mat-expansion-panel>
-          </div>
-        </mat-accordion>
-      </div>
-    </div>
-    <div class="view">
-      <div class="statistics" *ngIf="selectedCommitment.id && selectedCommitmentsByUser.student">
-        <div>{{selectedCommitmentsByUser.student.name}}</div>
-        <div><span class="result">{{selectedCommitmentsByUser.sumOfPoints}}</span>
-          / {{sumOfPointsForModul}} pont
-        </div>
-        <div>Jegy: {{getGrade(selectedCommitmentsByUser.sumOfPoints)}}</div>
-      </div>
-      <div class="commitment">
-        <div *ngIf="!selectedCommitment.id" class="no-data">
-          <div class="icon">
-            <mat-icon>info_outlined</mat-icon>
-          </div>
-          <div class="info">
-            Válassz egy feladatot
-          </div>
-        </div>
-        <div *ngIf="selectedCommitment.id">
-          <div class="title">{{this.tasks.get(selectedCommitment.taskId)!.title}}</div>
-          <div>{{this.tasks.get(selectedCommitment.taskId)!.summary}}</div>
-          <div>
-            <div *ngIf="this.tasks.get(selectedCommitment.taskId)!.teamwork" class="team">
-              <mat-icon>groups</mat-icon>
-              <mat-chip-set>
-                <mat-chip *ngFor="let username of getUsers()" disableRipple>{{username}}</mat-chip>
-              </mat-chip-set>
-            </div>
-          </div>
-          <div class="label">Feladatleírás:</div>
-          <div>{{this.tasks.get(selectedCommitment.taskId)!.description}}</div>
-          <div *ngIf="links.length || files.length">
-            <div class="label">Csatolmányok:</div>
-            <div *ngFor="let link of links"><a href="{{link.path}}" target="_blank">{{link.path}}</a></div>
-            <div *ngFor="let fileAttachment of files"
-                 (click)="downloadFile(fileAttachment.fileId!, fileAttachment.path)">
-              <mat-icon>description</mat-icon>
-              {{fileAttachment.path}}
-            </div>
-          </div>
-          <div>
-            <mat-chip-listbox multiple>
-              <mat-chip-option *ngFor="let badge of this.badges" [matTooltip]="badge.tooltip"
-                               [selected]="checkedBadges.includes(badge.id!)"
-                               (selectionChange)="checkBadge($event, badge)">
-                <mat-icon style="font-size: 20px">{{badge.icon}}</mat-icon>
-              </mat-chip-option>
-            </mat-chip-listbox>
-            <button mat-raised-button color="primary" (click)="saveBadges()" [disabled]="isBadgeButtonDisabled()">Ok
-            </button>
-          </div>
-          <div class="link-container" *ngIf="this.tasks.get(this.selectedCommitment.taskId)!.submit">
-            <div class="attachment">
-              <div class="header">
-                <div class="label">
-                  Beadott fájlok
-                </div>
-              </div>
-              <div *ngFor="let handinByDate of handinsByDate">
-                <div>{{handinByDate.date | date:"yyyy.MM.dd HH:mm"}}</div>
-                <div *ngFor="let handin of handinByDate.handins" (click)="downloadFile(handin.fileId!, handin.path)">
-                  <mat-icon>description</mat-icon>
-                  {{handin.path}}
+                  Válassz egy feladatot
                 </div>
               </div>
             </div>
+            <div *ngIf="selectedCommitment.id">
+              <div class="title">{{this.tasks.get(selectedCommitment.taskId)!.title}}</div>
+              <div class="summary">{{this.tasks.get(selectedCommitment.taskId)!.summary}}</div>
+              <div>
+                <div *ngIf="this.tasks.get(selectedCommitment.taskId)!.teamwork" class="team">
+                  <mat-icon>groups</mat-icon>
+                  <mat-chip-set>
+                    <mat-chip *ngFor="let username of getUsers()" disableRipple>{{username}}</mat-chip>
+                  </mat-chip-set>
+                </div>
+              </div>
+              <div class="label">Feladatleírás:</div>
+              <div *ngFor="let paragraph of this.tasks.get(selectedCommitment.taskId)!.description.split('\n')" class="description">{{paragraph}}</div>
+              <div *ngIf="links.length || files.length">
+                <div class="label">Csatolmányok:</div>
+                <div *ngFor="let link of links" class="link truncate"><a href="{{link.path}}" target="_blank">{{link.path}}</a>
+                </div>
+                <div *ngFor="let fileAttachment of files"
+                     class="file">
+                  <mat-icon (click)="downloadFile(fileAttachment.fileId!, fileAttachment.path)">description</mat-icon>
+                  <div (click)="downloadFile(fileAttachment.fileId!, fileAttachment.path)"
+                       class="filename">{{fileAttachment.path}}</div>
+                </div>
+              </div>
+              <div class="link-container" *ngIf="this.tasks.get(this.selectedCommitment.taskId)!.submit">
+                <div class="attachment">
+                  <div class="header">
+                    <div class="label">
+                      Beadott fájlok
+                    </div>
+                  </div>
+                  <div *ngFor="let handinByDate of handinsByDate">
+                    <div>{{handinByDate.date | date:"yyyy.MM.dd HH:mm"}}</div>
+                    <div *ngFor="let handin of handinByDate.handins"
+                         class="file">
+                      <mat-icon (click)="downloadFile(handin.fileId!, handin.path)">description</mat-icon>
+                      <div (click)="downloadFile(handin.fileId!, handin.path)" class="filename">{{handin.path}}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="label">Eredmény:</div>
+              <div class="badges">
+                <mat-chip-listbox multiple>
+                  <mat-chip-option *ngFor="let badge of this.badges" [matTooltip]="badge.tooltip"
+                                   [selected]="checkedBadges.includes(badge.id!)"
+                                   (selectionChange)="checkBadge($event, badge)">
+                    <mat-icon class="badge">{{badge.icon}}</mat-icon>
+                  </mat-chip-option>
+                </mat-chip-listbox>
+                <button class="badge-ok" mat-raised-button color="primary" (click)="saveBadges()"
+                        [disabled]="isBadgeButtonDisabled()">Ok
+                </button>
+              </div>
+              <div class="points">
+                <span>
+                  <mat-form-field appearance="outline" class="field">
+                    <mat-label>Pontszám</mat-label>
+                    <input matInput type="number" [formControl]="pointsControl">
+                    <mat-error *ngIf="pointsControl.errors?.['required']">Pontszám megadása kötelező</mat-error>
+                    <mat-error *ngIf="pointsControl.errors?.['min']">Nem lehet negatív</mat-error>
+                    <mat-error
+                      *ngIf="pointsControl.errors?.['max']">Nem lehet nagyobb, mint {{this.tasks.get(selectedCommitment.taskId)!.points}}</mat-error>
+                  </mat-form-field>
+                </span>
+                / {{this.tasks.get(selectedCommitment.taskId)!.points}} pont
+              </div>
+              <button class="points" mat-raised-button color="primary" (click)="savePoints()"
+                      [disabled]="isPointsButtonDisabled()">
+                Értékelés
+              </button>
+            </div>
           </div>
-          <div class="label">Eredmény:</div>
-          <div>
-          <span class="result">
-            <mat-form-field appearance="outline" class="field">
-              <mat-label>Pontszám</mat-label>
-              <input matInput type="number" [formControl]="pointsControl">
-              <mat-error *ngIf="pointsControl.errors?.['required']">Pontszám megadása kötelező</mat-error>
-              <mat-error *ngIf="pointsControl.errors?.['min']">A pontszám nem lehet negatív</mat-error>
-              <mat-error
-                *ngIf="pointsControl.errors?.['max']">A pontszám nem lehet nagyobb, mint {{this.tasks.get(selectedCommitment.taskId)!.points}}</mat-error>
-        </mat-form-field>
-        </span>
-            / {{this.tasks.get(selectedCommitment.taskId)!.points}} pont
-          </div>
-          <button mat-raised-button color="primary" (click)="savePoints()" [disabled]="isPointsButtonDisabled()">
-            Értékelés
-          </button>
         </div>
-      </div>
-    </div>
+      </mat-drawer-content>
+      <!--    </div>-->
+    </mat-drawer-container>
   </div>
 </div>
 

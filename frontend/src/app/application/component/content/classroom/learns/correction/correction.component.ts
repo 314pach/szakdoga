@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, OnInit, Renderer2, ViewChild} from '@angular/core';
 import {ApplicationUserDto} from "../../../../../../shared/dto/application-user.dto";
 import {ClassroomDto} from "../../../../../../shared/dto/classroom.dto";
 import {ModulDto} from "../../../../../../shared/dto/modul.dto";
@@ -24,6 +24,7 @@ import {CommitmentStatusEnum} from "../../../../../../shared/enum/commitment-sta
 import {FileWebService} from "../../../../../../shared/service/api/file-web.service";
 import {HandinByDateModel} from "../../../../../../shared/model/handin-by-date-model";
 import {HandinService} from "../../../../../../shared/service/handin.service";
+import {MatDrawer, MatDrawerMode} from "@angular/material/sidenav";
 
 @Component({
   selector: 'app-correction',
@@ -31,6 +32,10 @@ import {HandinService} from "../../../../../../shared/service/handin.service";
   styleUrls: ['./correction.component.scss']
 })
 export class CorrectionComponent implements OnInit {
+  @ViewChild("drawer") drawer!: MatDrawer;
+  mode: MatDrawerMode = "side";
+  threshold: number = 800;
+
   loggedInUser: ApplicationUserDto = {} as ApplicationUserDto;
   classroom: ClassroomDto = {} as ClassroomDto;
   modul: ModulDto = {} as ModulDto;
@@ -60,8 +65,10 @@ export class CorrectionComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private fileWebService: FileWebService,
+    private renderer: Renderer2
   ) {
-
+    this.renderer.listen("window", "resize", this.setMenuMode);
+    this.mode = this.getScreenWidth() >= this.threshold ? "side" : "over";
   }
 
   ngOnInit(): void {
@@ -101,6 +108,9 @@ export class CorrectionComponent implements OnInit {
   }
 
   view(commitment: CommitmentDto, commitmentsByStudent: CommitmentByUserModel) {
+    if (this.getScreenWidth() <= this.threshold){
+      this.drawer.close();
+    }
     this.selectedCommitment = commitment;
     this.selectedCommitmentsByUser = commitmentsByStudent;
     this.pointsControl.setValue(commitment.points);
@@ -172,6 +182,10 @@ export class CorrectionComponent implements OnInit {
             commitments: commitmentList,
             sumOfPoints: score
           }
+          if (this.selectedCommitment.id) {
+            this.view(this.selectedCommitment, commitmentModel);
+          }
+          console.log("asd")
           this.commitmentsByStudents.push(commitmentModel);
         })
         // console.log(this.students);
@@ -229,6 +243,7 @@ export class CorrectionComponent implements OnInit {
           this.commitmentsByStudents = [];
           this.checkedBadges = [...commitment.badgeIds];
           this.refreshData();
+          // this.view(commitment, this.selectedCommitmentsByUser)
           this.selectedCommitment = commitment;
         });
     }
@@ -253,8 +268,10 @@ export class CorrectionComponent implements OnInit {
         .subscribe(commitment=> {
           this.commitmentsByStudents = [];
           // this.checkedBadges = commitment.badgeIds;
-          this.refreshData();
           this.selectedCommitment = commitment;
+          this.refreshData();
+          // this.selectedCommitmentsByUser = this.commitmentsByStudents.filter(commitmentsByStudent => commitmentsByStudent.student!.id === this.selectedCommitmentsByUser.student!.id)[0];
+          console.log(this.selectedCommitmentsByUser)
         })
     }
   }
@@ -283,5 +300,23 @@ export class CorrectionComponent implements OnInit {
       return 5;
     }
     // console.log(this.placeholder)
+  }
+
+  getScreenWidth(): number {
+    return window.innerWidth;
+  }
+
+  setMenuMode = (e: Event) => {
+    if (this.getScreenWidth() >= this.threshold){
+      if (this.mode === "over"){
+        this.drawer.open();
+      }
+      this.mode = "side";
+    } else {
+      if (this.mode === "side"){
+        this.drawer.close();
+      }
+      this.mode = "over"
+    }
   }
 }
