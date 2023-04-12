@@ -10,6 +10,9 @@
     <button mat-raised-button (click)="edit()">Szerkesztés</button>
   </div>
 </div>
+<div class="toggle" *ngIf="this.isTeacher">
+  <mat-slide-toggle (change)="toggleCommitmentPeriod($event)" [checked]="this.classroom.commitmentPeriod" >Vállalási időszak</mat-slide-toggle>
+</div>
 <div *ngIf="!moduls.length" class="no-data">
   <div class="icon">
     <mat-icon>info_outlined</mat-icon>
@@ -17,9 +20,6 @@
   <div class="info">
     Jelenleg nincs megjeleníthető témakör
   </div>
-</div>
-<div class="toggle" *ngIf="this.isTeacher">
-  <mat-slide-toggle (change)="toggleCommitmentPeriod($event)" [checked]="this.classroom.commitmentPeriod" >Vállalási időszak</mat-slide-toggle>
 </div>
 <div fxLayout="row wrap" fxLayoutGap="20px grid" class="container" *ngIf="moduls.length">
   <div fxFlex="20%" fxFlex.xs="50%" fxFlex.sm="33%" *ngFor="let modul of moduls">
