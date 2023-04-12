@@ -1,6 +1,6 @@
 <div class="container">
-  <div class="tasks">
-    <div class="list">
+  <div class="tasks" [ngStyle]='{"flex-direction": getScreenWidth() >= 700 ? "row" : "column" }'>
+    <div class="list" [ngStyle]='{"width": getScreenWidth() >= 1000 ? "50%" : "100%"}'>
       <div *ngIf="!this.available.length" class="no-data">
         <div class="icon">
           <mat-icon>info_outlined</mat-icon>
@@ -20,7 +20,7 @@
         </div>
       </div>
     </div>
-    <div class="list">
+    <div class="list" [ngStyle]='{"width": getScreenWidth() >= 1000 ? "50%" : "100%"}'>
       <div *ngIf="!this.commited.length" class="no-data">
         <div class="icon">
           <mat-icon>info_outlined</mat-icon>
@@ -51,7 +51,7 @@
       <div class="label">Várható jegy:</div>
       <div class="bar" *ngFor="let bar of placeholder" [ngStyle]='{"background-color": getColor()}'></div>
     </div>
-    <div>
+    <div class="button">
       <button mat-raised-button color="primary" class="control" [disabled]="isDisabled()" (click)="save()" #save_btn>Mentés
       </button>
     </div>

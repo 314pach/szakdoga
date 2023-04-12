@@ -1,93 +1,149 @@
 <div class="container" style="height: 100%">
-  <div class="list">
-    <div *ngIf="!this.commitments.length" class="no-data">
-      <div class="icon">
-        <mat-icon>info_outlined</mat-icon>
-      </div>
-      <div class="info">
-        Nincsenek vállalt feladatok
-      </div>
-    </div>
-    <div *ngIf="this.commitments.length && this.tasks.size">
-      <div *ngFor="let commitment of this.commitments" class="item" (click)="view(commitment)"
-           [ngStyle]="{'background-color': commitment.taskId === selectedCommitment.taskId ? ' #e6f2f8': ''}">
-        <div>{{this.tasks.get(commitment.taskId)!.title}}</div>
-        <div>{{this.tasks.get(commitment.taskId)!.points}} pont</div>
-        <div *ngIf="this.tasks.get(commitment.taskId)!.teamwork">
-          <mat-icon>groups</mat-icon>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="view">
-    <div *ngIf="!selectedCommitment.id" class="no-data">
-      <div class="icon">
-        <mat-icon>info_outlined</mat-icon>
-      </div>
-      <div class="info">
-        Válassz egy feladatot
-      </div>
-    </div>
-    <div *ngIf="selectedCommitment.id">
-      <div class="title">{{this.tasks.get(selectedCommitment.taskId)!.title}}</div>
-      <div>{{this.tasks.get(selectedCommitment.taskId)!.summary}}</div>
-      <div>
-        <div *ngIf="this.tasks.get(selectedCommitment.taskId)!.teamwork" class="team">
-          <mat-icon>groups</mat-icon>
-          <mat-chip-set>
-            <mat-chip *ngFor="let username of getUsers(this.tasks.get(selectedCommitment.taskId)!.id!)" disableRipple>{{username}}</mat-chip>
-          </mat-chip-set>
-        </div>
-      </div>
-      <div class="label">Feladatleírás:</div>
-      <div>{{this.tasks.get(selectedCommitment.taskId)!.description}}</div>
-      <div *ngIf="links.length || files.length">
-        <div class="label">Csatolmányok:</div>
-        <div *ngFor="let link of links"><a href="{{link.path}}" target="_blank">{{link.path}}</a></div>
-        <div *ngFor="let fileAttachment of files" (click)="downloadFile(fileAttachment.fileId!, fileAttachment.path)">
-          <mat-icon>description</mat-icon>{{fileAttachment.path}}
-        </div>
-      </div>
-      <div class="link-container" *ngIf="this.tasks.get(this.selectedCommitment.taskId)!.submit">
-        <div class="attachment">
-          <div class="header">
-            <div class="label">
-              Beadott fájlok
-            </div>
-            <button mat-icon-button matTooltip="Fájlok feltöltése" matTooltipPosition="above" (click)="checkUploadFiles()" [disabled]="this.uploadFiles">
-              <mat-icon>add</mat-icon>
-            </button>
+  <mat-drawer-container class="drawer-container" autosize>
+    <mat-drawer #drawer [mode]="mode" [opened]="mode==='side'" class="drawer">
+      <div class="list">
+        <div *ngIf="!this.commitments.length" class="no-data">
+          <div class="icon">
+            <mat-icon>info_outlined</mat-icon>
           </div>
-          <div *ngFor="let handinByDate of handinsByDate">
-            <div>{{handinByDate.date | date:"yyyy.MM.dd HH:mm"}}</div>
-            <div *ngFor="let handin of handinByDate.handins" (click)="downloadFile(handin.fileId!, handin.path)">
-              <mat-icon>description</mat-icon>{{handin.path}}
+          <div class="info">
+            Nincsenek vállalt feladatok
+          </div>
+        </div>
+        <div *ngIf="this.commitments.length && this.tasks.size">
+          <div *ngFor="let commitment of this.commitments" class="item" (click)="view(commitment)"
+               [ngStyle]="{'background-color': commitment.taskId === selectedCommitment.taskId ? ' #e6f2f8': ''}">
+            <div>{{this.tasks.get(commitment.taskId)!.title}}</div>
+            <div>{{this.tasks.get(commitment.taskId)!.points}} pont</div>
+            <div *ngIf="this.tasks.get(commitment.taskId)!.teamwork">
+              <mat-icon>groups</mat-icon>
             </div>
           </div>
-          <div *ngIf="uploadFiles">
+        </div>
+      </div>
+    </mat-drawer>
+    <mat-drawer-content class="drawer-content">
+      <div class="view">
+        <div class="statistics" *ngIf="showStatistics">
+          <div class="statistics-header">
+            <div class="statistics-label">A témakör eredményei</div>
+          </div>
+          <div class="statistics-result">
+            <div>Jegy: {{getGrade()}}</div>
             <div>
-              <input multiple type="file" [formControl]="handinControl" (change)="fileSelectionChanged($event)">
+              <span class="result">{{this.sumOfPoints}}</span> / {{this.sumOfPointsForModul}} pont
             </div>
-            <button mat-icon-button matTooltip="Mégse" matTooltipPosition="after" (click)="removeFileUpload()" class="link-remove">
-              <mat-icon>remove</mat-icon>
-            </button>
-            <div class="button-container">
-              <button mat-raised-button color="primary" class="control" [disabled]="isDisabled()" (click)="save()">Beadás
-              </button>
-              <button mat-raised-button class="control" mat-dialog-close="true">Mégse</button>
+          </div>
+        </div>
+        <div class="commitment">
+          <div *ngIf="!selectedCommitment.id" class="no-data">
+            <div *ngIf="!drawer.opened" (click)="drawer.open()" class="menu-toggle"
+                 matTooltip="Feladatok megjelenítése">
+              <mat-icon class="toggle-icon">menu</mat-icon>
+            </div>
+            <div class="error-message">
+              <div class="icon">
+                <mat-icon>info_outlined</mat-icon>
+              </div>
+              <div class="info">
+                Válassz egy feladatot
+              </div>
+            </div>
+          </div>
+          <div *ngIf="selectedCommitment.id">
+            <div class="commitment-header">
+              <div *ngIf="!drawer.opened" (click)="drawer.open()" class="menu-toggle"
+                   matTooltip="Feladatok megjelenítése">
+                <mat-icon class="toggle-icon">menu</mat-icon>
+              </div>
+              <div>
+                <div class="title">{{this.tasks.get(selectedCommitment.taskId)!.title}}</div>
+                <div>{{this.tasks.get(selectedCommitment.taskId)!.summary}}</div>
+              </div>
+            </div>
+            <div>
+              <div *ngIf="this.tasks.get(selectedCommitment.taskId)!.teamwork" class="team">
+                <mat-icon>groups</mat-icon>
+                <mat-chip-set>
+                  <mat-chip *ngFor="let username of getUsers(this.tasks.get(selectedCommitment.taskId)!.id!)"
+                            disableRipple>{{username}}</mat-chip>
+                </mat-chip-set>
+              </div>
+            </div>
+            <div class="label">Feladatleírás:</div>
+            <div>{{this.tasks.get(selectedCommitment.taskId)!.description}}</div>
+            <div *ngIf="links.length || files.length">
+              <div class="label">Csatolmányok:</div>
+              <div *ngFor="let link of links" class="truncate"><a href="{{link.path}}" target="_blank">{{link.path}}</a>
+              </div>
+              <div *ngFor="let fileAttachment of files"
+                   class="file">
+                <mat-icon (click)="downloadFile(fileAttachment.fileId!, fileAttachment.path)">description</mat-icon>
+                <div (click)="downloadFile(fileAttachment.fileId!, fileAttachment.path)"
+                     class="filename">{{fileAttachment.path}}</div>
+              </div>
+            </div>
+            <div class="link-container" *ngIf="this.tasks.get(this.selectedCommitment.taskId)!.submit">
+              <div class="attachment">
+                <div class="header">
+                  <div class="label">
+                    Beadott fájlok
+                  </div>
+                  <button mat-icon-button matTooltip="Fájlok feltöltése" matTooltipPosition="above"
+                          (click)="checkUploadFiles()" [disabled]="this.uploadFiles" style="margin-top: 10px">
+                    <mat-icon>add</mat-icon>
+                  </button>
+                </div>
+                <div *ngFor="let handinByDate of handinsByDate">
+                  <div>{{handinByDate.date | date:"yyyy.MM.dd HH:mm"}}</div>
+                  <div *ngFor="let handin of handinByDate.handins"
+                       class="file">
+                    <mat-icon (click)="downloadFile(handin.fileId!, handin.path)">description</mat-icon>
+                    <div (click)="downloadFile(handin.fileId!, handin.path)" class="filename">{{handin.path}}</div>
+                  </div>
+                </div>
+                <div *ngIf="uploadFiles">
+                  <div class="file-input">
+                    <div>
+                      <label for="file-upload">
+                        <span class="custom-file-upload">Fájlok kiválasztása</span>
+                        <br>
+                        <span>
+                      {{this.filesArray.length ? this.filesArray.length + ' fájl kiválasztva' : 'Még nincsenek kiválasztott fájlok...'}}
+                    </span>
+                      </label>
+                      <input id="file-upload" multiple type="file" [formControl]="handinControl"
+                             (change)="fileSelectionChanged($event)">
+                    </div>
+                    <button mat-icon-button matTooltip="Mégse" matTooltipPosition="after" (click)="removeFileUpload()"
+                            class="link-remove">
+                      <mat-icon>remove</mat-icon>
+                    </button>
+                  </div>
+                  <div class="button-container">
+                    <button mat-raised-button color="primary" class="control" [disabled]="isDisabled()"
+                            (click)="save()">
+                      Beadás
+                    </button>
+                    <!--                  <button mat-raised-button class="control" mat-dialog-close="true">Mégse</button>-->
+                  </div>
+                </div>
+              </div>
+            </div>
+            <mat-chip-set>
+              <mat-chip *ngFor="let badge of this.badges" [matTooltip]="badge.tooltip" disableRipple>
+                <mat-icon class="badge">{{badge.icon}}</mat-icon>
+              </mat-chip>
+            </mat-chip-set>
+            <div *ngIf="this.showResult()">
+              <div class="label">Eredmény:</div>
+              <div><span class="result">{{selectedCommitment.points}}</span>
+                / {{this.tasks.get(selectedCommitment.taskId)!.points}} pont
+              </div>
             </div>
           </div>
         </div>
       </div>
-      <mat-chip-set>
-        <mat-chip *ngFor="let badge of this.badges" [matTooltip]="badge.tooltip" disableRipple>
-          <mat-icon style="font-size: 20px">{{badge.icon}}</mat-icon>
-        </mat-chip>
-      </mat-chip-set>
-      <div class="label">Eredmény:</div>
-      <div><span class="result">{{selectedCommitment.points}}</span>
-        / {{this.tasks.get(selectedCommitment.taskId)!.points}} pont
-      </div>
-    </div>
-  </div>
+    </mat-drawer-content>
+  </mat-drawer-container>
 </div>

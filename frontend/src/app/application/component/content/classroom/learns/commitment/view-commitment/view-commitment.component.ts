@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit, Renderer2, ViewChild} from '@angular/core';
 import {ClassroomService} from "../../../../../../../shared/service/classroom.service";
 import {ModulService} from "../../../../../../../shared/service/modul.service";
 import {TaskService} from "../../../../../../../shared/service/task.service";
@@ -10,7 +10,7 @@ import {ApplicationUserDto} from "../../../../../../../shared/dto/application-us
 import {ModulDto} from "../../../../../../../shared/dto/modul.dto";
 import {TaskDto} from "../../../../../../../shared/dto/task.dto";
 import {CommitmentDto} from "../../../../../../../shared/dto/commitment.dto";
-import {switchMap} from "rxjs";
+import {Observable, switchMap} from "rxjs";
 import {AttachmentDto} from "../../../../../../../shared/dto/attachment.dto";
 import {AttachmentService} from "../../../../../../../shared/service/attachment.service";
 import {AttachmentTypeEnum} from "../../../../../../../shared/enum/attachment-type.enum";
@@ -21,6 +21,8 @@ import {FormControl, Validators} from "@angular/forms";
 import {HandinService} from "../../../../../../../shared/service/handin.service";
 import {HandinDto} from "../../../../../../../shared/dto/handin.dto";
 import {HandinByDateModel} from "../../../../../../../shared/model/handin-by-date-model";
+import {MatDrawer, MatDrawerMode} from "@angular/material/sidenav";
+import {CommitmentStatusEnum} from "../../../../../../../shared/enum/commitment-status.enum";
 
 @Component({
   selector: 'app-view-commitment',
@@ -28,11 +30,18 @@ import {HandinByDateModel} from "../../../../../../../shared/model/handin-by-dat
   styleUrls: ['./view-commitment.component.scss']
 })
 export class ViewCommitmentComponent implements OnInit{
+  @ViewChild("drawer") drawer!: MatDrawer;
+  mode: MatDrawerMode = "side";
+  threshold: number = 800;
+
+  showStatistics: boolean = true;
+  sumOfPointsForModul: number = 0;
 
   loggedInUser: ApplicationUserDto = {} as ApplicationUserDto;
   modul: ModulDto = {} as ModulDto;
   tasks: Map<number, TaskDto> = new Map<number, TaskDto>();
   commitments: CommitmentDto[] = [];
+  sumOfPoints: number = 0;
   teams: Map<number, Map<number, string>> = new Map; // taskId, userId, name
 
   badges: BadgeDto[] = [];
@@ -59,19 +68,29 @@ export class ViewCommitmentComponent implements OnInit{
     private route: ActivatedRoute,
     private _snackBar: MatSnackBar,
     private fileWebService: FileWebService,
+    private renderer: Renderer2
   ) {
+    this.renderer.listen("window", "resize", this.setMenuMode);
+    this.mode = this.getScreenWidth() >= this.threshold ? "side" : "over";
   }
 
   ngOnInit(): void {
     let token = localStorage.getItem("token");
     this.applicationUserService.getUserByToken(token!)
       .subscribe( user => this.loggedInUser = user);
+    this.getSumOfPoints();
     this.commitmentService.commitmentsByModulSubject
       .pipe(
         switchMap(commitments => {
           this.commitments = commitments;
           let commitedTaskIds : number[] = [];
+          this.sumOfPoints = 0;
+          this.showStatistics = true;
           commitments.forEach(commitment => {
+            this.sumOfPoints += commitment.points;
+            if (commitment.status !== CommitmentStatusEnum.Scored) {
+              this.showStatistics = false;
+            }
             commitedTaskIds.push(commitment.taskId)
             this.applicationUserService.getUsersByIds(commitment.studentIds)
               .subscribe(users => {
@@ -86,7 +105,31 @@ export class ViewCommitmentComponent implements OnInit{
       .subscribe(tasks => tasks.forEach(task => this.tasks.set(task.id!, task)));
   }
 
+  getSumOfPoints() {
+    return this.route.queryParams
+      .pipe(
+        switchMap(params => {
+          let modulId = params['modulId'];
+          return this.modulService.getModulById(modulId);
+        }),
+        switchMap(modul => {
+            this.modul = modul;
+            this.taskService.getTasksByModulIdAndRefreshSubject(modul.id!);
+            return this.taskService.getTasksByModulId(modul.id!);
+          }
+        )
+      ).subscribe(tasks => {
+        this.sumOfPointsForModul = 0;
+        tasks.forEach(task => this.sumOfPointsForModul += task.points);
+      });
+  }
+
   view(commitment: CommitmentDto) {
+    if (this.getScreenWidth() <= this.threshold){
+      this.drawer.close();
+    }
+    this.filesArray = [];
+    this.handinControl.setValue('');
     this.selectedCommitment = commitment;
     let uniqueDates: number[] = [];
     this.handinService.getHandinsByCommitmentId(commitment.id!)
@@ -176,5 +219,42 @@ export class ViewCommitmentComponent implements OnInit{
           });
       });
     }
+  }
+
+  getScreenWidth(): number {
+    return window.innerWidth;
+  }
+
+  setMenuMode = (e: Event) => {
+    if (this.getScreenWidth() >= this.threshold){
+      if (this.mode === "over"){
+        this.drawer.open();
+      }
+      this.mode = "side";
+    } else {
+      if (this.mode === "side"){
+        this.drawer.close();
+      }
+      this.mode = "over"
+    }
+  }
+
+  showResult(){
+    return this.selectedCommitment.status === CommitmentStatusEnum.Scored;
+  }
+
+  getGrade() {
+    if (this.sumOfPoints < this.modul.pointsFor2) {
+      return 1;
+    } else if (this.sumOfPoints < this.modul.pointsFor3) {
+      return 2;
+    } else if (this.sumOfPoints < this.modul.pointsFor4) {
+      return 3;
+    } else if (this.sumOfPoints < this.modul.pointsFor5) {
+      return 4;
+    } else {
+      return 5;
+    }
+    // console.log(this.placeholder)
   }
 }

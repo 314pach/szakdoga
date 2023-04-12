@@ -20,7 +20,7 @@
 <div fxLayout="row wrap" fxLayoutGap="20px grid" class="container" *ngIf="classrooms.length">
   <div fxFlex="20%" fxFlex.xs="50%" fxFlex.sm="33%" *ngFor="let classroom of classrooms">
     <mat-card class="class-card">
-      <mat-card-header (click)="open(classroom)">
+      <mat-card-header (click)="open(classroom)" [ngStyle]="{'padding-bottom': !this.isTeacher ? '15px' : ''}">
         <div>{{classroom.name}}</div>
         <div class="truncate">{{classroom.subject}}</div>
       </mat-card-header>

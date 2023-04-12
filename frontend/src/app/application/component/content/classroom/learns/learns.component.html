@@ -18,7 +18,7 @@
     Jelenleg nincs megjeleníthető témakör
   </div>
 </div>
-<div class="toggle">
+<div class="toggle" *ngIf="this.isTeacher">
   <mat-slide-toggle (change)="toggleCommitmentPeriod($event)" [checked]="this.classroom.commitmentPeriod" >Vállalási időszak</mat-slide-toggle>
 </div>
 <div fxLayout="row wrap" fxLayoutGap="20px grid" class="container" *ngIf="moduls.length">

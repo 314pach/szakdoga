@@ -282,16 +282,15 @@ export class CreateCommitmentComponent implements OnInit, AfterViewInit {
   }
 
   getColor() {
-    //todo better colors
     switch (this.expectedGrade) {
       case 1:
         return "red";
       case 2:
         return "orange";
       case 3:
-        return "yellow";
+        return "#e3d324";
       case 4:
-        return "blue";
+        return "#3264a8";
       case 5:
         return "green";
       default:
@@ -332,5 +331,9 @@ export class CreateCommitmentComponent implements OnInit, AfterViewInit {
     } else {
       return [];
     }
+  }
+
+  getScreenWidth(): number {
+    return window.innerWidth;
   }
 }

@@ -47,3 +47,10 @@
 .control {
   margin: 25px 0 25px 10px;
 }
+
+@media screen and (max-width: 550px) {
+  .members-filter {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
