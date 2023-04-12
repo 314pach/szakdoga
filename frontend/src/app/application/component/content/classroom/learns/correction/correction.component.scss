@@ -18,7 +18,7 @@
   justify-content: space-between;
   padding-top: 15px;
   padding-left: 25px;
-  //height: 30px;
+  height: 35px;
 }
 
 .breadcrumb {
@@ -47,17 +47,20 @@
 }
 
 .high {
-  display: flex;
+  //display: flex;
   width: 100%;
-  //height: 100%;
-  flex-grow: 1;
+  height: calc(100% - 37px);
+  //overflow-y: hidden;
+  //flex-grow: 1;
 }
 
 .drawer-container {
   display: flex;
   width: 100%;
+  flex-direction: row;
   //height: 100%;
-  flex-grow: 1;
+  height: 100%;
+  //flex-grow: 1;
 }
 
 .drawer {
@@ -70,6 +73,7 @@
 .drawer-content {
   height: 100%;
   width: 100%;
+  padding: 15px;
   background-color: azure;
 }
 
@@ -202,12 +206,14 @@
 }
 
 .view {
+  //border: solid #939393 1px;
+  //border-radius: 5px;
   display: flex;
   flex-direction: column;
   gap: 15px;
-  width: 100%;
+  //width: 100%;
   height: 100%;
-  padding: 15px;
+  //padding: 15px;
   overflow-y: auto;
 }
 
@@ -238,7 +244,7 @@
   border-radius: 5px;
   //margin: 15px;
   padding: 15px;
-  overflow-y: auto;
+  //overflow-y: auto;
 }
 
 //.statistics>div, .commitment>div {
