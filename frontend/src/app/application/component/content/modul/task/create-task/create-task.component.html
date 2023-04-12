@@ -63,10 +63,17 @@
             <mat-icon>add</mat-icon>
           </button>
         </div>
-        <div class="url-field" *ngFor="let file of files().controls; let i=index"
+        <div class="file-field" *ngFor="let file of files().controls; let i=index"
              [formGroupName]="i">
           <div>
-            <input multiple type="file" formControlName="file" (change)="fileSelectionChanged($event)">
+            <label for="file-upload">
+              <span class="custom-file-upload">Fájlok kiválasztása</span>
+              <br>
+              <span>
+                {{this.filesArray.length ? this.filesArray.length + 'fájl kiválasztva' : 'Még nincsenek kiválasztott fájlok...'}}
+              </span>
+            </label>
+            <input id="file-upload" multiple type="file" formControlName="file" (change)="fileSelectionChanged($event)">
           </div>
           <button mat-icon-button matTooltip="Eltávolítás" matTooltipPosition="after" (click)="removeFile(i)" class="link-remove">
             <mat-icon>remove</mat-icon>

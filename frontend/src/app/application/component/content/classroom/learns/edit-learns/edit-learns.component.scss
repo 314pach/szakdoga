@@ -1,7 +1,9 @@
 .container {
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .title {
@@ -9,12 +11,27 @@
   margin: 25px;
 }
 
+.content {
+  width: 100%;
+  height: 100%;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.moduls {
+  width: 100%;
+  flex-grow: 1;
+  padding: 0 25px;
+}
+
 .button-container {
-  width: 90%;
+  width: 100%;
   display: flex;
   justify-content: flex-end;
+  padding-right: 25px;
 }
 
 .control {
-  margin: 25px 10px 25px 0;
+  margin: 25px 0 25px 10px;
 }

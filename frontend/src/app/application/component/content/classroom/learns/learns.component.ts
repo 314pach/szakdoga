@@ -77,7 +77,7 @@ export class LearnsComponent implements OnInit {
     let dialogRef = this.dialog.open(
       EditLearnsComponent, {
         width: '600px',
-        height: '400px',
+        maxHeight: '400px',
         data: {classroom: this.classroom}
       });
     dialogRef.afterClosed().subscribe(result => {

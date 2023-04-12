@@ -22,7 +22,14 @@
 .breadcrumb-label {
   font-size: 16px;
   font-weight: 500;
-  margin: 0 5px 0 5px;
+  margin: 0 5px 0 0;
+}
+
+.breadcrumb-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 5px;
 }
 
 .action {
@@ -58,6 +65,10 @@
   color: #313131;
 }
 
+.toggle {
+  padding-left: 25px;
+}
+
 .container {
   padding: 25px;
 }
@@ -80,6 +91,7 @@
 mat-card-header {
   display: flex;
   flex-direction: column;
+  padding-bottom: 15px;
 }
 
 mat-card-header div {

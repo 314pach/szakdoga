@@ -5,6 +5,7 @@ import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {FileWebService} from "../../../../../shared/service/api/file-web.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {switchMap} from "rxjs";
+import {FormControl, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-profile-picture-change',
@@ -15,6 +16,8 @@ export class ProfilePictureChangeComponent implements OnInit {
 
   loggedInUser: ApplicationUserDto = {} as ApplicationUserDto;
   file: File = {} as File;
+
+  fileControl: FormControl = new FormControl("", Validators.required);
 
   constructor(
     private applicationUserService: ApplicationUserService,
@@ -34,7 +37,7 @@ export class ProfilePictureChangeComponent implements OnInit {
   }
 
   isDisabled() {
-    return this.file === null;
+    return this.fileControl.invalid;
   }
 
   fileChanged($event: any) {
