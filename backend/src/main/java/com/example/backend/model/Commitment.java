@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -43,7 +43,7 @@ public class Commitment {
             name = "deadline",
             nullable = false
     )
-    private LocalDate deadline;
+    private Date deadline;
     @ManyToOne(
             fetch = FetchType.LAZY
     )
@@ -103,11 +103,11 @@ public class Commitment {
         this.status = status;
     }
 
-    public LocalDate getDeadline() {
+    public Date getDeadline() {
         return deadline;
     }
 
-    public void setDeadline(LocalDate deadline) {
+    public void setDeadline(Date deadline) {
         this.deadline = deadline;
     }
 
