@@ -61,6 +61,19 @@
                 <div>{{this.tasks.get(selectedCommitment.taskId)!.summary}}</div>
               </div>
             </div>
+            <div class="deadline">
+              <mat-form-field appearance="outline" class="field">
+                <mat-label>Határidő</mat-label>
+                <input matInput [matDatepickerFilter]="dateFilter" [matDatepicker]="picker" [formControl]="dateControl">
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <mat-error *ngIf="dateControl.invalid">Határidő megadása kötelező</mat-error>
+              </mat-form-field>
+              <button mat-raised-button color="primary" class="control" [disabled]="isDateDisabled()"
+                      (click)="saveDate()">
+                Ok
+              </button>
+            </div>
             <div>
               <div *ngIf="this.tasks.get(selectedCommitment.taskId)!.teamwork" class="team">
                 <mat-icon>groups</mat-icon>

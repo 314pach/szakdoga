@@ -38,6 +38,7 @@ import {
 import {SharedModule} from "../shared/shared.module";
 import { ApplicationComponent } from './application.component';
 import { CorrectionComponent } from './component/content/classroom/learns/correction/correction.component';
+import { TimetableComponent } from './component/content/classroom/learns/commitment/timetable/timetable.component';
 
 
 @NgModule({
@@ -68,7 +69,8 @@ import { CorrectionComponent } from './component/content/classroom/learns/correc
     ViewCommitmentComponent,
     AssembleTeamComponent,
     ApplicationComponent,
-    CorrectionComponent
+    CorrectionComponent,
+    TimetableComponent
   ],
   imports: [
     CommonModule,

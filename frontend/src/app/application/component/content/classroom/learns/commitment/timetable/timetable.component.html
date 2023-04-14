@@ -1,0 +1,64 @@
+<div class="container">
+  <div class="calendar">
+    <div class="month">
+      <mat-icon
+        matTooltip="Előző hónap"
+        [matTooltipPosition]="'right'"
+        [matTooltipShowDelay]="500"
+        (click)="navigateBack()"
+      >navigate_before</mat-icon
+      >
+      <div class="date">
+        <div class="month-name">
+          {{ calendarDate | date : 'yyyy.' }} {{ calendarMonth }}
+        </div>
+        <div
+          matTooltip="Vissza a mai napra"
+          [matTooltipPosition]="'below'"
+          [matTooltipShowDelay]="500"
+          class="date-name"
+          (click)="backToCurrentDate()"
+        >
+          {{ outputDateOnCalendar | date : 'yyyy. MM. dd.' }}
+        </div>
+      </div>
+      <mat-icon
+        matTooltip="Következő hónap"
+        [matTooltipPosition]="'left'"
+        [matTooltipShowDelay]="500"
+        (click)="navigateForward()"
+      >navigate_next</mat-icon
+      >
+    </div>
+    <div class="weekdays">
+      <div class="content-font">H</div>
+      <div class="content-font">K</div>
+      <div class="content-font">Sz</div>
+      <div class="content-font">Cs</div>
+      <div class="content-font">P</div>
+      <div class="content-font">Sz</div>
+      <div class="content-font">V</div>
+    </div>
+    <div class="days">
+      <div class="full-day" *ngFor="let day of previousDays">
+        <div class="prev-date">{{ day }}</div>
+        <div class="bullet-empty"></div>
+      </div>
+      <div
+        [class.today]="today === day.key"
+        class="full-day"
+        [matTooltip]="getTooltipForEventDay(day.value)"
+        [matTooltipPosition]="'above'"
+        [matTooltipShowDelay]="500"
+        *ngFor="let day of currentDays | keyvalue"
+      >
+        <div>{{ day.key }}</div>
+        <div [ngClass]="eventDays.includes(day.key) ? 'bullet-full' : 'bullet-empty'"></div>
+      </div>
+      <div class="full-day" *ngFor="let day of nextDays">
+        <div class="next-date">{{ day }}</div>
+        <div class="bullet-empty"></div>
+      </div>
+    </div>
+  </div>
+</div>

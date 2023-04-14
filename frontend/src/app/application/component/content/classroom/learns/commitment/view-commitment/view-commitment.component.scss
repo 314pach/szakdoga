@@ -168,6 +168,22 @@
   font-weight: 500;
 }
 
+.deadline {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  align-items: center;
+}
+
+.field {
+  width: 170px;
+}
+
+.deadline > .control {
+  margin-bottom: 22px;
+}
+
 a:link, a:visited, a:hover, a:active {
   color: #184191;
 }

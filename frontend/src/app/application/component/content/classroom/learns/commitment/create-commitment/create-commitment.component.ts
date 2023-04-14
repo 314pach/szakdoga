@@ -303,26 +303,28 @@ export class CreateCommitmentComponent implements OnInit, AfterViewInit {
   }
 
   assemble(task: TaskDto) {
-    let dialogRef = this.dialog.open(
-      AssembleTeamComponent, {
-        width: '600px',
-        maxHeight: '500px',
-        data: {
-          classroomId: this.classroom.id,
-          headcount: task.headcount,
-          members: this.changedTeams.get(task.id!)
-        }
-      });
-    dialogRef.afterClosed()
-      .subscribe(result => {
-        if (result instanceof Map) {
-          // console.log(result);
-          this.changedTeams.set(task.id!, result);
-          if ((!this.teams.has(task.id!) || !this.arraysEquals(Array.from(this.teams.get(task.id!)!.keys()), Array.from(this.changedTeams.get(task.id!)!.keys()))) && !this.tasksToAdd.includes(task.id!)) {
-            this.tasksToAdd.push(task.id!);
+    if (this.classroom.commitmentPeriod && (new Date(this.modul.beginning)<=new Date() || new Date()<=new Date(this.modul.end))) {
+      let dialogRef = this.dialog.open(
+        AssembleTeamComponent, {
+          width: '600px',
+          maxHeight: '500px',
+          data: {
+            classroomId: this.classroom.id,
+            headcount: task.headcount,
+            members: this.changedTeams.get(task.id!)
           }
-        }
-      })
+        });
+      dialogRef.afterClosed()
+        .subscribe(result => {
+          if (result instanceof Map) {
+            // console.log(result);
+            this.changedTeams.set(task.id!, result);
+            if ((!this.teams.has(task.id!) || !this.arraysEquals(Array.from(this.teams.get(task.id!)!.keys()), Array.from(this.changedTeams.get(task.id!)!.keys()))) && !this.tasksToAdd.includes(task.id!)) {
+              this.tasksToAdd.push(task.id!);
+            }
+          }
+        })
+    }
   }
 
   getUsers(taskId: number): string[] {

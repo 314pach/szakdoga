@@ -43,6 +43,7 @@ export class ViewCommitmentComponent implements OnInit{
   commitments: CommitmentDto[] = [];
   sumOfPoints: number = 0;
   teams: Map<number, Map<number, string>> = new Map; // taskId, userId, name
+  dateControl: FormControl = new FormControl<Date>(new Date(), Validators.required);
 
   badges: BadgeDto[] = [];
 
@@ -74,11 +75,23 @@ export class ViewCommitmentComponent implements OnInit{
     this.mode = this.getScreenWidth() >= this.threshold ? "side" : "over";
   }
 
+  dateFilter = (d: Date | null): boolean => {
+    if (d) {
+      return d.getTime() >= new Date(this.modul.beginning).getTime() && d.getTime() <= new Date(this.modul.end).getTime();
+    } else {
+      return true;
+    }
+  };
+
   ngOnInit(): void {
     let token = localStorage.getItem("token");
     this.applicationUserService.getUserByToken(token!)
       .subscribe( user => this.loggedInUser = user);
     this.getSumOfPoints();
+    this.refreshData();
+  }
+
+  refreshData() {
     this.commitmentService.commitmentsByModulSubject
       .pipe(
         switchMap(commitments => {
@@ -128,6 +141,7 @@ export class ViewCommitmentComponent implements OnInit{
     if (this.getScreenWidth() <= this.threshold){
       this.drawer.close();
     }
+    this.dateControl.setValue(commitment.deadline);
     this.filesArray = [];
     this.handinControl.setValue('');
     this.selectedCommitment = commitment;
@@ -256,5 +270,32 @@ export class ViewCommitmentComponent implements OnInit{
       return 5;
     }
     // console.log(this.placeholder)
+  }
+
+  isDateDisabled() {
+    // console.log(this.selectedCommitment.deadline)
+    // console.log(this.dateControl.value)
+    return this.dateControl.invalid || this.selectedCommitment.deadline === this.dateControl.value;
+  }
+
+  saveDate() {
+    if (!this.isDateDisabled()) {
+      console.log(this.dateControl.value)
+      let commitent: CommitmentDto  = new CommitmentDto(
+        this.selectedCommitment.id!,
+        this.selectedCommitment.points,
+        this.selectedCommitment.status,
+        this.dateControl.value,
+        this.selectedCommitment.taskId,
+        this.selectedCommitment.studentIds,
+        this.selectedCommitment.badgeIds
+      );
+      this.commitmentService.updateCommitment(commitent)
+        .subscribe(commitent => {
+          this.commitmentService.getCommitmentsByUserAndModul(this.loggedInUser.id!, Array.from(this.tasks.keys()));
+          this.refreshData();
+          this.view(commitent);
+        })
+    }
   }
 }
