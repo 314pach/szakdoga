@@ -42,6 +42,8 @@ export class CreateCommitmentComponent implements OnInit, AfterViewInit {
   expectedGrade: number = 1;
   placeholder: number[] = [0];
 
+  commitmentPeriod: boolean = false;
+
   @ViewChild("save_btn") saveButton!: MatButton;
 
   constructor(
@@ -62,14 +64,14 @@ export class CreateCommitmentComponent implements OnInit, AfterViewInit {
       .subscribe(params => {
         let modulId = params['modulId'];
         let classroomId = params['classroomId'];
-        this.modulService.getModulById(modulId)
-          .subscribe(
-            modul => this.modul = modul
-          );
-        this.classroomService.getClassroomById(classroomId)
-          .subscribe(
-            classroom => this.classroom = classroom
-          );
+        forkJoin([
+          this.modulService.getModulById(modulId),
+          this.classroomService.getClassroomById(classroomId)
+        ]).subscribe(data => {
+          this.modul = data[0];
+          this.classroom = data[1];
+          this.commitmentPeriod = data[1].commitmentPeriod && (new Date(data[0].beginning) <= new Date() || new Date() <= new Date(data[0].end));
+        })
       });
   }
 
@@ -176,7 +178,7 @@ export class CreateCommitmentComponent implements OnInit, AfterViewInit {
     // console.log(new Date(this.modul.beginning))
     // console.log(new Date())
     // console.log(this.modul.beginning>new Date())
-    if (!this.classroom.commitmentPeriod || (this.classroom.commitmentPeriod && (new Date(this.modul.beginning)>new Date() || new Date()>new Date(this.modul.end)))){
+    if (!this.commitmentPeriod){
       return true;
     }
     let currentlyCommited: number[] = [];
@@ -299,32 +301,32 @@ export class CreateCommitmentComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.saveButton.disabled = true;
+    if (this.commitmentPeriod) {
+      this.saveButton.disabled = true;
+    }
   }
 
   assemble(task: TaskDto) {
-    if (this.classroom.commitmentPeriod && (new Date(this.modul.beginning)<=new Date() || new Date()<=new Date(this.modul.end))) {
-      let dialogRef = this.dialog.open(
-        AssembleTeamComponent, {
-          width: '600px',
-          maxHeight: '500px',
-          data: {
-            classroomId: this.classroom.id,
-            headcount: task.headcount,
-            members: this.changedTeams.get(task.id!)
+    let dialogRef = this.dialog.open(
+      AssembleTeamComponent, {
+        width: '600px',
+        maxHeight: '500px',
+        data: {
+          classroomId: this.classroom.id,
+          headcount: task.headcount,
+          members: this.changedTeams.get(task.id!)
+        }
+      });
+    dialogRef.afterClosed()
+      .subscribe(result => {
+        if (result instanceof Map) {
+          // console.log(result);
+          this.changedTeams.set(task.id!, result);
+          if ((!this.teams.has(task.id!) || !this.arraysEquals(Array.from(this.teams.get(task.id!)!.keys()), Array.from(this.changedTeams.get(task.id!)!.keys()))) && !this.tasksToAdd.includes(task.id!)) {
+            this.tasksToAdd.push(task.id!);
           }
-        });
-      dialogRef.afterClosed()
-        .subscribe(result => {
-          if (result instanceof Map) {
-            // console.log(result);
-            this.changedTeams.set(task.id!, result);
-            if ((!this.teams.has(task.id!) || !this.arraysEquals(Array.from(this.teams.get(task.id!)!.keys()), Array.from(this.changedTeams.get(task.id!)!.keys()))) && !this.tasksToAdd.includes(task.id!)) {
-              this.tasksToAdd.push(task.id!);
-            }
-          }
-        })
-    }
+        }
+      })
   }
 
   getUsers(taskId: number): string[] {

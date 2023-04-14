@@ -10,7 +10,7 @@
         </div>
       </div>
       <div *ngFor="let task of this.available" class="item">
-        <button mat-icon-button (click)="add(task)">
+        <button mat-icon-button (click)="add(task)" [disabled]="!this.commitmentPeriod">
           <mat-icon>add</mat-icon>
         </button>
         <div matTooltip="{{task.summary}}">{{task.title}}</div>
@@ -30,14 +30,14 @@
         </div>
       </div>
       <div *ngFor="let task of this.commited" class="item">
-        <button mat-icon-button (click)="remove(task)">
+        <button mat-icon-button (click)="remove(task)" [disabled]="!this.commitmentPeriod">
           <mat-icon>remove</mat-icon>
         </button>
         <div matTooltip="{{task.summary}}">{{task.title}}</div>
         <div>{{task.points}} pont</div>
-        <div *ngIf="task.teamwork" class="team-button" (click)="assemble(task)" matTooltip="Csapat szerkesztése">
+        <button mat-icon-button *ngIf="task.teamwork" class="team-button" (click)="assemble(task)" matTooltip="Csapat szerkesztése" [disabled]="!this.commitmentPeriod">
           <mat-icon>groups</mat-icon>
-        </div>
+        </button>
         <div *ngIf="task.teamwork">
           <mat-chip-set>
             <mat-chip *ngFor="let username of getUsers(task.id!)" disableRipple>{{username}}</mat-chip>
@@ -51,9 +51,14 @@
       <div class="label">Várható jegy:</div>
       <div class="bar" *ngFor="let bar of placeholder" [ngStyle]='{"background-color": getColor()}'></div>
     </div>
-    <div class="button">
+    <div class="button" *ngIf="this.commitmentPeriod">
       <button mat-raised-button color="primary" class="control" [disabled]="isDisabled()" (click)="save()" #save_btn>Mentés
       </button>
+    </div>
+    <div class="middle">
+      <div class="message" *ngIf="!this.commitmentPeriod">
+        Jelenleg nincs vállalási időszak!
+      </div>
     </div>
   </div>
 </div>
