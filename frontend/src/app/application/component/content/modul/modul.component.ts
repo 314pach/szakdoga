@@ -56,6 +56,7 @@ export class ModulComponent implements OnInit {
         height: '600px',
         autoFocus: "first-tabbable"
       });
+    dialogRef.afterClosed().subscribe(_ => this.refreshData());
   }
 
   update(modul: ModulDto) {
@@ -66,6 +67,7 @@ export class ModulComponent implements OnInit {
         autoFocus: "first-tabbable",
         data: {modul: modul}
       });
+    dialogRef.afterClosed().subscribe(_ => this.refreshData());
   }
 
   delete(modul: ModulDto) {
@@ -75,6 +77,7 @@ export class ModulComponent implements OnInit {
         maxHeight: '500px',
         data: {modul: modul}
       });
+    dialogRef.afterClosed().subscribe(_ => this.refreshData());
   }
 
   open(modul: ModulDto) {
