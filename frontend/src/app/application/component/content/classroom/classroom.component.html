@@ -42,7 +42,7 @@
     </mat-card>
   </div>
 </div>
-<div class="add" (click)="create()" *ngIf="this.isTeacher">
+<div class="add" (click)="create()" *ngIf="this.isTeacher && !archived">
   <button mat-fab color="primary" matTooltip="Osztály létrehozása" matTooltipPosition="before">
     <mat-icon>add</mat-icon>
   </button>

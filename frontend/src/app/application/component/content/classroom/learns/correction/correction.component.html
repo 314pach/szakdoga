@@ -6,7 +6,7 @@
         <mat-icon>arrow_right</mat-icon>
       </div>
       <div class="breadcrumb-label clickable"
-           (click)="navigate()">{{this.classroom.name}} {{this.classroom.subject}}</div>
+           (click)="navigate()">{{this.classroom.name}} {{this.classroom.subject}} <span *ngIf="this.classroom.archived">(archivált)</span></div>
       <div class="breadcrumb-icon">
         <mat-icon>arrow_right</mat-icon>
       </div>
@@ -135,12 +135,15 @@
                 <mat-chip-listbox multiple>
                   <mat-chip-option *ngFor="let badge of this.badges" [matTooltip]="badge.tooltip"
                                    [selected]="checkedBadges.includes(badge.id!)"
-                                   (selectionChange)="checkBadge($event, badge)">
+                                   (selectionChange)="checkBadge($event, badge)"
+                                   [disabled]="this.classroom.archived">
                     <mat-icon class="badge">{{badge.icon}}</mat-icon>
                   </mat-chip-option>
                 </mat-chip-listbox>
                 <button class="badge-ok" mat-raised-button color="primary" (click)="saveBadges()"
-                        [disabled]="isBadgeButtonDisabled()">Ok
+                        [disabled]="isBadgeButtonDisabled()"
+                        *ngIf="!this.classroom.archived">
+                  Ok
                 </button>
               </div>
               <div class="points">
@@ -157,7 +160,8 @@
                 / {{this.tasks.get(selectedCommitment.taskId)!.points}} pont
               </div>
               <button class="points" mat-raised-button color="primary" (click)="savePoints()"
-                      [disabled]="isPointsButtonDisabled()">
+                      [disabled]="isPointsButtonDisabled()"
+                      *ngIf="!this.classroom.archived">
                 Értékelés
               </button>
             </div>

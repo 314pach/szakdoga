@@ -4,13 +4,13 @@
     <div class="breadcrumb-icon">
       <mat-icon>arrow_right</mat-icon>
     </div>
-    <div class="breadcrumb-label">{{this.classroom.name}} {{this.classroom.subject}}</div>
+    <div class="breadcrumb-label">{{this.classroom.name}} {{this.classroom.subject}} <span *ngIf="this.classroom.archived">(archivált)</span></div>
   </div>
-  <div class="action" *ngIf="this.isTeacher">
+  <div class="action" *ngIf="this.isTeacher && !this.classroom.archived">
     <button mat-raised-button (click)="edit()">Szerkesztés</button>
   </div>
 </div>
-<div class="toggle" *ngIf="this.isTeacher">
+<div class="toggle" *ngIf="this.isTeacher && !this.classroom.archived">
   <mat-slide-toggle (change)="toggleCommitmentPeriod($event)" [checked]="this.classroom.commitmentPeriod" >Vállalási időszak</mat-slide-toggle>
 </div>
 <div *ngIf="!moduls.length" class="no-data">

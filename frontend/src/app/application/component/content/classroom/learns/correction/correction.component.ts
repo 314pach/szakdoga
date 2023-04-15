@@ -115,6 +115,9 @@ export class CorrectionComponent implements OnInit {
     this.selectedCommitmentsByUser = commitmentsByStudent;
     this.pointsControl.setValue(commitment.points);
     this.pointsControl.addValidators(Validators.max(this.tasks.get(commitment.taskId)!.points));
+    if (this.classroom.archived) {
+      this.pointsControl.disable();
+    }
     this.checkedBadges = [...this.selectedCommitment.badgeIds];
     // this.selectedCommitment.badgeIds.forEach(badgeId => {
     //   this.checkedBadges.push(this.badges.filter(badge => badge.id === badgeId)[0].id!)
