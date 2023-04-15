@@ -111,7 +111,6 @@ export class UpdateModulComponent {
               "Ok",
               {duration: 5000}
             );
-            this.modulService.getAllModuls();
           }
         );
       this.dialog.close();

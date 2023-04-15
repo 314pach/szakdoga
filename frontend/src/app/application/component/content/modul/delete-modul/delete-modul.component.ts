@@ -36,7 +36,6 @@ export class DeleteModulComponent {
     this.modulService.updateModul(modul)
       .subscribe(_ =>
       {
-        this.modulService.getAllModuls();
         this._snackBar.open(
           "A témakör törlése sikeres",
           "Ok",

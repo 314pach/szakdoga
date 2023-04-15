@@ -71,7 +71,6 @@ export class CreateModulComponent {
               "Ok",
               {duration: 5000}
             );
-            this.modulService.getAllModuls();
           }
         );
       this.dialog.close();
