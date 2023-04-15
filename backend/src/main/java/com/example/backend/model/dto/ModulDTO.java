@@ -1,14 +1,14 @@
 package com.example.backend.model.dto;
 
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.Set;
 
 public class ModulDTO {
     private Long id;
     private Boolean deleted;
     private String title;
-    private LocalDate beginning;
-    private LocalDate end;
+    private Date beginning;
+    private Date end;
     private Integer pointsFor2;
     private Integer pointsFor3;
     private Integer pointsFor4;
@@ -33,19 +33,19 @@ public class ModulDTO {
         this.title = title;
     }
 
-    public LocalDate getBeginning() {
+    public Date getBeginning() {
         return beginning;
     }
 
-    public void setBeginning(LocalDate beginning) {
+    public void setBeginning(Date beginning) {
         this.beginning = beginning;
     }
 
-    public LocalDate getEnd() {
+    public Date getEnd() {
         return end;
     }
 
-    public void setEnd(LocalDate end) {
+    public void setEnd(Date end) {
         this.end = end;
     }
 

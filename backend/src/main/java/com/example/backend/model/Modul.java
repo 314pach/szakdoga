@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -43,12 +43,12 @@ public class Modul {
             name = "beginning",
             nullable = false
     )
-    private LocalDate beginning;
+    private Date beginning;
     @Column(
             name = "ending",
             nullable = false
     )
-    private LocalDate end;
+    private Date end;
     @Column(
             name = "points_for_2",
             nullable = false
@@ -106,19 +106,19 @@ public class Modul {
         this.title = title;
     }
 
-    public LocalDate getBeginning() {
+    public Date getBeginning() {
         return beginning;
     }
 
-    public void setBeginning(LocalDate beginning) {
+    public void setBeginning(Date beginning) {
         this.beginning = beginning;
     }
 
-    public LocalDate getEnd() {
+    public Date getEnd() {
         return end;
     }
 
-    public void setEnd(LocalDate end) {
+    public void setEnd(Date end) {
         this.end = end;
     }
 
