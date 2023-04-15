@@ -51,11 +51,8 @@
       <div class="label">Várható jegy:</div>
       <div class="bar" *ngFor="let bar of placeholder" [ngStyle]='{"background-color": getColor()}'></div>
     </div>
-    <div class="button" *ngIf="this.commitmentPeriod">
-      <button mat-raised-button color="primary" class="control" [disabled]="isDisabled()" (click)="save()" #save_btn>Mentés
-      </button>
-    </div>
-    <div class="middle">
+    <div class="button">
+      <button *ngIf="this.commitmentPeriod" mat-raised-button color="primary" class="control" [disabled]="isDisabled()" (click)="save()" #save_btn>Mentés</button>
       <div class="message" *ngIf="!this.commitmentPeriod">
         Jelenleg nincs vállalási időszak!
       </div>
