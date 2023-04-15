@@ -60,9 +60,11 @@ public class AttachmentService {
     }
 
     public void delete(Long id){
+        attachmentRepository.findById(id).ifPresent(attachment -> fileRepository.deleteById(attachment.getId()));
         attachmentRepository.deleteById(id);
     }
     public void deleteAllById(Set<Long> ids){
+        ids.forEach(attachmentId -> attachmentRepository.findById(attachmentId).ifPresent(attachment -> fileRepository.deleteById(attachment.getId())));
         attachmentRepository.deleteAllById(ids);
     }
 

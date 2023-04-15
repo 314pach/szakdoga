@@ -32,22 +32,22 @@ public class ModulService {
 
     @Transactional(readOnly = true)
     public ModulDTO findById(Long id) {
-        return modulRepository.findById(id).map(this::toDto).orElse(null);
+        return modulRepository.findById(id).filter(modul -> !modul.getDeleted()).map(this::toDto).orElse(null);
     }
 
     @Transactional(readOnly = true)
     public Set<ModulDTO> findAll() {
-        return toDto(modulRepository.findAll());
+        return toDto(modulRepository.findAll().stream().filter(modul -> !modul.getDeleted()).collect(Collectors.toList()));
     }
 
     @Transactional(readOnly = true)
     public Set<ModulDTO> findAllByClassroomId(List<Long> classroomId) {
-        return toDto(modulRepository.findAllById(classroomId));
+        return toDto(modulRepository.findAllById(classroomId).stream().filter(modul -> !modul.getDeleted()).collect(Collectors.toList()));
     }
 
     @Transactional(readOnly = true)
     public Set<ModulDTO> findAllByCreatorId(Long creatorId) {
-        return toDto(modulRepository.findAllByCreator_Id(creatorId));
+        return toDto(modulRepository.findAllByCreator_Id(creatorId).stream().filter(modul -> !modul.getDeleted()).collect(Collectors.toList()));
     }
 
     public ModulDTO save(ModulDTO modulDTO) {
@@ -68,6 +68,7 @@ public class ModulService {
         ModulDTO modulDTO = new ModulDTO();
 
         modulDTO.setId(modul.getId());
+        modulDTO.setDeleted(modul.getDeleted());
         modulDTO.setTitle(modul.getTitle());
         modulDTO.setBannerPath(modul.getBannerPath());
         modulDTO.setBeginning(modul.getBeginning());
@@ -94,6 +95,7 @@ public class ModulService {
         Modul modul = new Modul();
 
         modul.setId(modulDTO.getId());
+        modul.setDeleted(modulDTO.getDeleted());
         modul.setTitle(modulDTO.getTitle());
         modul.setBannerPath(modulDTO.getBannerPath());
         modul.setBeginning(modulDTO.getBeginning());

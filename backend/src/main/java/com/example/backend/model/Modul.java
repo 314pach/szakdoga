@@ -29,6 +29,11 @@ public class Modul {
     )
     private Long id;
     @Column(
+            name = "deleted",
+            nullable = false
+    )
+    private Boolean deleted;
+    @Column(
             name = "title",
             nullable = false,
             columnDefinition = "TEXT"
@@ -171,5 +176,13 @@ public class Modul {
 
     public void setClasses(Set<Classroom> classes) {
         this.classes = classes;
+    }
+
+    public Boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
     }
 }

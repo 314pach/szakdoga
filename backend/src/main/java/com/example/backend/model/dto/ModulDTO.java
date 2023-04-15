@@ -5,6 +5,7 @@ import java.util.Set;
 
 public class ModulDTO {
     private Long id;
+    private Boolean deleted;
     private String title;
     private LocalDate beginning;
     private LocalDate end;
@@ -102,5 +103,13 @@ public class ModulDTO {
 
     public void setClassRoomIds(Set<Long> classRoomIds) {
         this.classRoomIds = classRoomIds;
+    }
+
+    public Boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
     }
 }
