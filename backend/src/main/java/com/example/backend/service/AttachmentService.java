@@ -60,11 +60,9 @@ public class AttachmentService {
     }
 
     public void delete(Long id){
-        attachmentRepository.findById(id).ifPresent(attachment -> fileRepository.deleteById(attachment.getId()));
         attachmentRepository.deleteById(id);
     }
     public void deleteAllById(Set<Long> ids){
-        ids.forEach(attachmentId -> attachmentRepository.findById(attachmentId).ifPresent(attachment -> fileRepository.deleteById(attachment.getId())));
         attachmentRepository.deleteAllById(ids);
     }
 
@@ -101,8 +99,12 @@ public class AttachmentService {
         attachment.setType(attachmentDTO.getType());
         taskRepository.findById(attachmentDTO.getTaskId()).ifPresent(attachment::setTask);
         applicationUserRepository.findById(attachmentDTO.getUploaderId()).ifPresent(attachment::setUploader);
-        attachment.setFile(
-                fileRepository.findById(attachmentDTO.getFileId()).orElse(null));
+        if(attachmentDTO.getFileId() != null) {
+            attachment.setFile(
+                    fileRepository.findById(attachmentDTO.getFileId()).orElse(null));
+        } else {
+            attachment.setFile(null);
+        }
 
         return attachment;
     }
