@@ -111,8 +111,12 @@ public class ApplicationUserService {
         applicationUser.setEmail(applicationUserDTO.getEmail());
         applicationUser.setPassword(applicationUserDTO.getPassword());
         applicationUser.setRole(applicationUserDTO.getRole());
-        applicationUser.setProfilePicture(
-                fileRepository.findById(applicationUserDTO.getProfilePictureId()).orElse(null));
+        if (applicationUserDTO.getProfilePictureId() != null) {
+            applicationUser.setProfilePicture(
+                    fileRepository.findById(applicationUserDTO.getProfilePictureId()).orElse(null));
+        } else {
+            applicationUser.setProfilePicture(null);
+        }
         applicationUser.setClassRooms(
                 applicationUserDTO.getClassRoomIds().stream()
                         .map(id -> classroomRepository.findById(id))
