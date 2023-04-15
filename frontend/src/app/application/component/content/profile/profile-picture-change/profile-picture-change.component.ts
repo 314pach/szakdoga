@@ -70,6 +70,7 @@ export class ProfilePictureChangeComponent implements OnInit {
             {duration: 5000}
           );
           this.dialogRef.close();
+          window.location.reload();
       });
     }
   }
