@@ -50,6 +50,7 @@
         [matTooltip]="getTooltipForEventDay(day.value)"
         [matTooltipPosition]="'above'"
         [matTooltipShowDelay]="500"
+        matTooltipClass="line-break"
         *ngFor="let day of currentDays | keyvalue"
       >
         <div>{{ day.key }}</div>

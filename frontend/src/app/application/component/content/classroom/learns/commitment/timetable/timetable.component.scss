@@ -134,3 +134,9 @@
 .date-name:hover {
   color: white;
 }
+
+::ng-deep {
+  .line-break {
+    white-space: pre-line;
+  }
+}
