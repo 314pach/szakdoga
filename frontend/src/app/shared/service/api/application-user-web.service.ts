@@ -127,6 +127,21 @@ export class ApplicationUserWebService {
       );
   }
 
+  updateUserPassword(user: ApplicationUserDto): Observable<ApplicationUserDto> {
+    let fullPath = this.buildFullPath(ApiPathEnum.UpdatePassword);
+    return this.http.put<ApplicationUserDto>(fullPath, user, {headers: this.createHeader()})
+      .pipe(
+        catchError(err => {
+          if(err.status === 403) {
+            localStorage.clear();
+            this.router.navigateByUrl("authentication/login");
+            throw "Authentication error";
+          }
+          throw err;
+        })
+      );
+  }
+
   deleteUser(userId: number): Observable<any> {
     let fullPath = this.buildFullPath(ApiPathEnum.Delete) + userId;
     return this.http.delete<any>(fullPath, {headers: this.createHeader()})

@@ -1,3 +1,4 @@
+import * as bycrypt from 'bcryptjs';
 import {Component} from '@angular/core';
 import {ApplicationUserDto} from "../../../../../shared/dto/application-user.dto";
 import {ApplicationUserService} from "../../../../../shared/service/application-user.service";
@@ -47,7 +48,7 @@ export class PasswordChangeComponent {
   }
 
   update() {
-    if (this.oldPasswordControl.value !== this.loggedInUser.password){
+    if (!bycrypt.compareSync(this.oldPasswordControl.value, this.loggedInUser.password)){
       this._snackBar.open(
         "Helytelen jelszó",
         "Ok",
@@ -66,7 +67,7 @@ export class PasswordChangeComponent {
         this.loggedInUser.classRoomIds,
         this.loggedInUser.commitmentIds
       )
-      this.applicationUserService.updateUser(updatedUser)
+      this.applicationUserService.updateUserPassword(updatedUser)
         .subscribe(
           user => this.applicationUserService.loggedInUserSubject.next(user)
         );

@@ -45,6 +45,10 @@ export class ApplicationUserService {
     return this.applicationUserWebService.updateUser(user)
   }
 
+  updateUserPassword(user: ApplicationUserDto){
+    return this.applicationUserWebService.updateUserPassword(user)
+  }
+
   deleteUser(userId: number){
     return this.applicationUserWebService.deleteUser(userId);
   }

@@ -7,6 +7,7 @@ export enum ApiPathEnum {
   Create = "create",
   CreateAll = "createAll",
   Update = "update",
+  UpdatePassword = "updatePassword",
   Delete = "delete/",
   FindTaskByModul = "findTasksByModul/",
   FindAttachmentByTask = "findAttachmentsByTask/",
