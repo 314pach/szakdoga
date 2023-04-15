@@ -1,5 +1,6 @@
 export class ModulDto {
   public readonly id: number | null;
+  public readonly deleted: boolean;
   public readonly title: string;
   public readonly beginning: Date;
   public readonly end: Date;
@@ -13,6 +14,7 @@ export class ModulDto {
 
   constructor(
     id: number | null,
+    deleted: boolean,
     title: string,
     beginning: Date,
     end: Date,
@@ -25,6 +27,7 @@ export class ModulDto {
     classRoomIds: number[]
   ) {
     this.id = id;
+    this.deleted = deleted;
     this.title = title;
     this.beginning = beginning;
     this.end = end;

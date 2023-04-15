@@ -51,6 +51,7 @@ export class CreateModulComponent {
     if (!this.isDisabled()){
       let modul = new ModulDto(
         null,
+        false,
         this.titleControl.value,
         this.dateControl1.value,
         this.dateControl2.value,

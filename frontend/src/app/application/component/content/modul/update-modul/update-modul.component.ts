@@ -91,6 +91,7 @@ export class UpdateModulComponent {
     if (!this.isDisabled()){
       let modul = new ModulDto(
         this.data.modul.id,
+        false,
         this.titleControl.value,
         this.dateControl1.value,
         this.dateControl2.value,

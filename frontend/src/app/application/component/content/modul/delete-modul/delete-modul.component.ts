@@ -19,7 +19,21 @@ export class DeleteModulComponent {
   }
 
   delete() {
-    this.modulService.deleteModul(this.data.modul.id!)
+    let modul = new ModulDto(
+      this.data.modul.id,
+      true,
+      this.data.modul.title,
+      this.data.modul.beginning,
+      this.data.modul.end,
+      this.data.modul.pointsFor2,
+      this.data.modul.pointsFor3,
+      this.data.modul.pointsFor4,
+      this.data.modul.pointsFor5,
+      this.data.modul.bannerPath,
+      this.data.modul.creatorId,
+      this.data.modul.classRoomIds
+    );
+    this.modulService.updateModul(modul)
       .subscribe(_ =>
       {
         this.modulService.getAllModuls();
