@@ -9,6 +9,7 @@ import com.example.backend.repository.ClassroomRepository;
 import com.example.backend.repository.CommitmentRepository;
 import com.example.backend.repository.FileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,9 +30,12 @@ public class ApplicationUserService {
     @Autowired
     private FileRepository fileRepository;
 
+    private final PasswordEncoder passwordEncoder;
+
     private final ApplicationUserRepository applicationUserRepository;
 
-    public ApplicationUserService(ApplicationUserRepository applicationUserRepository) {
+    public ApplicationUserService(PasswordEncoder passwordEncoder, ApplicationUserRepository applicationUserRepository) {
+        this.passwordEncoder = passwordEncoder;
         this.applicationUserRepository = applicationUserRepository;
     }
 
@@ -65,6 +69,11 @@ public class ApplicationUserService {
     }
 
     public ApplicationUserDTO update(ApplicationUserDTO applicationUserDTO){
+        return toDto(applicationUserRepository.save(toEntity(applicationUserDTO)));
+    }
+
+    public ApplicationUserDTO updatePassword(ApplicationUserDTO applicationUserDTO){
+        applicationUserDTO.setPassword(passwordEncoder.encode(applicationUserDTO.getPassword()));
         return toDto(applicationUserRepository.save(toEntity(applicationUserDTO)));
     }
 

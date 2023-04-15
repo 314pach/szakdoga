@@ -60,6 +60,12 @@ public class ApplicationUserController {
         return new ResponseEntity<>(updatedApplicationUser, HttpStatus.OK);
     }
 
+    @PutMapping("/updatePassword")
+    public ResponseEntity<ApplicationUserDTO> updateUserPassword(@RequestBody() ApplicationUserDTO applicationUserDTO){
+        ApplicationUserDTO updatedApplicationUser = applicationUserService.updatePassword(applicationUserDTO);
+        return new ResponseEntity<>(updatedApplicationUser, HttpStatus.OK);
+    }
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable("id") Long id){
         applicationUserService.delete(id);
