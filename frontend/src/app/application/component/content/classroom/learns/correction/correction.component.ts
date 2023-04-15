@@ -113,8 +113,9 @@ export class CorrectionComponent implements OnInit {
     }
     this.selectedCommitment = commitment;
     this.selectedCommitmentsByUser = commitmentsByStudent;
+    this.pointsControl.clearValidators();
+    this.pointsControl.addValidators([Validators.required, Validators.min(0), Validators.max(this.tasks.get(commitment.taskId)!.points)]);
     this.pointsControl.setValue(commitment.points);
-    this.pointsControl.addValidators(Validators.max(this.tasks.get(commitment.taskId)!.points));
     if (this.classroom.archived) {
       this.pointsControl.disable();
     }
@@ -175,22 +176,22 @@ export class CorrectionComponent implements OnInit {
         }
       )
     ).subscribe(commitments => {
-        this.commitments = commitments;
-        Array.from(this.students.keys()).forEach(studentId => {
-          let commitmentList = commitments.filter(commitment => commitment.studentIds.includes(studentId));
-          let score = 0;
-          commitmentList.forEach(commitment => score += commitment.points);
-          let commitmentModel: CommitmentByUserModel = {
-            student: this.students.get(studentId)!,
-            commitments: commitmentList,
-            sumOfPoints: score
-          }
-          if (this.selectedCommitment.id) {
-            this.view(this.selectedCommitment, commitmentModel);
-          }
-          console.log("asd")
-          this.commitmentsByStudents.push(commitmentModel);
-        })
+      this.commitments = commitments;
+      Array.from(this.students.keys()).forEach(studentId => {
+        let commitmentList = commitments.filter(commitment => commitment.studentIds.includes(studentId));
+        let score = 0;
+        commitmentList.forEach(commitment => score += commitment.points);
+        let commitmentModel: CommitmentByUserModel = {
+          student: this.students.get(studentId)!,
+          commitments: commitmentList,
+          sumOfPoints: score
+        }
+        if (this.selectedCommitment.id && this.selectedCommitmentsByUser.student.id == commitmentModel.student.id) {
+          this.view(this.selectedCommitment, commitmentModel);
+        }
+        console.log("asd")
+        this.commitmentsByStudents.push(commitmentModel);
+      })
         // console.log(this.students);
         // console.log(this.tasks);
         // console.log(this.commitmentsByStudents);
