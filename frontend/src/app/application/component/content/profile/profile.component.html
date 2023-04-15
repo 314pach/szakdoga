@@ -6,6 +6,9 @@
     <button mat-raised-button color="primary" class="picture-button" (click)="profilePictureChange()">Profilkép cseréje</button>
   </div>
   <div class="form" [ngStyle]='{"width": getScreenWidth() >= 1000 ? "50%" : "100%"}'>
+    <div class="information">
+      Az adatok megváltoztatása után újra be kell jelentkezni!
+    </div>
     <mat-form-field appearance="outline" class="field">
       <mat-label>Név</mat-label>
       <input matInput type="text" [formControl]="nameControl">

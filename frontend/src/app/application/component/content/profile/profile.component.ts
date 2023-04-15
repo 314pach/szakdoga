@@ -6,6 +6,7 @@ import {PasswordChangeComponent} from "./password-change/password-change.compone
 import {DeleteProfileComponent} from "./delete-profile/delete-profile.component";
 import {ProfilePictureChangeComponent} from "./profile-picture-change/profile-picture-change.component";
 import {FormControl, Validators} from "@angular/forms";
+import {AuthenticationService} from "../../../../shared/service/authentication.service";
 
 @Component({
   selector: 'app-profile',
@@ -22,6 +23,7 @@ export class ProfileComponent implements OnInit {
 
   constructor(
     private applicationUserService: ApplicationUserService,
+    private authenticationService: AuthenticationService,
     private dialog: MatDialog
   ) {
     // applicationUserService.allUsersSubject.subscribe(users => console.log(users))
@@ -91,9 +93,13 @@ export class ProfileComponent implements OnInit {
         this.loggedInUser.classRoomIds,
         this.loggedInUser.commitmentIds
       )
+      console.log(updatedUser);
       this.applicationUserService.updateUser(updatedUser)
         .subscribe(
-          user => this.applicationUserService.loggedInUserSubject.next(user)
+          user => {
+            this.applicationUserService.loggedInUserSubject.next(user);
+            this.authenticationService.logout();
+          }
         );
     }
   }

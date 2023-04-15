@@ -12,6 +12,12 @@
   //height: 100%;
 }
 
+.information {
+  font-size: 16px;
+  margin-bottom: 20px;
+  width: 60%;
+}
+
 .field {
   width: 60%;
   margin-bottom: 15px;
@@ -70,7 +76,7 @@
 }
 
 @media screen and (max-width: 600px) {
-  .field, .label, .button-container1, .button-container2{
+  .field, .label, .button-container1, .button-container2, .information{
     width: 80%;
   }
 

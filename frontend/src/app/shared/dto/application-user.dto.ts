@@ -6,7 +6,7 @@ export class ApplicationUserDto {
   public readonly email: string;
   public readonly password: string;
   public readonly role: RoleEnum;
-  public readonly profilePictureId: number;
+  public readonly profilePictureId: number | null;
   public readonly classRoomIds: Set<number>;
   public readonly commitmentIds: Set<number>;
 
@@ -17,7 +17,7 @@ export class ApplicationUserDto {
     email: string,
     password: string,
     role: RoleEnum,
-    profilePictureId: number,
+    profilePictureId: number | null,
     classRoomIds: Set<number>,
     commitmentIds: Set<number>
   ) {
