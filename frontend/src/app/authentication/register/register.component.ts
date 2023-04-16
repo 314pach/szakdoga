@@ -1,3 +1,4 @@
+import * as bcrypt from 'bcryptjs';
 import { Component } from '@angular/core';
 import {FormControl, Validators} from "@angular/forms";
 import {AuthenticationService} from "../../shared/service/authentication.service";
@@ -44,11 +45,18 @@ export class RegisterComponent {
 
   register() {
     if (!this.isDisabled()){
+      let password = this.passwordControl.value;
+      let passwordHash = this.passwordControl.value;
+      bcrypt.genSalt(10, function(err, salt) {
+        bcrypt.hash(password, salt, function(err, hash) {
+          passwordHash = hash;
+        });
+      });
       let newUser = new RegisterRequestDto(
         this.nameControl.value,
         this.emailControl.value,
-        this.passwordControl.value
-      )
+        passwordHash
+      );
       this.authenticationService.register(newUser)
         .pipe(
           catchError(err => {

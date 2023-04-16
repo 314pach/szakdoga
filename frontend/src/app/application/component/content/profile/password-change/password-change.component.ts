@@ -1,4 +1,4 @@
-import * as bycrypt from 'bcryptjs';
+import * as bcrypt from 'bcryptjs';
 import {Component} from '@angular/core';
 import {ApplicationUserDto} from "../../../../../shared/dto/application-user.dto";
 import {ApplicationUserService} from "../../../../../shared/service/application-user.service";
@@ -48,7 +48,7 @@ export class PasswordChangeComponent {
   }
 
   update() {
-    if (!bycrypt.compareSync(this.oldPasswordControl.value, this.loggedInUser.password)){
+    if (!bcrypt.compareSync(this.oldPasswordControl.value, this.loggedInUser.password)){
       this._snackBar.open(
         "Helytelen jelszó",
         "Ok",
