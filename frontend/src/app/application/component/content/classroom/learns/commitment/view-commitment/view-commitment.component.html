@@ -2,21 +2,23 @@
   <mat-drawer-container class="drawer-container" autosize>
     <mat-drawer #drawer [mode]="mode" [opened]="mode==='side'" class="drawer">
       <div class="list">
-        <div *ngIf="!this.commitments.length" class="no-data">
-          <div class="icon">
+        <div *ngIf="!this.commitments.length" class="list-no-data">
+          <div class="list-icon">
             <mat-icon>info_outlined</mat-icon>
           </div>
-          <div class="info">
+          <div class="list-info">
             Nincsenek vállalt feladatok
           </div>
         </div>
         <div *ngIf="this.commitments.length && this.tasks.size">
-          <div *ngFor="let commitment of this.commitments" class="item" (click)="view(commitment)"
+          <div *ngFor="let commitment of this.commitments" (click)="view(commitment)"
                [ngStyle]="{'background-color': commitment.taskId === selectedCommitment.taskId ? ' #e6f2f8': ''}">
-            <div>{{this.tasks.get(commitment.taskId)!.title}}</div>
-            <div>{{this.tasks.get(commitment.taskId)!.points}} pont</div>
-            <div *ngIf="this.tasks.get(commitment.taskId)!.teamwork">
-              <mat-icon>groups</mat-icon>
+            <div *ngIf="this.tasks.get(commitment.taskId)" class="item">
+              <div>{{this.tasks.get(commitment.taskId)!.title}}</div>
+              <div>{{this.tasks.get(commitment.taskId)!.points}} pont</div>
+              <div *ngIf="this.tasks.get(commitment.taskId)!.teamwork">
+                <mat-icon>groups</mat-icon>
+              </div>
             </div>
           </div>
         </div>

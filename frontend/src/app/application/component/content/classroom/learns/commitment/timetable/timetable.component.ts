@@ -63,6 +63,7 @@ export class TimetableComponent implements OnInit{
       .pipe(
         switchMap(commitments => {
           this.commitments = commitments;
+          this.commitmentDates = [];
           let commitedTaskIds : number[] = [];
           commitments.forEach(commitment => {
             commitedTaskIds.push(commitment.taskId)

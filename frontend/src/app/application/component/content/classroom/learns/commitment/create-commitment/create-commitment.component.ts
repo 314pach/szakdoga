@@ -136,23 +136,27 @@ export class CreateCommitmentComponent implements OnInit, AfterViewInit {
 
   add(task: TaskDto) {
     this.commited.push(task);
+    this.changedTeams.set(task.id!, new Map()) //todo check
+    this.changedTeams.get(task.id!)!.set(this.loggedInUser.id!, this.loggedInUser.name)
     this.available = this.available.filter(t => t.id !== task.id);
     this.sumOfPoints += task.points;
     this.refreshGrade();
     if (!this.commitedTaskIds.includes(task.id!)) {
       this.tasksToAdd.push(task.id!);
-      this.changedTeams.set(task.id!, new Map()) //todo check
-      this.changedTeams.get(task.id!)!.set(this.loggedInUser.id!, this.loggedInUser.name)
+      // this.changedTeams.set(task.id!, new Map()) //todo check
+      // this.changedTeams.get(task.id!)!.set(this.loggedInUser.id!, this.loggedInUser.name)
     } else {
       this.tasksToRemove = this.tasksToRemove.filter(taskId => taskId !== task.id);
     }
     // console.log(this.tasksToAdd);
     // console.log(this.tasksToRemove);
+    console.log(this.commited);
   }
 
   remove(task: TaskDto) {
     this.available.push(task);
     this.commited = this.commited.filter(t => t.id !== task.id);
+    this.changedTeams.delete(task.id!);
     this.sumOfPoints -= task.points;
     this.refreshGrade();
     if (this.commitedTaskIds.includes(task.id!)) {
@@ -162,6 +166,7 @@ export class CreateCommitmentComponent implements OnInit, AfterViewInit {
     }
     // console.log(this.tasksToAdd);
     // console.log(this.tasksToRemove);
+    console.log(this.commited);
   }
 
   arraysEquals(a: number[], b: number[]): boolean {
@@ -181,6 +186,7 @@ export class CreateCommitmentComponent implements OnInit, AfterViewInit {
     if (!this.commitmentPeriod){
       return true;
     }
+    // console.log("vallalasi idoszak van")
     let currentlyCommited: number[] = [];
     this.commited.forEach(task => currentlyCommited.push(task.id!));
 
@@ -193,11 +199,16 @@ export class CreateCommitmentComponent implements OnInit, AfterViewInit {
       }
     });
     if (headcountError) {
+      // console.log("baj van a letszamokkal")
       return true;
     }
 
+    console.log("--------------------------------")
+    console.log(this.changedTeams);
+    console.log(this.teams);
     for (let task of this.changedTeams.keys()) {
       if (!this.teams.get(task) || !this.arraysEquals(Array.from(this.teams.get(task)!.keys()), Array.from(this.changedTeams.get(task)!.keys()))) {
+        console.log("valtoztak a csapatok")
         return false;
       }
     }
@@ -226,6 +237,8 @@ export class CreateCommitmentComponent implements OnInit, AfterViewInit {
             );
             let alltasks: number[] = [];
             this.tasks.forEach(t => alltasks.push(t.id!));
+            this.tasksToAdd = [];
+            this.tasksToRemove = [];
             this.commitmentService.getCommitmentsByUserAndModul(this.loggedInUser.id!, alltasks);
             this.refreshData();
           }
@@ -235,6 +248,7 @@ export class CreateCommitmentComponent implements OnInit, AfterViewInit {
 
   deleteCommitments() {
     let commitmentIds: number[] = [];
+    console.log(this.tasksToRemove)
     if (this.tasksToRemove.length) {
       this.commitments.forEach(commitment => {
         if (this.tasksToRemove.includes(commitment.taskId)) {
@@ -247,6 +261,7 @@ export class CreateCommitmentComponent implements OnInit, AfterViewInit {
 
   createCommitments() {
     let commitments: CommitmentDto[] = [];
+    console.log(this.tasksToAdd)
     if (this.tasksToAdd.length) {
       this.tasksToAdd.forEach(taskId => {
         let members: number[] = [...this.changedTeams.get(taskId)!.keys()];

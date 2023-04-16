@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, Renderer2, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, Renderer2, ViewChild} from '@angular/core';
 import {ClassroomService} from "../../../../../../../shared/service/classroom.service";
 import {ModulService} from "../../../../../../../shared/service/modul.service";
 import {TaskService} from "../../../../../../../shared/service/task.service";
@@ -97,9 +97,16 @@ export class ViewCommitmentComponent implements OnInit {
       .pipe(
         switchMap(commitments => {
           this.commitments = commitments;
+          if (this.selectedCommitment.id && commitments.filter(c => c.id === this.selectedCommitment.id).length === 0){
+            this.selectedCommitment = {} as CommitmentDto;
+          }
           let commitedTaskIds: number[] = [];
           this.sumOfPoints = 0;
-          this.showStatistics = true;
+          if (commitments.length > 0) {
+            this.showStatistics = true;
+          } else {
+            this.showStatistics = false;
+          }
           commitments.forEach(commitment => {
             this.sumOfPoints += commitment.points;
             if (commitment.status !== CommitmentStatusEnum.Scored) {
