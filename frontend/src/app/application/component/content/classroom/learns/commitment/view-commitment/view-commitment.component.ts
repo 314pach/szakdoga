@@ -29,7 +29,7 @@ import {CommitmentStatusEnum} from "../../../../../../../shared/enum/commitment-
   templateUrl: './view-commitment.component.html',
   styleUrls: ['./view-commitment.component.scss']
 })
-export class ViewCommitmentComponent implements OnInit{
+export class ViewCommitmentComponent implements OnInit {
   @ViewChild("drawer") drawer!: MatDrawer;
   mode: MatDrawerMode = "side";
   threshold: number = 800;
@@ -56,6 +56,7 @@ export class ViewCommitmentComponent implements OnInit{
   handinsByDate: HandinByDateModel[] = [];
 
   selectedCommitment: CommitmentDto = {} as CommitmentDto;
+  isModulActive: boolean = false;
 
   constructor(
     private classroomService: ClassroomService,
@@ -86,7 +87,7 @@ export class ViewCommitmentComponent implements OnInit{
   ngOnInit(): void {
     let token = localStorage.getItem("token");
     this.applicationUserService.getUserByToken(token!)
-      .subscribe( user => this.loggedInUser = user);
+      .subscribe(user => this.loggedInUser = user);
     this.getSumOfPoints();
     this.refreshData();
   }
@@ -96,7 +97,7 @@ export class ViewCommitmentComponent implements OnInit{
       .pipe(
         switchMap(commitments => {
           this.commitments = commitments;
-          let commitedTaskIds : number[] = [];
+          let commitedTaskIds: number[] = [];
           this.sumOfPoints = 0;
           this.showStatistics = true;
           commitments.forEach(commitment => {
@@ -127,6 +128,7 @@ export class ViewCommitmentComponent implements OnInit{
         }),
         switchMap(modul => {
             this.modul = modul;
+            this.isModulActive = new Date(modul.beginning) <= new Date() && new Date() <= new Date(modul.end);
             this.taskService.getTasksByModulIdAndRefreshSubject(modul.id!);
             return this.taskService.getTasksByModulId(modul.id!);
           }
@@ -138,10 +140,13 @@ export class ViewCommitmentComponent implements OnInit{
   }
 
   view(commitment: CommitmentDto) {
-    if (this.getScreenWidth() <= this.threshold){
+    if (this.getScreenWidth() <= this.threshold) {
       this.drawer.close();
     }
     this.dateControl.setValue(commitment.deadline);
+    if (!this.isModulActive) {
+      this.dateControl.disable();
+    }
     this.filesArray = [];
     this.handinControl.setValue('');
     this.selectedCommitment = commitment;
@@ -156,7 +161,7 @@ export class ViewCommitmentComponent implements OnInit{
         console.log(uniqueDates)
         this.handinsByDate = [];
         uniqueDates.forEach(date => {
-          let handinsByDate : HandinByDateModel = {
+          let handinsByDate: HandinByDateModel = {
             date: new Date(date),
             handins: handins.filter(handin => date === new Date(new Date(handin.timestamp).getFullYear(), new Date(handin.timestamp).getMonth(), new Date(handin.timestamp).getDate(), new Date(handin.timestamp).getHours(), new Date(handin.timestamp).getMinutes()).getTime())
           }
@@ -173,7 +178,7 @@ export class ViewCommitmentComponent implements OnInit{
       .subscribe(badges => this.badges = badges);
   }
 
-  getUsers(taskId: number) : string[]{
+  getUsers(taskId: number): string[] {
     return Array.from(this.teams.get(taskId)!.values());
   }
 
@@ -207,7 +212,7 @@ export class ViewCommitmentComponent implements OnInit{
   }
 
   save() {
-    if (!this.isDisabled()){
+    if (!this.isDisabled()) {
       let i = 0;
       Array.from(this.filesArray).forEach(input => {
         this.fileWebService.uploadFile(input)
@@ -226,7 +231,7 @@ export class ViewCommitmentComponent implements OnInit{
           .subscribe(_ => {
             console.log("siker");
             i++;
-            if (i === this.filesArray.length){
+            if (i === this.filesArray.length) {
               this.view(this.selectedCommitment);
               this.removeFileUpload();
             }
@@ -240,20 +245,20 @@ export class ViewCommitmentComponent implements OnInit{
   }
 
   setMenuMode = (e: Event) => {
-    if (this.getScreenWidth() >= this.threshold){
-      if (this.mode === "over"){
+    if (this.getScreenWidth() >= this.threshold) {
+      if (this.mode === "over") {
         this.drawer.open();
       }
       this.mode = "side";
     } else {
-      if (this.mode === "side"){
+      if (this.mode === "side") {
         this.drawer.close();
       }
       this.mode = "over"
     }
   }
 
-  showResult(){
+  showResult() {
     return this.selectedCommitment.status === CommitmentStatusEnum.Scored;
   }
 
@@ -281,7 +286,7 @@ export class ViewCommitmentComponent implements OnInit{
   saveDate() {
     if (!this.isDateDisabled()) {
       console.log(this.dateControl.value)
-      let commitent: CommitmentDto  = new CommitmentDto(
+      let commitent: CommitmentDto = new CommitmentDto(
         this.selectedCommitment.id!,
         this.selectedCommitment.points,
         this.selectedCommitment.status,

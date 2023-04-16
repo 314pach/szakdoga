@@ -67,10 +67,11 @@
                 <input matInput [matDatepickerFilter]="dateFilter" [matDatepicker]="picker" [formControl]="dateControl">
                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
-                <mat-error *ngIf="dateControl.invalid">Határidő megadása kötelező</mat-error>
+                <mat-error *ngIf="dateControl.errors?.['required']">Határidő megadása kötelező</mat-error>
+                <mat-error *ngIf="dateControl.errors?.['matDatepickerFilter']">Nem megfelelő határidő</mat-error>
               </mat-form-field>
               <button mat-raised-button color="primary" class="control" [disabled]="isDateDisabled()"
-                      (click)="saveDate()">
+                      (click)="saveDate()" *ngIf="this.isModulActive">
                 Ok
               </button>
             </div>
@@ -103,7 +104,7 @@
                     Beadott fájlok
                   </div>
                   <button mat-icon-button matTooltip="Fájlok feltöltése" matTooltipPosition="above"
-                          (click)="checkUploadFiles()" [disabled]="this.uploadFiles" style="margin-top: 10px">
+                          (click)="checkUploadFiles()" [disabled]="this.uploadFiles || !this.isModulActive" style="margin-top: 10px">
                     <mat-icon>add</mat-icon>
                   </button>
                 </div>
