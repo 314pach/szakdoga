@@ -70,7 +70,7 @@ export class CreateCommitmentComponent implements OnInit, AfterViewInit {
         ]).subscribe(data => {
           this.modul = data[0];
           this.classroom = data[1];
-          this.commitmentPeriod = data[1].commitmentPeriod && (new Date(data[0].beginning) <= new Date() || new Date() <= new Date(data[0].end));
+          this.commitmentPeriod = data[1].commitmentPeriod && (new Date(data[0].beginning) <= new Date() && new Date() <= new Date(data[0].end));
         })
       });
   }
