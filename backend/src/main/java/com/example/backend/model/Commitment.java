@@ -79,6 +79,12 @@ public class Commitment {
     )
     private Set<Badge> badges = new HashSet<>();
 
+    @OneToMany(
+            mappedBy = "commitment",
+            cascade = {CascadeType.REMOVE}
+    )
+    private Set<Handin> handins = new HashSet<>();
+
     public Long getId() {
         return id;
     }

@@ -56,7 +56,6 @@ public class HandinService {
     }
 
     public void delete(Long id){
-        handinRepository.findById(id).ifPresent(handin -> fileRepository.deleteById(handin.getFile().getId()));
         handinRepository.deleteById(id);
     }
 
