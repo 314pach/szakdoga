@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/modul")
+@RequestMapping("/api/modul")
 public class ModulController {
     private final ModulService modulService;
 

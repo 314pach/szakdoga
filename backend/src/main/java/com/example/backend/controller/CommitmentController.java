@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/commitment")
+@RequestMapping("/api/commitment")
 public class CommitmentController {
     private final CommitmentService commitmentService;
 

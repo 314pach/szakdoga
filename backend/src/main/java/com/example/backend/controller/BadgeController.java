@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/badge")
+@RequestMapping("/api/badge")
 public class BadgeController {
     private final BadgeService badgeService;
 
