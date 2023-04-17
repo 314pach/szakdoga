@@ -1,7 +1,7 @@
 <div class="title">Felhasználói adatok</div>
 <div class="container" [ngStyle]='{"flex-direction": getScreenWidth() >= 1000 ? "row-reverse" : "column" }'>
   <div class="picture-form" [ngStyle]='{"width": getScreenWidth() >= 1000 ? "50%" : "100%"}'>
-    <img *ngIf="loggedInUser.profilePictureId" alt="profile picture" class="profile-picture" [src]="'http://localhost:8080/file/files/' + this.loggedInUser.profilePictureId">
+    <img *ngIf="loggedInUser.profilePictureId" alt="profile picture" class="profile-picture" [src]="'http://localhost:8080/api/file/files/' + this.loggedInUser.profilePictureId">
     <button mat-raised-button color="primary" class="picture-button" (click)="profilePictureChange()">Profilkép cseréje</button>
   </div>
   <div class="form" [ngStyle]='{"width": getScreenWidth() >= 1000 ? "50%" : "100%"}'>

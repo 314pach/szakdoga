@@ -1,7 +1,7 @@
 <div class="container">
   <div class="upper">
     <div class="profile-picture-container">
-      <img *ngIf="loggedInUser.profilePictureId" alt="profile picture" class="profile-picture" [src]="'http://localhost:8080/file/files/' + this.loggedInUser.profilePictureId">
+      <img *ngIf="loggedInUser.profilePictureId" alt="profile picture" class="profile-picture" [src]="'http://localhost:8080/api/file/files/' + this.loggedInUser.profilePictureId">
     </div>
     <div class="username">{{ loggedInUser.name }}</div>
     <div class="list">
