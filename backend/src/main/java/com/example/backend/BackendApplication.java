@@ -20,7 +20,7 @@ public class BackendApplication {
     public CorsFilter corsFilter() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.setAllowCredentials(true);
-        corsConfiguration.setAllowedOrigins(Arrays.asList("http://localhost:4200/"));
+        corsConfiguration.setAllowedOrigins(Arrays.asList("https://frontend-bdgmj5456q-oa.a.run.app/", "http://localhost:4200/", "http://localhost:80/", "http://localhost", "https://szakdolgozat.szucseszter.me/"));
                 corsConfiguration.setAllowedHeaders(Arrays.asList("Origin", "Access-Control-Allow-Origin", "Content-Type",
                         "Accept", "Authorization", "Origin, Accept", "X-Requested-With",
                         "Access-Control-Request-Method", "Access-Control-Request-Headers"));
