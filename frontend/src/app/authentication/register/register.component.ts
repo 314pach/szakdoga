@@ -45,17 +45,10 @@ export class RegisterComponent {
 
   register() {
     if (!this.isDisabled()){
-      let password = this.passwordControl.value;
-      let passwordHash = this.passwordControl.value;
-      bcrypt.genSalt(10, function(err, salt) {
-        bcrypt.hash(password, salt, function(err, hash) {
-          passwordHash = hash;
-        });
-      });
       let newUser = new RegisterRequestDto(
         this.nameControl.value,
         this.emailControl.value,
-        passwordHash
+        this.passwordControl.value
       );
       this.authenticationService.register(newUser)
         .pipe(

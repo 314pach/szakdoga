@@ -165,7 +165,7 @@ export class ViewCommitmentComponent implements OnInit {
         });
         uniqueDates = [...new Set(uniqueDates)];
         uniqueDates.sort();
-        console.log(uniqueDates)
+        // console.log(uniqueDates)
         this.handinsByDate = [];
         uniqueDates.forEach(date => {
           let handinsByDate: HandinByDateModel = {
@@ -174,7 +174,7 @@ export class ViewCommitmentComponent implements OnInit {
           }
           this.handinsByDate.push(handinsByDate);
         });
-        console.log(this.handinsByDate);
+        // console.log(this.handinsByDate);
       });
     this.attachmentService.getAttachmentByTaskId(commitment.taskId)
       .subscribe(attachments => {
@@ -236,7 +236,7 @@ export class ViewCommitmentComponent implements OnInit {
               return this.handinService.createHandin(file);
             }))
           .subscribe(_ => {
-            console.log("siker");
+            // console.log("siker");
             i++;
             if (i === this.filesArray.length) {
               this.view(this.selectedCommitment);
@@ -292,7 +292,7 @@ export class ViewCommitmentComponent implements OnInit {
 
   saveDate() {
     if (!this.isDateDisabled()) {
-      console.log(this.dateControl.value)
+      // console.log(this.dateControl.value)
       let commitent: CommitmentDto = new CommitmentDto(
         this.selectedCommitment.id!,
         this.selectedCommitment.points,

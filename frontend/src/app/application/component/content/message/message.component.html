@@ -74,7 +74,7 @@
              "margin": message.senderId===loggedInUser.id ? "0 5px 0 20%" : "0 20% 0 0"}'>
             <div *ngIf="message.senderId !== loggedInUser.id">
               <img *ngIf="selectedUser.profilePictureId" class="picture"
-                   [src]="'http://localhost:8080/api/file/files/' + selectedUser.profilePictureId" alt="profile picture">
+                   [src]="getPictureUrl(selectedUser.profilePictureId)" alt="profile picture">
             </div>
             <div class="message">
               <div class="date">{{message.timestamp | date:"yyyy.MM.dd HH:mm"}}</div>

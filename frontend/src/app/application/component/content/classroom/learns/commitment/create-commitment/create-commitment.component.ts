@@ -84,9 +84,9 @@ export class CreateCommitmentComponent implements OnInit, AfterViewInit {
       this.commitmentService.commitmentsByModulSubject
     ).subscribe(
       data => {
-        console.log(data)
+        // console.log(data)
         if (data[0].length || data[1].length) {
-          console.log(data)
+          // console.log(data)
           this.tasks = data[0];
           this.commitments = data[1];
           this.commitedTaskIds = [];
@@ -150,7 +150,7 @@ export class CreateCommitmentComponent implements OnInit, AfterViewInit {
     }
     // console.log(this.tasksToAdd);
     // console.log(this.tasksToRemove);
-    console.log(this.commited);
+    // console.log(this.commited);
   }
 
   remove(task: TaskDto) {
@@ -166,7 +166,7 @@ export class CreateCommitmentComponent implements OnInit, AfterViewInit {
     }
     // console.log(this.tasksToAdd);
     // console.log(this.tasksToRemove);
-    console.log(this.commited);
+    // console.log(this.commited);
   }
 
   arraysEquals(a: number[], b: number[]): boolean {
@@ -203,12 +203,12 @@ export class CreateCommitmentComponent implements OnInit, AfterViewInit {
       return true;
     }
 
-    console.log("--------------------------------")
-    console.log(this.changedTeams);
-    console.log(this.teams);
+    // console.log("--------------------------------")
+    // console.log(this.changedTeams);
+    // console.log(this.teams);
     for (let task of this.changedTeams.keys()) {
       if (!this.teams.get(task) || !this.arraysEquals(Array.from(this.teams.get(task)!.keys()), Array.from(this.changedTeams.get(task)!.keys()))) {
-        console.log("valtoztak a csapatok")
+        // console.log("valtoztak a csapatok")
         return false;
       }
     }
@@ -248,7 +248,7 @@ export class CreateCommitmentComponent implements OnInit, AfterViewInit {
 
   deleteCommitments() {
     let commitmentIds: number[] = [];
-    console.log(this.tasksToRemove)
+    // console.log(this.tasksToRemove)
     if (this.tasksToRemove.length) {
       this.commitments.forEach(commitment => {
         if (this.tasksToRemove.includes(commitment.taskId)) {
@@ -261,7 +261,7 @@ export class CreateCommitmentComponent implements OnInit, AfterViewInit {
 
   createCommitments() {
     let commitments: CommitmentDto[] = [];
-    console.log(this.tasksToAdd)
+    // console.log(this.tasksToAdd)
     if (this.tasksToAdd.length) {
       this.tasksToAdd.forEach(taskId => {
         let members: number[] = [...this.changedTeams.get(taskId)!.keys()];

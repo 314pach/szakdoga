@@ -115,7 +115,7 @@ export class HandinWebService {
 
   createHeader(): HttpHeaders {
     let token = localStorage.getItem("token");
-    console.log(token);
+    // console.log(token);
     if (token) {
       return new HttpHeaders({
         Authorization: `Bearer ${token}`

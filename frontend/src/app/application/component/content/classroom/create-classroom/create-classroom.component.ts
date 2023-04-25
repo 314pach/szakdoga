@@ -48,7 +48,7 @@ export class CreateClassroomComponent {
     ).subscribe(
       classrooms => {
         this.classrooms = classrooms;
-        console.log(this.classrooms);
+        // console.log(this.classrooms);
       }
     );
     this.applicationUserService.getAllUsers();
@@ -114,7 +114,7 @@ export class CreateClassroomComponent {
         [],
         this.checked
       )
-      console.log(classroom)
+      // console.log(classroom)
       this.classroomService.createClassRoom(classroom)
         .subscribe(
           classroom => {

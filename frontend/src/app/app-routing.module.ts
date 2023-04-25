@@ -3,11 +3,13 @@ import {CommonModule} from '@angular/common';
 import {RouterModule, Routes} from "@angular/router";
 import {ApplicationComponent} from "./application/application.component";
 import {AuthguardService} from "./shared/service/authguard.service";
+import {LoggedInAuthguardService} from "./shared/service/logged-in-authguard.service";
 
 const routes: Routes = [
   {
     path: "authentication",
     loadChildren: () => import('./authentication/authentication.module').then(m => m.AuthenticationModule),
+    canActivate: [LoggedInAuthguardService]
   },
   {
     path: "application",
@@ -19,6 +21,10 @@ const routes: Routes = [
     path: "",
     redirectTo: "authentication",
     pathMatch: "full"
+  },
+  {
+    path: "**",
+    redirectTo: "authentication",
   }
 ];
 

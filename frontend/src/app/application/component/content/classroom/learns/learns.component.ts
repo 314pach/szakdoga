@@ -97,7 +97,7 @@ export class LearnsComponent implements OnInit {
       this.classroom.modulIds,
       this.classroom.applicationUserIds
     )
-    console.log(classroom)
+    // console.log(classroom)
     this.classroomService.updateClassRoom(classroom)
       .subscribe(
         classroom => {

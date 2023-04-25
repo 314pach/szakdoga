@@ -189,7 +189,7 @@ export class CorrectionComponent implements OnInit {
         if (this.selectedCommitment.id && this.selectedCommitmentsByUser.student.id == commitmentModel.student.id) {
           this.view(this.selectedCommitment, commitmentModel);
         }
-        console.log("asd")
+        // console.log("asd")
         this.commitmentsByStudents.push(commitmentModel);
       })
         // console.log(this.students);
@@ -275,7 +275,7 @@ export class CorrectionComponent implements OnInit {
           this.selectedCommitment = commitment;
           this.refreshData();
           // this.selectedCommitmentsByUser = this.commitmentsByStudents.filter(commitmentsByStudent => commitmentsByStudent.student!.id === this.selectedCommitmentsByUser.student!.id)[0];
-          console.log(this.selectedCommitmentsByUser)
+          // console.log(this.selectedCommitmentsByUser)
         })
     }
   }

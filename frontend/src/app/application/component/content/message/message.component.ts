@@ -7,6 +7,7 @@ import {MessageDto} from "../../../../shared/dto/message.dto";
 import {FormControl} from "@angular/forms";
 import {MessageStatusEnum} from "../../../../shared/enum/message-status.enum";
 import {MatDrawer, MatDrawerMode} from "@angular/material/sidenav";
+import {environment} from "../../../../../environments/environment";
 
 @Component({
   selector: 'app-message',
@@ -108,5 +109,9 @@ export class MessageComponent implements OnInit, OnDestroy {
       }
       this.mode = "over"
     }
+  }
+
+  getPictureUrl(id: number) {
+    return environment.apiBaseUrl + 'file/files/' + id;
   }
 }

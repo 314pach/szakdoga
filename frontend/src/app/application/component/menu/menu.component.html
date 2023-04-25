@@ -1,14 +1,14 @@
 <div class="container">
   <div class="upper">
     <div class="profile-picture-container">
-      <img *ngIf="loggedInUser.profilePictureId" alt="profile picture" class="profile-picture" [src]="'http://localhost:8080/api/file/files/' + this.loggedInUser.profilePictureId">
+      <img *ngIf="loggedInUser.profilePictureId" alt="profile picture" class="profile-picture" [src]="getPictureUrl()">
     </div>
     <div class="username">{{ loggedInUser.name }}</div>
     <div class="list">
       <div class="list-item" routerLink="profile" (click)="closeIfOver()" [ngStyle]="{'background-color': getRoute() === 'profile' ? '#e6f2f8' : ''}">Profil</div>
       <div class="list-item" routerLink="classroom" (click)="closeIfOver()"  [ngStyle]="{'background-color': getRoute() === 'classroom' ? '#e6f2f8' : ''}">Osztályok</div>
       <div class="list-item" routerLink="modul" (click)="closeIfOver()" *ngIf="this.isTeacher" [ngStyle]="{'background-color': getRoute() === 'modul' ? '#e6f2f8' : ''}">Témakörök</div>
-      <div class="list-item" routerLink="message" (click)="closeIfOver()" [ngStyle]="{'background-color': getRoute() === 'message' ? '#e6f2f8' : ''}">Üzenetek</div>
+<!--      <div class="list-item" routerLink="message" (click)="closeIfOver()" [ngStyle]="{'background-color': getRoute() === 'message' ? '#e6f2f8' : ''}">Üzenetek</div>-->
     </div>
   </div>
   <div class="logout" matTooltip="Kijelentkezés" (click)="logout()">

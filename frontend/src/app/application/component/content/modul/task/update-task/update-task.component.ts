@@ -193,10 +193,10 @@ export class UpdateTaskComponent {
 
   createLinksList(): AttachmentDto[]{
     let links: AttachmentDto[] = [];
-    console.log(this.linkForm.value.links)
+    // console.log(this.linkForm.value.links)
 
     this.linkForm.value.links.forEach((input: object) => {
-      console.log(input);
+      // console.log(input);
       // @ts-ignore
       if (!input.id) {
         // @ts-ignore
@@ -222,7 +222,9 @@ export class UpdateTaskComponent {
         ids.push(file.id!);
       });
       this.attachmentService.deleteAttachments(ids)
-        .subscribe(_ => console.log("deleted"));
+        .subscribe(_ => {
+          // console.log("deleted")
+        });
       Array.from(this.filesArray).forEach(input => {
         this.fileWebService.uploadFile(input)
           .pipe(
@@ -237,7 +239,9 @@ export class UpdateTaskComponent {
               );
               return this.attachmentService.createAttachment(file);
             }))
-          .subscribe(_ => console.log("siker"));
+          .subscribe(_ => {
+            // console.log("siker")
+          });
       });
     }
   }

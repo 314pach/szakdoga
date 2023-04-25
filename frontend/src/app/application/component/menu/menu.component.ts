@@ -6,6 +6,7 @@ import {filter} from "rxjs";
 import {ApplicationComponent} from "../../application.component";
 import {AuthenticationService} from "../../../shared/service/authentication.service";
 import {RoleEnum} from "../../../shared/enum/role.enum";
+import {environment} from "../../../../environments/environment";
 
 @Component({
   selector: 'app-menu',
@@ -38,7 +39,9 @@ export class MenuComponent implements OnInit {
       this.routeString = event.url;
     })
     // console.log(this.router.url);
-    this.route.url.subscribe(url => console.log(url));
+    this.route.url.subscribe(url => {
+      // console.log(url)
+    });
   }
 
   ngOnInit(): void {
@@ -70,5 +73,9 @@ export class MenuComponent implements OnInit {
 
   logout() {
     this.authenticationService.logout();
+  }
+
+  getPictureUrl() {
+    return environment.apiBaseUrl + 'file/files/' + this.loggedInUser.profilePictureId;
   }
 }

@@ -5,6 +5,7 @@ import {MessageDto} from "../dto/message.dto";
 import * as SockJS from 'sockjs-client';
 import * as Stomp from 'stompjs';
 import {HttpHeaders} from "@angular/common/http";
+import {environment, socketEnvironment} from "../../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -32,7 +33,7 @@ export class MessageService {
   public stompClient: any;
 
   connectToSelectedMessages() {
-    const socket = new SockJS('http://localhost:8080/socket');
+    const socket = new SockJS(socketEnvironment + 'socket');
     this.stompClient = Stomp.over(socket);
     const _this = this;
     let token = localStorage.getItem("token");
@@ -51,7 +52,7 @@ export class MessageService {
   }
 
   sendMessageToSelected(newMessage: MessageDto) {
-    console.log(newMessage);
+    // console.log(newMessage);
     let token = localStorage.getItem("token");
     this.stompClient.send(
       '/application/addMessageToOpenedConversation',

@@ -31,7 +31,7 @@ export class ProfilePictureChangeComponent implements OnInit {
   ngOnInit(): void {
     let token = localStorage.getItem("token");
     this.applicationUserService.getUserByToken(token!).subscribe(user => {
-      console.log(user);
+      // console.log(user);
       this.loggedInUser = user;
     })
   }
@@ -49,7 +49,7 @@ export class ProfilePictureChangeComponent implements OnInit {
       this.filWebService.uploadFile(this.file)
         .pipe(
           switchMap(fileId => {
-            console.log(fileId)
+            // console.log(fileId)
             let user = new ApplicationUserDto(
               this.loggedInUser.id,
               this.loggedInUser.name,

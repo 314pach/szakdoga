@@ -142,7 +142,9 @@ export class CreateTaskComponent {
                     );
                     return this.attachmentService.createAttachment(file);
                   }))
-                  .subscribe(_ => console.log("siker"));
+                  .subscribe(_ => {
+                    //console.log("siker")
+                  });
               });
               return this.attachmentService.createAttachments(attachments);
             }

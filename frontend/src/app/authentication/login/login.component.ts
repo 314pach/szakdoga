@@ -32,16 +32,9 @@ export class LoginComponent {
 
   login() {
     if (!this.isDisabled()){
-      let password = this.passwordControl.value;
-      let passwordHash = this.passwordControl.value;
-      bcrypt.genSalt(10, function(err, salt) {
-        bcrypt.hash(password, salt, function(err, hash) {
-          passwordHash = hash;
-        });
-      });
       let user = new LoginRequestDto(
         this.emailControl.value,
-        passwordHash
+        this.passwordControl.value
       )
       this.authenticationService.login(user)
         .pipe(

@@ -7,6 +7,7 @@ import {DeleteProfileComponent} from "./delete-profile/delete-profile.component"
 import {ProfilePictureChangeComponent} from "./profile-picture-change/profile-picture-change.component";
 import {FormControl, Validators} from "@angular/forms";
 import {AuthenticationService} from "../../../../shared/service/authentication.service";
+import {environment} from "../../../../../environments/environment";
 
 @Component({
   selector: 'app-profile',
@@ -29,7 +30,7 @@ export class ProfileComponent implements OnInit {
     // applicationUserService.allUsersSubject.subscribe(users => console.log(users))
     let token = localStorage.getItem("token");
     applicationUserService.getUserByToken(token!).subscribe(user => {
-      console.log(user);
+      // console.log(user);
       this.loggedInUser = user;
       this.nameControl.setValue(this.loggedInUser.name);
       this.emailControl.setValue(this.loggedInUser.email);
@@ -93,7 +94,7 @@ export class ProfileComponent implements OnInit {
         this.loggedInUser.classRoomIds,
         this.loggedInUser.commitmentIds
       )
-      console.log(updatedUser);
+      // console.log(updatedUser);
       this.applicationUserService.updateUser(updatedUser)
         .subscribe(
           user => {
@@ -102,5 +103,9 @@ export class ProfileComponent implements OnInit {
           }
         );
     }
+  }
+
+  getPictureUrl() {
+    return environment.apiBaseUrl + 'file/files/' + this.loggedInUser.profilePictureId;
   }
 }

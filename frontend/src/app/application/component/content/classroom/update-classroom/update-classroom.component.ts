@@ -53,7 +53,7 @@ export class UpdateClassroomComponent {
     ).subscribe(
       classrooms => {
         this.classrooms = classrooms;
-        console.log(this.classrooms);
+        // console.log(this.classrooms);
       }
     );
     this.applicationUserService.getAllUsers();
@@ -132,7 +132,7 @@ export class UpdateClassroomComponent {
         this.data.classroom.modulIds,
         this.checked
       )
-      console.log(classroom)
+      // console.log(classroom)
       this.classroomService.updateClassRoom(classroom)
         .subscribe(
           classroom => {

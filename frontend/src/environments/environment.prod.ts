@@ -1,3 +1,5 @@
+export const socketEnvironment = 'http://localhost:8080/';
 export const environment = {
-  production: true
+  production: true,
+  apiBaseUrl: 'https://szakdolgozat.szucseszter.me/api/'
 };
