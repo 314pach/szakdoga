@@ -24,10 +24,10 @@ const routes: Routes = [
     component: ModulComponent,
     canActivate: [RoleAuthguardService]
   },
-  // {
-  //   path: "message",
-  //   component: MessageComponent
-  // },
+  {
+    path: "message",
+    component: MessageComponent
+  },
   {
     path: "modul/task",
     component: TaskComponent,

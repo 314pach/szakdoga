@@ -7,8 +7,8 @@ export const socketEnvironment = 'http://localhost:8080/';
 
 export const environment = {
   production: false,
-  apiBaseUrl: 'https://backend-bdgmj5456q-oa.a.run.app/api/'
-  // apiBaseUrl: 'http://localhost:8080/api/'
+  // apiBaseUrl: 'https://backend-bdgmj5456q-oa.a.run.app/api/'
+  apiBaseUrl: 'http://localhost:8080/api/'
 };
 
 /*
