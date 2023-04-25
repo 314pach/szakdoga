@@ -6,10 +6,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/modul")
+@RequestMapping("/api/modul")
 public class ModulController {
     private final ModulService modulService;
 
@@ -27,6 +28,18 @@ public class ModulController {
     public ResponseEntity<ModulDTO> getModulById(@PathVariable("id") Long id){
         ModulDTO modulDTO = modulService.findById(id);
         return new ResponseEntity<>(modulDTO, HttpStatus.OK);
+    }
+
+    @GetMapping("/findModulsByCreator/{creatorId}")
+    public ResponseEntity<Set<ModulDTO>> getModulByCreatorId(@PathVariable("creatorId") Long creatorId){
+        Set<ModulDTO> modulDTOS = modulService.findAllByCreatorId(creatorId);
+        return new ResponseEntity<>(modulDTOS, HttpStatus.OK);
+    }
+
+    @PostMapping("/findModulsByClassroom")
+    public ResponseEntity<Set<ModulDTO>> getModulsByClassroom(@RequestBody() List<Long> classroomIds){
+        Set<ModulDTO> modulDTOS = modulService.findAllByClassroomId(classroomIds);
+        return new ResponseEntity<>(modulDTOS, HttpStatus.OK);
     }
 
     @PostMapping("/create")

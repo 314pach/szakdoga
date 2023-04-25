@@ -1,0 +1,32 @@
+<div class="title">Felhasználói adatok</div>
+<div class="container" [ngStyle]='{"flex-direction": getScreenWidth() >= 1000 ? "row-reverse" : "column" }'>
+  <div class="picture-form" [ngStyle]='{"width": getScreenWidth() >= 1000 ? "50%" : "100%"}'>
+    <img *ngIf="loggedInUser.profilePictureId" alt="profile picture" class="profile-picture" [src]="getPictureUrl()">
+    <button mat-raised-button color="primary" class="picture-button" (click)="profilePictureChange()">Profilkép cseréje</button>
+  </div>
+  <div class="form" [ngStyle]='{"width": getScreenWidth() >= 1000 ? "50%" : "100%"}'>
+    <div class="information">
+      Az adatok megváltoztatása után újra be kell jelentkezni!
+    </div>
+    <mat-form-field appearance="outline" class="field">
+      <mat-label>Név</mat-label>
+      <input matInput type="text" [formControl]="nameControl">
+      <mat-error *ngIf="nameControl.invalid">Név megadása kötelező</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="field">
+      <mat-label>E-mail cím</mat-label>
+      <input matInput type="email" [formControl]="emailControl">
+      <mat-error *ngIf="emailControl.errors?.['required']">E-mail cím megadása kötelező</mat-error>
+      <mat-error *ngIf="emailControl.errors?.['email']">Invalid e-mail cím</mat-error>
+    </mat-form-field>
+    <div class="button-container1">
+      <button mat-raised-button color="primary" class="control1" [disabled]="isDisabled()" (click)="update()">Mentés</button>
+      <button mat-raised-button class="control1" (click)="cancel()">Mégse</button>
+    </div>
+    <div class="label">Felhasználói műveletek</div>
+    <div class="button-container2">
+      <button mat-raised-button color="primary" class="control2" (click)="passwordChange()">Jelszó megváltoztatása</button>
+<!--      <button mat-raised-button color="warn" class="control2" (click)="deleteProfile()">Fiók törlése</button>-->
+    </div>
+  </div>
+</div>

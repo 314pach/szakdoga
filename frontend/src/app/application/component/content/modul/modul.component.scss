@@ -1,0 +1,104 @@
+.navbar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 15px;
+  padding-left: 25px;
+}
+
+.breadcrumb {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.breadcrumb-label {
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0 5px 0 0;
+}
+
+.no-data {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.icon {
+  margin: 25px 5px 25px 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #313131;
+}
+
+.info {
+  margin: 25px 25px 25px 5px;
+  text-align: center;
+  font-size: 25px;
+  font-weight: 400;
+  line-height: 30px;
+  color: #313131;
+}
+
+.container {
+  padding: 25px;
+}
+
+.class-card {
+  background-color: #c4e1c4;
+}
+
+.class-card mat-card-header:hover {
+  cursor: pointer;
+}
+
+.truncate {
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+mat-card-header {
+  display: flex;
+  flex-direction: column;
+}
+
+mat-card-header div {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.control {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+}
+
+.button:hover {
+  cursor: pointer;
+  border-radius: 18px;
+  background-color: #e6f2f8;
+}
+
+.warning {
+  color: red;
+}
+
+.add {
+  position: absolute;
+  right: 35px;
+  bottom: 35px;
+}

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/handin")
+@RequestMapping("/api/handin")
 public class HandinController {
     private final HandinService handinService;
 
@@ -27,6 +27,12 @@ public class HandinController {
     public ResponseEntity<HandinDTO> findHandinById(@PathVariable("id") Long id){
         HandinDTO handinDTO = handinService.findById(id);
         return new ResponseEntity<>(handinDTO, HttpStatus.OK);
+    }
+
+    @GetMapping("/findHandinsByCommitment/{commitmentId}")
+    public ResponseEntity<Set<HandinDTO>> getHandinByCommitment(@PathVariable("commitmentId") Long commitmentId){
+        Set<HandinDTO> handinDTOS = handinService.findAllByCommitmentId(commitmentId);
+        return new ResponseEntity<>(handinDTOS, HttpStatus.OK);
     }
 
     @PostMapping("/create")

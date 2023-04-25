@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component, Renderer2, ViewChild} from '@angular/core';
+import {MatDrawer, MatDrawerMode} from "@angular/material/sidenav";
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'frontend';
+
 }

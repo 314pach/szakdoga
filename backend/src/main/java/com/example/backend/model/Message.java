@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 import static jakarta.persistence.GenerationType.SEQUENCE;
 
@@ -31,7 +31,7 @@ public class Message {
             nullable = false,
             columnDefinition = "TIMESTAMP"
     )
-    private LocalDateTime timestamp;
+    private Date timestamp;
     @Column(
             name = "body",
             nullable = false,
@@ -78,11 +78,11 @@ public class Message {
         this.id = id;
     }
 
-    public LocalDateTime getTimestamp() {
+    public Date getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(LocalDateTime timestamp) {
+    public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
     }
 

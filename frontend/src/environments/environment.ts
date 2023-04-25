@@ -2,9 +2,13 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+// export const socketEnvironment = 'wss://backend-bdgmj5456q-oa.a.run.app/';
+export const socketEnvironment = 'http://localhost:8080/';
+
 export const environment = {
   production: false,
-  apiBaseUrl: 'http://localhost:8080/'
+  apiBaseUrl: 'https://backend-bdgmj5456q-oa.a.run.app/api/'
+  // apiBaseUrl: 'http://localhost:8080/api/'
 };
 
 /*

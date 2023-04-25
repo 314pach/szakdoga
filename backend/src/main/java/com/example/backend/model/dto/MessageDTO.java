@@ -1,13 +1,11 @@
 package com.example.backend.model.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
-import java.time.LocalDateTime;
+import java.util.Date;
 
 public class MessageDTO {
     private Long id;
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime timestamp;
+//    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private Date timestamp;
     private String body;
     private String status;
     private String labels;
@@ -22,11 +20,11 @@ public class MessageDTO {
         this.id = id;
     }
 
-    public LocalDateTime getTimestamp() {
+    public Date getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(LocalDateTime timestamp) {
+    public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
     }
 

@@ -6,10 +6,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/badge")
+@RequestMapping("/api/badge")
 public class BadgeController {
     private final BadgeService badgeService;
 
@@ -27,6 +28,12 @@ public class BadgeController {
     public ResponseEntity<BadgeDTO> getBadgeById(@PathVariable("id") Long id){
         BadgeDTO badgeDTO = badgeService.findById(id);
         return new ResponseEntity<>(badgeDTO, HttpStatus.OK);
+    }
+
+    @PostMapping("/findBadgesByIds")
+    public ResponseEntity<Set<BadgeDTO>> getBadgesByIds(@RequestBody() List<Long> badgeIds) {
+        Set<BadgeDTO> badgeDTOS = badgeService.findAllByIds(badgeIds);
+        return new ResponseEntity<>(badgeDTOS, HttpStatus.OK);
     }
 
     @PostMapping("/create")

@@ -41,6 +41,11 @@ public class ClassroomService {
         return toDto(classroomRepository.findAll());
     }
 
+    @Transactional(readOnly = true)
+    public Set<ClassroomDTO> findAllByUser(Long userId){
+        return toDto(classroomRepository.findAllByApplicationUser(userId));
+    }
+
     public ClassroomDTO save(ClassroomDTO classroomDTO){
         Classroom classroom = this.toEntity(classroomDTO);
         classroomRepository.save(classroom);
@@ -63,6 +68,8 @@ public class ClassroomService {
         classroomDTO.setId(classroom.getId());
         classroomDTO.setName(classroom.getName());
         classroomDTO.setSubject(classroom.getSubject());
+        classroomDTO.setCommitmentPeriod(classroom.getCommitmentPeriod());
+        classroomDTO.setArchived(classroom.getArchived());
         classroomDTO.setModulIds(classroom.getModuls()
                 .stream().map(Modul::getId)
                 .collect(Collectors.toSet()));
@@ -85,6 +92,8 @@ public class ClassroomService {
         classroom.setId(classroomDTO.getId());
         classroom.setName(classroomDTO.getName());
         classroom.setSubject(classroomDTO.getSubject());
+        classroom.setArchived(classroomDTO.getArchived());
+        classroom.setCommitmentPeriod(classroomDTO.getCommitmentPeriod());
         classroom.setModuls(
                 classroomDTO.getModulIds().stream()
                         .map(id -> modulRepository.findById(id))

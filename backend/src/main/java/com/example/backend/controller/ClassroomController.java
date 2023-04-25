@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/classroom")
+@RequestMapping("/api/classroom")
 public class ClassroomController {
     private final ClassroomService classroomService;
 
@@ -27,6 +27,12 @@ public class ClassroomController {
     public ResponseEntity<ClassroomDTO> getClassroomById(@PathVariable("id") Long id){
         ClassroomDTO classroomDTO = classroomService.findById(id);
         return new ResponseEntity<>(classroomDTO, HttpStatus.OK);
+    }
+
+    @GetMapping("/findClassroomsByUser/{userId}")
+    public ResponseEntity<Set<ClassroomDTO>> getClassroomsByUser(@PathVariable("userId") Long userId){
+        Set<ClassroomDTO> classroomDTOS = classroomService.findAllByUser(userId);
+        return new ResponseEntity<>(classroomDTOS, HttpStatus.OK);
     }
 
     @PostMapping("/create")

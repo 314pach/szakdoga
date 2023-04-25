@@ -1,0 +1,29 @@
+.title {
+  font-size: 20px;
+  margin: 25px;
+}
+
+.content {
+  margin: 15px 25px 0 25px;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.custom-file-upload {
+  border: 1px solid #ccc;
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 15px;
+}
+
+.control {
+  margin: 25px 10px 25px 0;
+}

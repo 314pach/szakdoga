@@ -8,6 +8,7 @@ public class TaskDTO {
     private Integer points;
     private Boolean teamwork;
     private Integer headcount;
+    private Boolean submit;
     private Long modulId;
 
     public Long getId() {
@@ -72,5 +73,13 @@ public class TaskDTO {
 
     public void setModulId(Long modulId) {
         this.modulId = modulId;
+    }
+
+    public Boolean getSubmit() {
+        return submit;
+    }
+
+    public void setSubmit(Boolean submit) {
+        this.submit = submit;
     }
 }

@@ -1,0 +1,36 @@
+<div class="navbar">
+  <div class="breadcrumb">
+    <div class="breadcrumb-label clickable" routerLink="/application/classroom">Osztályok</div>
+    <div class="breadcrumb-icon">
+      <mat-icon>arrow_right</mat-icon>
+    </div>
+    <div class="breadcrumb-label">{{this.classroom.name}} {{this.classroom.subject}} <span *ngIf="this.classroom.archived">(archivált)</span></div>
+  </div>
+  <div class="action" *ngIf="this.isTeacher && !this.classroom.archived">
+    <button mat-raised-button (click)="edit()">Szerkesztés</button>
+  </div>
+</div>
+<div class="toggle" *ngIf="this.isTeacher && !this.classroom.archived">
+  <mat-slide-toggle (change)="toggleCommitmentPeriod($event)" [checked]="this.classroom.commitmentPeriod" >Vállalási időszak</mat-slide-toggle>
+</div>
+<div *ngIf="!moduls.length" class="no-data">
+  <div class="icon">
+    <mat-icon>info_outlined</mat-icon>
+  </div>
+  <div class="info">
+    Jelenleg nincs megjeleníthető témakör
+  </div>
+</div>
+<div fxLayout="row wrap" fxLayoutGap="20px grid" class="container" *ngIf="moduls.length">
+  <div fxFlex="20%" fxFlex.xs="50%" fxFlex.sm="33%" *ngFor="let modul of moduls">
+    <mat-card class="class-card">
+      <mat-card-header (click)="open(modul)">
+        <div class="truncate">{{modul.title}}</div>
+        <div>
+          {{modul.beginning | date:"yyyy.MM.dd"}} - {{modul.end | date:"yyyy.MM.dd"}}
+        </div>
+      </mat-card-header>
+    </mat-card>
+  </div>
+</div>
+

@@ -26,10 +26,18 @@ public class Attachment {
     private Long id;
     @Column(
             name = "path",
-            nullable = false,
+            nullable = true,
             columnDefinition = "TEXT"
     )
     private String path;
+
+    @Column(
+            name = "type",
+            nullable = false,
+            columnDefinition = "TEXT"
+    )
+    @Enumerated(EnumType.STRING)
+    private AttachmentType type;
     @ManyToOne(
             fetch = FetchType.LAZY
     )
@@ -51,6 +59,10 @@ public class Attachment {
     )
     private ApplicationUser uploader;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "fileId", referencedColumnName = "id", nullable = true)
+    private File file;
+
     public Long getId() {
         return id;
     }
@@ -67,6 +79,14 @@ public class Attachment {
         this.path = path;
     }
 
+    public AttachmentType getType() {
+        return type;
+    }
+
+    public void setType(AttachmentType type) {
+        this.type = type;
+    }
+
     public Task getTask() {
         return task;
     }
@@ -81,5 +101,13 @@ public class Attachment {
 
     public void setUploader(ApplicationUser uploader) {
         this.uploader = uploader;
+    }
+
+    public File getFile() {
+        return file;
+    }
+
+    public void setFile(File file) {
+        this.file = file;
     }
 }

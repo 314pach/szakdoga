@@ -1,0 +1,97 @@
+<div class="title">Feladat szerkesztése</div>
+<div class="container">
+  <div class="form">
+    <mat-form-field appearance="outline" class="field">
+      <mat-label>Cím</mat-label>
+      <input matInput type="text" [formControl]="titleControl">
+      <mat-error *ngIf="titleControl.invalid">Cím megadása kötelező</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="field">
+      <mat-label>Rövid összefoglaló</mat-label>
+      <input matInput type="text" [formControl]="summaryControl">
+      <mat-error *ngIf="summaryControl.invalid">Összefoglaló megadása kötelező</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="field">
+      <mat-label>Leírás</mat-label>
+      <textarea matInput [formControl]="descriptionControl"></textarea>
+      <mat-error *ngIf="descriptionControl.invalid">Leírás megadása kötelező</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="field">
+      <mat-label>Pontszám</mat-label>
+      <input matInput type="number" [formControl]="pointsControl">
+      <mat-error *ngIf="pointsControl.errors?.['required']">Pontszám megadása kötelező</mat-error>
+      <mat-error *ngIf="pointsControl.errors?.['min']">A pontszám nem lehet negatív</mat-error>
+    </mat-form-field>
+    <mat-checkbox (change)="checkTeamwork()" [checked]="teamwork">Csoportmunka</mat-checkbox>
+    <mat-form-field appearance="outline" class="field">
+      <mat-label>Létszám</mat-label>
+      <input matInput type="number" [disabled]="!teamwork" [formControl]="headcountControl">
+      <mat-error *ngIf="headcountControl.errors?.['required']">Létszám megadása kötelező</mat-error>
+      <mat-error *ngIf="headcountControl.errors?.['min']">A létszám nem lehet negatív</mat-error>
+    </mat-form-field>
+    <mat-checkbox (change)="checkSubmit()" [checked]="submit">Online beadandó</mat-checkbox>
+    <div [formGroup]="linkForm" class="link-container">
+      <div class="attachment" formArrayName="links">
+        <div class="header">
+          <div class="label">
+            Linkek
+          </div>
+          <button mat-icon-button matTooltip="Link hozzáadása" matTooltipPosition="above" (click)="addLink()">
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+        <div class="url-field" *ngFor="let link of links().controls; let i=index"
+             [formGroupName]="i">
+          <mat-form-field appearance="outline" class="field" >
+            <mat-label>URL</mat-label>
+            <input matInput type="url" formControlName="url">
+            <mat-error *ngIf="linkForm.invalid">URL megadása kötelező</mat-error>
+          </mat-form-field>
+          <button mat-icon-button matTooltip="Eltávolítás" matTooltipPosition="after" (click)="removeLink(i, link)" class="link-remove">
+            <mat-icon>remove</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div [formGroup]="fileForm" class="link-container">
+      <div class="attachment" formArrayName="files">
+        <div class="header">
+          <div class="label">
+            Csatolmányok
+          </div>
+          <button mat-icon-button matTooltip="Fájlok cseréje" matTooltipPosition="above" (click)="addFile()" [disabled]="files().controls.length === 1">
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+        <div>
+          <div *ngFor="let fileAttachment of fileAttachments"
+               class="file">
+            <mat-icon (click)="downloadFile(fileAttachment.fileId!, fileAttachment.path)">description</mat-icon>
+            <div (click)="downloadFile(fileAttachment.fileId!, fileAttachment.path)"
+                 class="filename">{{fileAttachment.path}}</div>
+          </div>
+        </div>
+        <div class="file-field" *ngFor="let file of files().controls; let i=index"
+             [formGroupName]="i">
+          <div>
+            <label for="file-upload">
+              <span class="custom-file-upload">Fájlok kiválasztása</span>
+              <br>
+              <span>
+                  {{this.filesArray.length ? this.filesArray.length + 'fájl kiválasztva' : 'Még nincsenek kiválasztott fájlok...'}}
+                </span>
+            </label>
+            <input id="file-upload" multiple type="file" formControlName="file" (change)="fileSelectionChanged($event)">
+          </div>
+          <button mat-icon-button matTooltip="Mégse" matTooltipPosition="after" (click)="removeFile(i)" class="link-remove">
+            <mat-icon>remove</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="button-container">
+    <button mat-raised-button color="primary" class="control" [disabled]="isDisabled()" (click)="save()">Mentés</button>
+    <button mat-raised-button class="control" mat-dialog-close="true">Mégse</button>
+  </div>
+</div>

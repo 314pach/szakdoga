@@ -1,5 +1,7 @@
 package com.example.backend.model.dto;
 
+import com.example.backend.model.Role;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -8,7 +10,8 @@ public class ApplicationUserDTO {
     private String name;
     private String email;
     private String password;
-    private Boolean role;
+    private Role role;
+    private Long profilePictureId;
     private Set<Long> classRoomIds = new HashSet<>();
 
     private Set<Long> commitmentIds = new HashSet<>();
@@ -45,11 +48,11 @@ public class ApplicationUserDTO {
         this.password = password;
     }
 
-    public Boolean getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(Boolean role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 
@@ -67,5 +70,13 @@ public class ApplicationUserDTO {
 
     public void setCommitmentIds(Set<Long> commitmentIds) {
         this.commitmentIds = commitmentIds;
+    }
+
+    public Long getProfilePictureId() {
+        return profilePictureId;
+    }
+
+    public void setProfilePictureId(Long profilePictureId) {
+        this.profilePictureId = profilePictureId;
     }
 }

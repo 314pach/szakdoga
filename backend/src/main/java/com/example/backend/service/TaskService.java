@@ -34,6 +34,15 @@ public class TaskService {
         return toDto(taskRepository.findAll());
     }
 
+    @Transactional(readOnly = true)
+    public Set<TaskDTO> findAllByModulId(Long modulId){
+        return toDto(taskRepository.getTasksByModul_Id(modulId));
+    }
+
+    @Transactional(readOnly = true)
+    public Set<TaskDTO> findAllByIds(List<Long> ids) {
+        return toDto(taskRepository.findAllById(ids));
+    }
     public TaskDTO save(TaskDTO taskDTO){
         return toDto(taskRepository.save(toEntity(taskDTO)));
     }
@@ -58,6 +67,7 @@ public class TaskService {
         taskDTO.setPoints(task.getPoints());
         taskDTO.setTeamwork(task.getTeamwork());
         taskDTO.setHeadcount(task.getHeadcount());
+        taskDTO.setSubmit(task.getSubmit());
         taskDTO.setModulId(task.getModul().getId());
 
         return taskDTO;
@@ -79,6 +89,7 @@ public class TaskService {
         task.setPoints(taskDTO.getPoints());
         task.setTeamwork(taskDTO.getTeamwork());
         task.setHeadcount(taskDTO.getHeadcount());
+        task.setSubmit(taskDTO.getSubmit());
         modulRepository.findById(taskDTO.getModulId()).ifPresent(task::setModul);
 
         return task;

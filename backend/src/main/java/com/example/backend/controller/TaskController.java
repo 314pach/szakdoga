@@ -6,10 +6,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/task")
+@RequestMapping("/api/task")
 public class TaskController {
     private final TaskService taskService;
 
@@ -23,10 +24,22 @@ public class TaskController {
         return new ResponseEntity<>(taskDTOS, HttpStatus.OK);
     }
 
+    @GetMapping("/findTasksByModul/{modulId}")
+    public ResponseEntity<Set<TaskDTO>> getTasksByModul(@PathVariable("modulId") Long modulId){
+        Set<TaskDTO> taskDTOS = taskService.findAllByModulId(modulId);
+        return new ResponseEntity<>(taskDTOS, HttpStatus.OK);
+    }
+
     @GetMapping("/find/{id}")
     public ResponseEntity<TaskDTO> getTaskById(@PathVariable("id") Long id){
         TaskDTO taskDTO = taskService.findById(id);
         return new ResponseEntity<>(taskDTO, HttpStatus.OK);
+    }
+
+    @PostMapping("/findTasksByIds")
+    public ResponseEntity<Set<TaskDTO>> getTasksByIds(@RequestBody() List<Long> taskIds){
+        Set<TaskDTO> taskDTOS = taskService.findAllByIds(taskIds);
+        return new ResponseEntity<>(taskDTOS, HttpStatus.OK);
     }
 
     @PostMapping("/create")

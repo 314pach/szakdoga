@@ -1,0 +1,61 @@
+<div class="container">
+  <div class="tasks" [ngStyle]='{"flex-direction": getScreenWidth() >= 700 ? "row" : "column" }'>
+    <div class="list" [ngStyle]='{"width": getScreenWidth() >= 1000 ? "50%" : "100%"}'>
+      <div *ngIf="!this.available.length" class="no-data">
+        <div class="icon">
+          <mat-icon>info_outlined</mat-icon>
+        </div>
+        <div class="info">
+          Nincs vállalható feladat
+        </div>
+      </div>
+      <div *ngFor="let task of this.available" class="item">
+        <button mat-icon-button (click)="add(task)" [disabled]="!this.commitmentPeriod">
+          <mat-icon>add</mat-icon>
+        </button>
+        <div matTooltip="{{task.summary}}">{{task.title}}</div>
+        <div>{{task.points}} pont</div>
+        <div *ngIf="task.teamwork">
+          <mat-icon>groups</mat-icon>
+        </div>
+      </div>
+    </div>
+    <div class="list" [ngStyle]='{"width": getScreenWidth() >= 1000 ? "50%" : "100%"}'>
+      <div *ngIf="!this.commited.length" class="no-data">
+        <div class="icon">
+          <mat-icon>info_outlined</mat-icon>
+        </div>
+        <div class="info">
+          Nincs elvállalt feladat
+        </div>
+      </div>
+      <div *ngFor="let task of this.commited" class="item">
+        <button mat-icon-button (click)="remove(task)" [disabled]="!this.commitmentPeriod">
+          <mat-icon>remove</mat-icon>
+        </button>
+        <div matTooltip="{{task.summary}}">{{task.title}}</div>
+        <div>{{task.points}} pont</div>
+        <button mat-icon-button *ngIf="task.teamwork" class="team-button" (click)="assemble(task)" matTooltip="Csapat szerkesztése" [disabled]="!this.commitmentPeriod">
+          <mat-icon>groups</mat-icon>
+        </button>
+        <div *ngIf="task.teamwork">
+          <mat-chip-set>
+            <mat-chip *ngFor="let username of getUsers(task.id!)" disableRipple>{{username}}</mat-chip>
+          </mat-chip-set>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer">
+    <div class="progress">
+      <div class="label">Várható jegy:</div>
+      <div class="bar" *ngFor="let bar of placeholder" [ngStyle]='{"background-color": getColor()}'></div>
+    </div>
+    <div class="button">
+      <button *ngIf="this.commitmentPeriod" mat-raised-button color="primary" class="control" [disabled]="isDisabled()" (click)="save()" #save_btn>Mentés</button>
+      <div class="message" *ngIf="!this.commitmentPeriod">
+        Jelenleg nincs vállalási időszak!
+      </div>
+    </div>
+  </div>
+</div>

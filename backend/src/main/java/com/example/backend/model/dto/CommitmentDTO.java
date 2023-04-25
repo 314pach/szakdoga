@@ -1,6 +1,6 @@
 package com.example.backend.model.dto;
 
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -8,7 +8,7 @@ public class CommitmentDTO {
     private Long id;
     private Integer points;
     private String status;
-    private LocalDate deadline;
+    private Date deadline;
     private Long taskId;
     private Set<Long> studentIds = new HashSet<>();
 
@@ -38,11 +38,11 @@ public class CommitmentDTO {
         this.status = status;
     }
 
-    public LocalDate getDeadline() {
+    public Date getDeadline() {
         return deadline;
     }
 
-    public void setDeadline(LocalDate deadline) {
+    public void setDeadline(Date deadline) {
         this.deadline = deadline;
     }
 

@@ -1,20 +1,21 @@
 package com.example.backend.model.dto;
 
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.Set;
 
 public class ModulDTO {
     private Long id;
+    private Boolean deleted;
     private String title;
-    private LocalDate beginning;
-    private LocalDate end;
+    private Date beginning;
+    private Date end;
     private Integer pointsFor2;
     private Integer pointsFor3;
     private Integer pointsFor4;
     private Integer pointsFor5;
     private String bannerPath;
     private Long creatorId;
-    private Set<Long> classroomIds;
+    private Set<Long> classRoomIds;
 
     public Long getId() {
         return id;
@@ -32,19 +33,19 @@ public class ModulDTO {
         this.title = title;
     }
 
-    public LocalDate getBeginning() {
+    public Date getBeginning() {
         return beginning;
     }
 
-    public void setBeginning(LocalDate beginning) {
+    public void setBeginning(Date beginning) {
         this.beginning = beginning;
     }
 
-    public LocalDate getEnd() {
+    public Date getEnd() {
         return end;
     }
 
-    public void setEnd(LocalDate end) {
+    public void setEnd(Date end) {
         this.end = end;
     }
 
@@ -96,11 +97,19 @@ public class ModulDTO {
         this.creatorId = creatorId;
     }
 
-    public Set<Long> getClassroomIds() {
-        return classroomIds;
+    public Set<Long> getClassRoomIds() {
+        return classRoomIds;
     }
 
-    public void setClassroomIds(Set<Long> classroomIds) {
-        this.classroomIds = classroomIds;
+    public void setClassRoomIds(Set<Long> classRoomIds) {
+        this.classRoomIds = classRoomIds;
+    }
+
+    public Boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
     }
 }

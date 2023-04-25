@@ -1,0 +1,114 @@
+.no-data {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.icon {
+  margin: 25px 5px 25px 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #313131;
+}
+
+.info {
+  margin: 25px 25px 25px 5px;
+  text-align: center;
+  font-size: 25px;
+  font-weight: 400;
+  line-height: 30px;
+  color: #313131;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.tasks {
+  width: 100%;
+  display: flex;
+  padding: 15px;
+  gap: 15px;
+  flex-grow: 1;
+}
+
+.list {
+  border: solid #939393 1px;
+  border-radius: 5px;
+  overflow-y: auto;
+}
+
+.item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.item div {
+  margin-right: 20px;
+}
+
+.footer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.progress {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: 15px;
+}
+
+.label {
+  margin-right: 10px;
+}
+
+.bar {
+  width: 40px;
+  height: 6px;
+  margin: 0 5px;
+  border-radius: 3px;
+  //background-color: black;
+}
+
+.control {
+  margin-right: 15px;
+}
+
+.message {
+  margin: 0 15px 15px 15px;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #F44336;
+  color: #e6f2f8;
+}
+
+@media screen and (max-width: 700px) {
+  .footer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 15px;
+  }
+
+  .button {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+
+  .message {
+    margin-top: 10px;
+  }
+}

@@ -32,12 +32,22 @@ public class ModulService {
 
     @Transactional(readOnly = true)
     public ModulDTO findById(Long id) {
-        return modulRepository.findById(id).map(this::toDto).orElse(null);
+        return modulRepository.findById(id).filter(modul -> !modul.getDeleted()).map(this::toDto).orElse(null);
     }
 
     @Transactional(readOnly = true)
     public Set<ModulDTO> findAll() {
-        return toDto(modulRepository.findAll());
+        return toDto(modulRepository.findAll().stream().filter(modul -> !modul.getDeleted()).collect(Collectors.toList()));
+    }
+
+    @Transactional(readOnly = true)
+    public Set<ModulDTO> findAllByClassroomId(List<Long> classroomId) {
+        return toDto(modulRepository.findAllById(classroomId).stream().filter(modul -> !modul.getDeleted()).collect(Collectors.toList()));
+    }
+
+    @Transactional(readOnly = true)
+    public Set<ModulDTO> findAllByCreatorId(Long creatorId) {
+        return toDto(modulRepository.findAllByCreator_Id(creatorId).stream().filter(modul -> !modul.getDeleted()).collect(Collectors.toList()));
     }
 
     public ModulDTO save(ModulDTO modulDTO) {
@@ -58,6 +68,7 @@ public class ModulService {
         ModulDTO modulDTO = new ModulDTO();
 
         modulDTO.setId(modul.getId());
+        modulDTO.setDeleted(modul.getDeleted());
         modulDTO.setTitle(modul.getTitle());
         modulDTO.setBannerPath(modul.getBannerPath());
         modulDTO.setBeginning(modul.getBeginning());
@@ -67,7 +78,7 @@ public class ModulService {
         modulDTO.setPointsFor4(modul.getPointsFor4());
         modulDTO.setPointsFor5(modul.getPointsFor5());
         modulDTO.setCreatorId(modul.getCreator().getId());
-        modulDTO.setClassroomIds(modul.getClasses()
+        modulDTO.setClassRoomIds(modul.getClasses()
                 .stream().map(Classroom::getId)
                 .collect(Collectors.toSet()));
 
@@ -84,6 +95,7 @@ public class ModulService {
         Modul modul = new Modul();
 
         modul.setId(modulDTO.getId());
+        modul.setDeleted(modulDTO.getDeleted());
         modul.setTitle(modulDTO.getTitle());
         modul.setBannerPath(modulDTO.getBannerPath());
         modul.setBeginning(modulDTO.getBeginning());
@@ -94,7 +106,7 @@ public class ModulService {
         modul.setPointsFor5(modulDTO.getPointsFor5());
         applicationUserRepository.findById(modulDTO.getCreatorId()).ifPresent(modul::setCreator);
         modul.setClasses(
-                modulDTO.getClassroomIds().stream()
+                modulDTO.getClassRoomIds().stream()
                 .map(id -> classroomRepository.findById(id))
                 .filter(Optional::isPresent)
                 .map(Optional::get)

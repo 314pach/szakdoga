@@ -4,6 +4,7 @@ import com.example.backend.model.Attachment;
 import com.example.backend.model.dto.AttachmentDTO;
 import com.example.backend.repository.ApplicationUserRepository;
 import com.example.backend.repository.AttachmentRepository;
+import com.example.backend.repository.FileRepository;
 import com.example.backend.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,9 @@ public class AttachmentService {
     @Autowired
     private TaskRepository taskRepository;
 
+    @Autowired
+    private FileRepository fileRepository;
+
     private final AttachmentRepository attachmentRepository;
 
     public AttachmentService(AttachmentRepository attachmentRepository) {
@@ -38,8 +42,17 @@ public class AttachmentService {
         return toDto(attachmentRepository.findAll());
     }
 
+    @Transactional(readOnly = true)
+    public Set<AttachmentDTO> findAllByTaskId(Long taskId){
+        return toDto(attachmentRepository.getAttachmentsByTask_Id(taskId));
+    }
+
     public AttachmentDTO save(AttachmentDTO attachmentDTO){
         return toDto(attachmentRepository.save(toEntity(attachmentDTO)));
+    }
+
+    public Set<AttachmentDTO> saveAll(Set<AttachmentDTO> attachmentDTOSet) {
+        return toDto(attachmentRepository.saveAll(toEntity(attachmentDTOSet)));
     }
 
     public AttachmentDTO update(AttachmentDTO attachmentDTO){
@@ -49,6 +62,9 @@ public class AttachmentService {
     public void delete(Long id){
         attachmentRepository.deleteById(id);
     }
+    public void deleteAllById(Set<Long> ids){
+        attachmentRepository.deleteAllById(ids);
+    }
 
     public AttachmentDTO toDto(Attachment attachment){
         if(attachment == null) return null;
@@ -57,8 +73,14 @@ public class AttachmentService {
 
         attachmentDTO.setId(attachment.getId());
         attachmentDTO.setPath(attachment.getPath());
+        attachmentDTO.setType(attachment.getType());
         attachmentDTO.setTaskId(attachment.getTask().getId());
         attachmentDTO.setUploaderId(attachment.getUploader().getId());
+        if(attachment.getFile() != null){
+            attachmentDTO.setFileId(attachment.getFile().getId());
+        } else {
+            attachmentDTO.setFileId(null);
+        }
 
         return attachmentDTO;
     }
@@ -74,9 +96,20 @@ public class AttachmentService {
 
         attachment.setId(attachmentDTO.getId());
         attachment.setPath(attachmentDTO.getPath());
+        attachment.setType(attachmentDTO.getType());
         taskRepository.findById(attachmentDTO.getTaskId()).ifPresent(attachment::setTask);
         applicationUserRepository.findById(attachmentDTO.getUploaderId()).ifPresent(attachment::setUploader);
+        if(attachmentDTO.getFileId() != null) {
+            attachment.setFile(
+                    fileRepository.findById(attachmentDTO.getFileId()).orElse(null));
+        } else {
+            attachment.setFile(null);
+        }
 
         return attachment;
+    }
+
+    public Set<Attachment> toEntity(Set<AttachmentDTO> attachmentDtos){
+        return attachmentDtos.stream().map(this::toEntity).collect(Collectors.toSet());
     }
 }

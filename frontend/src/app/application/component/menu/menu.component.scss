@@ -1,0 +1,55 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.upper {
+  width: 100%;
+}
+
+.profile-picture {
+  border: 10px solid white;
+  border-radius: 90px;
+  width: 150px;
+  height: 150px;
+  display: block;
+  margin: 30px auto 10px auto;
+  object-fit: cover;
+}
+
+.username {
+  text-align: center;
+  font-weight: bold;
+  font-size: medium;
+}
+
+.list {
+  margin-top: 25px;
+}
+
+.list-item {
+  padding: 10px 10px 10px 30px;
+}
+
+.list-item:hover {
+  background-color: #e6f2f8;
+  cursor: pointer;
+}
+
+.logout {
+  margin-bottom: 30px;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logout:hover {
+  cursor: pointer;
+  border-radius: 25px;
+  background-color: #e6f2f8;
+}

@@ -29,6 +29,11 @@ public class BadgeService {
         return toDto(badgeRepository.findAll());
     }
 
+    @Transactional(readOnly = true)
+    public Set<BadgeDTO> findAllByIds(List<Long> ids) {
+        return toDto(badgeRepository.findAllById(ids));
+    }
+
     public BadgeDTO save(BadgeDTO badgeDTO){
         return toDto(badgeRepository.save(toEntity(badgeDTO)));
     }

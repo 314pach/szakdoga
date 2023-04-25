@@ -1,0 +1,28 @@
+<div class="title">Csapattagok szerkesztése</div>
+<div class="container">
+  <div class="members-filter">
+    <div>
+      <mat-form-field appearance="outline" class="field">
+        <mat-label>Keresés</mat-label>
+        <input matInput type="text" [(ngModel)]="search" (keyup)="doSearch()">
+      </mat-form-field>
+    </div>
+    <div class="headcount">
+      Létszám:
+      <span class="result">{{this.checked.size}}</span>
+      / {{this.data.headcount}}
+    </div>
+  </div>
+  <div class="members-list">
+    <div class="list">
+      <div *ngFor="let student of filteredStudents">
+        <mat-checkbox (change)="checkStudent(student)"
+                      [checked]="checked.has(student.id!)">{{student.name}}</mat-checkbox>
+      </div>
+    </div>
+  </div>
+  <div class="button-container">
+    <button mat-raised-button color="primary" class="control" [disabled]="isDisabled()" (click)="save()">Ok</button>
+    <button mat-raised-button class="control" mat-dialog-close="true">Mégse</button>
+  </div>
+</div>

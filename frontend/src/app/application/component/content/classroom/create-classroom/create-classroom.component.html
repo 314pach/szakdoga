@@ -1,0 +1,63 @@
+<div class="title">Osztály létrehozása</div>
+<div class="container">
+  <div class="data">
+    <div class="form">
+      <mat-form-field appearance="outline" class="field">
+        <mat-label>Név</mat-label>
+        <input matInput type="text" [formControl]="nameControl">
+        <mat-error *ngIf="nameControl.invalid">Név megadása kötelező</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="field">
+        <mat-label>Tantárgy</mat-label>
+        <input matInput type="text" [formControl]="subjectControl">
+        <mat-error *ngIf="subjectControl.invalid">Tantárgy megadása kötelező</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="members">
+      <div class="members-filter">
+        <div>
+          <mat-form-field appearance="outline" class="field">
+            <mat-label>Osztály</mat-label>
+            <mat-select [disabled]="classrooms.length === 0" (selectionChange)="filterByClass($event)">
+              <mat-option [value]="null">
+                Összes
+              </mat-option>
+              <mat-option *ngFor="let classroom of classrooms" [value]="classroom">
+                {{classroom.name + ' ' + classroom.subject}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field appearance="outline" class="field">
+            <mat-label>Keresés</mat-label>
+            <input matInput type="text" [(ngModel)]="search" (keyup)="doSearch()">
+          </mat-form-field>
+        </div>
+        <div class="list-buttons">
+          <button mat-icon-button color="primary" matTooltip="Az összes hozzáadása a listából" (click)="addAll()">
+            <mat-icon>add</mat-icon>
+          </button>
+          <button mat-icon-button color="primary" matTooltip="Az összes eltávolítása a listából" (click)="removeAll()">
+            <mat-icon>remove</mat-icon>
+          </button>
+        </div>
+      </div>
+      <div class="members-list">
+        <div class="list">
+          <div *ngFor="let student of filteredStudents">
+            <mat-checkbox (change)="checkStudent(student.id!)"
+                          [checked]="checked.includes(student.id!)">{{student.name}}</mat-checkbox>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="button-container">
+    <button mat-raised-button color="primary" class="control" [disabled]="isDisabled()" (click)="save()">Mentés</button>
+    <button mat-raised-button class="control" mat-dialog-close="true">Mégse</button>
+  </div>
+</div>
+
+
+

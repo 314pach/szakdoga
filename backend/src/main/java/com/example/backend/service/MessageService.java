@@ -34,6 +34,11 @@ public class MessageService {
         return toDto(messageRepository.findAll());
     }
 
+    @Transactional(readOnly = true)
+    public Set<MessageDTO> findAllByParties(Long user1, Long user2){
+        return toDto(messageRepository.findAllByParties(user1, user2));
+    }
+
     public MessageDTO save(MessageDTO messageDTO){
         return toDto(messageRepository.save(toEntity(messageDTO)));
     }

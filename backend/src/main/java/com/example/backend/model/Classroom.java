@@ -37,6 +37,16 @@ public class Classroom {
             columnDefinition = "TEXT"
     )
     private String subject;
+    @Column(
+            name = "commitmentPeriod",
+            nullable = false
+    )
+    private Boolean commitmentPeriod;
+    @Column(
+            name = "archived",
+            nullable = false
+    )
+    private Boolean archived;
     @ManyToMany(
             fetch = FetchType.LAZY,
             cascade = {CascadeType.MERGE, CascadeType.REFRESH}
@@ -86,6 +96,14 @@ public class Classroom {
         this.subject = subject;
     }
 
+    public Boolean getArchived() {
+        return archived;
+    }
+
+    public void setArchived(Boolean archived) {
+        this.archived = archived;
+    }
+
     public Set<Modul> getModuls() {
         return moduls;
     }
@@ -100,5 +118,13 @@ public class Classroom {
 
     public void setUsers(Set<ApplicationUser> users) {
         this.users = users;
+    }
+
+    public boolean getCommitmentPeriod() {
+        return commitmentPeriod;
+    }
+
+    public void setCommitmentPeriod(boolean commitmentPeriod) {
+        this.commitmentPeriod = commitmentPeriod;
     }
 }

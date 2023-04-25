@@ -7,7 +7,9 @@ import com.example.backend.model.dto.ApplicationUserDTO;
 import com.example.backend.repository.ApplicationUserRepository;
 import com.example.backend.repository.ClassroomRepository;
 import com.example.backend.repository.CommitmentRepository;
+import com.example.backend.repository.FileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,9 +27,15 @@ public class ApplicationUserService {
     @Autowired
     private CommitmentRepository commitmentRepository;
 
+    @Autowired
+    private FileRepository fileRepository;
+
+    private final PasswordEncoder passwordEncoder;
+
     private final ApplicationUserRepository applicationUserRepository;
 
-    public ApplicationUserService(ApplicationUserRepository applicationUserRepository) {
+    public ApplicationUserService(PasswordEncoder passwordEncoder, ApplicationUserRepository applicationUserRepository) {
+        this.passwordEncoder = passwordEncoder;
         this.applicationUserRepository = applicationUserRepository;
     }
 
@@ -37,8 +45,23 @@ public class ApplicationUserService {
     }
 
     @Transactional(readOnly = true)
+    public ApplicationUserDTO findByToken(String token){
+        return applicationUserRepository.findByToken(token).map(this::toDto).orElse(null);
+    }
+
+    @Transactional(readOnly = true)
     public Set<ApplicationUserDTO> findAll(){
         return toDto(applicationUserRepository.findAll());
+    }
+
+    @Transactional(readOnly = true)
+    public Set<ApplicationUserDTO> findAllByClassroom(Long classroomId){
+        return toDto(applicationUserRepository.findAllByClassId(classroomId));
+    }
+
+    @Transactional(readOnly = true)
+    public Set<ApplicationUserDTO> findAllByIds(List<Long> ids) {
+        return toDto(applicationUserRepository.findAllById(ids));
     }
 
     public ApplicationUserDTO save(ApplicationUserDTO applicationUserDTO){
@@ -46,6 +69,11 @@ public class ApplicationUserService {
     }
 
     public ApplicationUserDTO update(ApplicationUserDTO applicationUserDTO){
+        return toDto(applicationUserRepository.save(toEntity(applicationUserDTO)));
+    }
+
+    public ApplicationUserDTO updatePassword(ApplicationUserDTO applicationUserDTO){
+        applicationUserDTO.setPassword(passwordEncoder.encode(applicationUserDTO.getPassword()));
         return toDto(applicationUserRepository.save(toEntity(applicationUserDTO)));
     }
 
@@ -63,6 +91,11 @@ public class ApplicationUserService {
         applicationUserDTO.setEmail(applicationUser.getEmail());
         applicationUserDTO.setPassword(applicationUser.getPassword());
         applicationUserDTO.setRole(applicationUser.getRole());
+        if(applicationUser.getProfilePicture() != null){
+            applicationUserDTO.setProfilePictureId(applicationUser.getProfilePicture().getId());
+        } else {
+            applicationUserDTO.setProfilePictureId(null);
+        }
         applicationUserDTO.setClassRoomIds(applicationUser.getClassRooms()
                 .stream().map(Classroom::getId)
                 .collect(Collectors.toSet()));
@@ -87,6 +120,12 @@ public class ApplicationUserService {
         applicationUser.setEmail(applicationUserDTO.getEmail());
         applicationUser.setPassword(applicationUserDTO.getPassword());
         applicationUser.setRole(applicationUserDTO.getRole());
+        if (applicationUserDTO.getProfilePictureId() != null) {
+            applicationUser.setProfilePicture(
+                    fileRepository.findById(applicationUserDTO.getProfilePictureId()).orElse(null));
+        } else {
+            applicationUser.setProfilePicture(null);
+        }
         applicationUser.setClassRooms(
                 applicationUserDTO.getClassRoomIds().stream()
                         .map(id -> classroomRepository.findById(id))
